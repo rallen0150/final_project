@@ -12,6 +12,7 @@
     {% else %}
       <a href="{% url 'category_create_view' %}">New Food Category</a>
       <a href="{% url 'foodtruck_create_view' %}">New Food Truck</a>
+      <a href="{% url 'menu_create_view' %}">New Food Item</a>
       <a href="{% url 'logout' %}?next={% url 'index_view' %}">Logout</a>
     {% endif %}
 

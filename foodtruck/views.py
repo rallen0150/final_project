@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import CreateView
 
 from django.urls import reverse_lazy
@@ -34,6 +34,14 @@ class FoodtruckCreateView(CreateView):
         instance = form.save(commit=False)
         instance.driver = self.request.user
         return super().form_valid(form)
+
+class FoodtruckDetailView(ListView):
+    model = Foodtruck
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['menu'] = Menu.objects.filter(truck=self.kwargs['pk'])
+        return context
 
 class MenuCreateView(CreateView):
     model = Menu

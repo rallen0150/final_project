@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br> <br>
+  {% for food in menu %}
+    <div>
+      {{ food.food }}
+      {% if request.user == food.truck.driver %}
+
+      {% endif %}
+      ${{ food.price }}
+    </div>
+  {% endfor %}
+{% endblock %}
