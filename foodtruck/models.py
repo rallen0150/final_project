@@ -22,15 +22,9 @@ class Foodtruck(models.Model):
     picture = models.FileField(null=True, blank=True)
     category = models.ForeignKey(Category)
     # menu = models.ManyToManyField(Menu)
-    location = models.ForeignKey('foodtruck.Location')
-
-    def __str__(self):
-        return self.truck_name
-
-class Location(models.Model):
     latitude = models.FloatField()
     longitude = models.FloatField()
     checked_in = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.latitude) + " , " + str(self.longitude)
+        return self.truck_name

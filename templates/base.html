@@ -5,6 +5,16 @@
     <title>Foodtruck Finder</title>
   </head>
   <body>
+
+    {% if not request.user.is_authenticated %}
+      <a href="{% url 'login' %}">Login</a>
+      <a href="{% url 'user_create_view' %}">Create New Driver</a>
+    {% else %}
+      <a href="{% url 'category_create_view' %}">New Food Category</a>
+      <a href="{% url 'foodtruck_create_view' %}">New Food Truck</a>
+      <a href="{% url 'logout' %}?next={% url 'index_view' %}">Logout</a>
+    {% endif %}
+
     {% block content %}
     {% endblock %}
   </body>

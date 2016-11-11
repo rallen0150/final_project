@@ -1,26 +1,15 @@
-"""foodtruck_finder URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/1.10/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.conf.urls import url, include
-    2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
-"""
 from django.conf.urls import url, include
 from django.contrib import admin
 
-from foodtruck.views import IndexView, UserCreateView
+from foodtruck.views import IndexView, UserCreateView, CategoryCreateView, \
+                            FoodtruckCreateView, MenuCreateView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', IndexView.as_view(), name='index_view'),
     url(r'^', include('django.contrib.auth.urls'), name='login'),
     url(r'^new_driver/$', UserCreateView.as_view(), name='user_create_view'),
+    url(r'^new_category/$', CategoryCreateView.as_view(), name='category_create_view'),
+    url(r'^new_foodtruck/$', FoodtruckCreateView.as_view(), name='foodtruck_create_view'),
+    url(r'^create_menu/$', MenuCreateView.as_view(), name='menu_create_view')
 ]

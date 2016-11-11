@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from django.views.generic.edit import CreateView
 
 from django.urls import reverse_lazy
-from foodtruck.models import Category, Foodtruck, Location, Menu
+from foodtruck.models import Category, Foodtruck, Menu
 
 class IndexView(TemplateView):
     template_name = 'index.html'
@@ -19,3 +19,28 @@ class UserCreateView(CreateView):
     model = User
     form_class = UserCreationForm
     success_url = reverse_lazy('index_view')
+
+class CategoryCreateView(CreateView):
+    model = Category
+    fields = ('food_type', )
+    success_url = reverse_lazy('index_view')
+
+class FoodtruckCreateView(CreateView):
+    model = Foodtruck
+    fields = ('truck_name', 'picture', 'category', 'latitude', 'longitude', 'checked_in')
+    success_url = reverse_lazy('menu_create_view')
+
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.driver = self.request.user
+        return super().form_valid(form)
+
+class MenuCreateView(CreateView):
+    model = Menu
+    fields = ('food', 'price', 'truck')
+    success_url = reverse_lazy('index_view')
+
+    # def form_valid(self, form):
+    #     instance = form.save(commit=False)
+    #     instance.truck = self.truck.driver
+    #     return super().form_valid(form)
