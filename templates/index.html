@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Find your Food Truck</h1>
+
+  {% for truck in truck_list %}
+  <div class="">
+    {{ truck.truck_name }}
+    <blockquote>
+      <p>
+        Type: {{ truck.category.food_type }}
+      </p>
+      <p>
+        Latitude: {{ truck.location.latitude }}<br>
+        Longitude: {{ truck.location.longitude }}
+      </p>
+    </blockquote>
+  </div>
+  {% endfor %}
+
+{% endblock %}

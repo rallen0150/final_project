@@ -13,9 +13,14 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
+
+from foodtruck.views import IndexView, UserCreateView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^$', IndexView.as_view(), name='index_view'),
+    url(r'^', include('django.contrib.auth.urls'), name='login'),
+    url(r'^new_driver/$', UserCreateView.as_view(), name='user_create_view'),
 ]
