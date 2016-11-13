@@ -5,7 +5,7 @@ from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 
 from django.urls import reverse_lazy
-from foodtruck.models import Category, Foodtruck, Menu, Commenter
+from foodtruck.models import Category, Foodtruck, Menu, Commenter, Comment
 
 class IndexView(TemplateView):
     template_name = 'index.html'
@@ -81,6 +81,16 @@ class CheckinUpdateView(UpdateView):
 class CommenterCreateView(CreateView):
     model = Commenter
     fields = ('image', 'favorite')
+    success_url = reverse_lazy('index_view')
+
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.user = self.request.user
+        return super().form_valid(form)
+
+class CommentCreateView(CreateView):
+    model = Comment
+    fields = ('comment', )
     success_url = reverse_lazy('index_view')
 
     def form_valid(self, form):

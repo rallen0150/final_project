@@ -4,7 +4,8 @@ from django.contrib import admin
 from foodtruck.views import IndexView, UserCreateView, CategoryCreateView, \
                             FoodtruckCreateView, MenuCreateView, FoodtruckDetailView, \
                             FoodUpdateView, PriceUpdateView, LocationUpdateView, \
-                            CheckinUpdateView, FoodtruckUpdateView, CommenterCreateView
+                            CheckinUpdateView, FoodtruckUpdateView, CommenterCreateView, \
+                            CommentCreateView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -20,5 +21,6 @@ urlpatterns = [
     url(r'^price/update/(?P<pk>\d+)/$', PriceUpdateView.as_view(), name='price_update_view'),
     url(r'^new_location/(?P<pk>\d+)/$', LocationUpdateView.as_view(), name='location_update_view'),
     url(r'^checkin/(?P<pk>\d+)/$', CheckinUpdateView.as_view(), name='checkin_update_view'),
-    url(r'^new_commenter/$', CommenterCreateView.as_view(), name='commenter_create_view')
+    url(r'^new_commenter/$', CommenterCreateView.as_view(), name='commenter_create_view'),
+    url(r'^foodtruck/(?P<pk>\d+)/comment/$', CommentCreateView.as_view(), name='comment_create_view'),
 ]

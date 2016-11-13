@@ -26,6 +26,7 @@ class Foodtruck(models.Model):
     longitude = models.FloatField()
     checked_in = models.BooleanField(default=False)
 
+
     def __str__(self):
         return self.truck_name
 
@@ -36,3 +37,12 @@ class Commenter(models.Model):
 
     def __str__(self):
         return self.user
+
+class Comment(models.Model):
+    user = models.ForeignKey('auth.User')
+    comment = models.TextField(null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    truck_comment = models.ForeignKey('foodtruck.Foodtruck', null=True, blank=True)
+
+    def __str__(self):
+        return self.comment
