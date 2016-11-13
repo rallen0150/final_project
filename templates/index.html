@@ -35,5 +35,31 @@
     </blockquote>
   </div>
   {% endfor %}
-
+  <div id="map"></div>
+        <script type="text/javascript">
+          // var lat = {{ location.lat }};
+          // var lng = {{ location.lng }};
+          function initMap() {
+            var location = [{lat: 34.852619, lng: -82.394012},
+                            {lat: 34.8625, lng: -82.3857},
+                            {lat: 34.85521, lng: -82.38909},
+                            {lat: 34.8623, lng: -82.39112}];
+            // var location = [];
+            // for (var x = 0; x <= location_list.length; x++ ){
+            //   location.push({{x.lat}}, {{x.lng}});
+            // };
+            var map = new google.maps.Map(document.getElementById('map'), {
+              zoom: 15,
+              center: {lat: 34.8574, lng: -82.390189},
+            });
+            for (var i = 0; i < location.length; i++) {
+              var marker = new google.maps.Marker({
+                position: location[i],
+                map: map
+              });
+            }
+          }
+      </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJ2GhgOOCaoypV0JCC4NnxS-M0enWpN64&callback=initMap">
+    </script>
 {% endblock %}
