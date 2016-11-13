@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import TemplateView, ListView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 
 from django.urls import reverse_lazy
 from foodtruck.models import Category, Foodtruck, Menu
@@ -52,3 +52,18 @@ class MenuCreateView(CreateView):
     #     instance = form.save(commit=False)
     #     instance.truck = self.truck.driver
     #     return super().form_valid(form)
+
+class FoodUpdateView(UpdateView):
+    model = Menu
+    fields = ('food', )
+    success_url = reverse_lazy('index_view')
+
+class PriceUpdateView(UpdateView):
+    model = Menu
+    fields = ('price', )
+    success_url = reverse_lazy('index_view')
+
+class LocationUpdateView(UpdateView):
+    model = Foodtruck
+    fields = ('latitude', 'longitude')
+    success_url = reverse_lazy('index_view')
