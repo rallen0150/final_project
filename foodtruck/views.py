@@ -5,7 +5,7 @@ from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 
 from django.urls import reverse_lazy
-from foodtruck.models import Category, Foodtruck, Menu
+from foodtruck.models import Category, Foodtruck, Menu, Commenter
 
 class IndexView(TemplateView):
     template_name = 'index.html'
@@ -43,6 +43,11 @@ class FoodtruckDetailView(ListView):
         context['menu'] = Menu.objects.filter(truck=self.kwargs['pk'])
         return context
 
+class FoodtruckUpdateView(UpdateView):
+    model = Foodtruck
+    fields = ('truck_name', 'picture')
+    success_url = reverse_lazy('index_view')
+
 class MenuCreateView(CreateView):
     model = Menu
     fields = ('food', 'price', 'truck')
@@ -67,3 +72,18 @@ class LocationUpdateView(UpdateView):
     model = Foodtruck
     fields = ('latitude', 'longitude')
     success_url = reverse_lazy('index_view')
+
+class CheckinUpdateView(UpdateView):
+    model = Foodtruck
+    fields = ('checked_in', )
+    success_url = reverse_lazy('index_view')
+
+class CommenterCreateView(CreateView):
+    model = Commenter
+    fields = ('image', 'favorite')
+    success_url = reverse_lazy('index_view')
+
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.user = self.request.user
+        return super().form_valid(form)

@@ -18,6 +18,20 @@
           <a href="{% url 'location_update_view' truck.id %}">Move Location</a>
         {% endif %}
       </p>
+      {% if request.user == truck.driver %}
+        <a href="{% url 'checkin_update_view' truck.id %}">Checkin</a>
+        {% comment %}
+        <!-- <form class="" action="{% url 'checkin_update_view' truck.id %}" method="post">
+          <input type="checkbox" name="checked_in">
+          {% csrf_token %}
+          {% if truck.checked_in %}
+            <input type="submit" name="" value="Checkout!">
+          {% else %}
+            <input type="submit" name="" value="Checkin!">
+          {% endif %}
+        </form> -->
+        {% endcomment %}
+      {% endif %}
     </blockquote>
   </div>
   {% endfor %}

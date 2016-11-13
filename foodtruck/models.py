@@ -28,3 +28,11 @@ class Foodtruck(models.Model):
 
     def __str__(self):
         return self.truck_name
+
+class Commenter(models.Model):
+    user = models.ForeignKey('auth.User')
+    image = models.FileField(null=True, blank=True)
+    favorite = models.ManyToManyField(Foodtruck, blank=True)
+
+    def __str__(self):
+        return self.user
