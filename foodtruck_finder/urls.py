@@ -5,7 +5,7 @@ from foodtruck.views import IndexView, UserCreateView, CategoryCreateView, \
                             FoodtruckCreateView, MenuCreateView, FoodtruckDetailView, \
                             FoodUpdateView, PriceUpdateView, LocationUpdateView, \
                             CheckinUpdateView, FoodtruckUpdateView, CommenterCreateView, \
-                            CommentCreateView
+                            CommentCreateView, CommentUpdateView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^checkin/(?P<pk>\d+)/$', CheckinUpdateView.as_view(), name='checkin_update_view'),
     url(r'^new_commenter/$', CommenterCreateView.as_view(), name='commenter_create_view'),
     url(r'^foodtruck/(?P<pk>\d+)/comment/$', CommentCreateView.as_view(), name='comment_create_view'),
+    url(r'^(?P<pk>\d+)/update/comment/$', CommentUpdateView.as_view(), name='comment_update_view'),
 ]

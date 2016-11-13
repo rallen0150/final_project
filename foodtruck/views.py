@@ -97,3 +97,8 @@ class CommentCreateView(CreateView):
         instance = form.save(commit=False)
         instance.user = self.request.user
         return super().form_valid(form)
+
+class CommentUpdateView(UpdateView):
+    model = Comment
+    fields = ('comment', )
+    success_url = reverse_lazy('index_view')
