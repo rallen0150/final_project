@@ -4,6 +4,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from foodtruck.serializers import FoodtruckSerializer
+from foodtruck.permissions import IsUser
+
 from django.urls import reverse_lazy
 from foodtruck.models import Category, Foodtruck, Menu, Commenter, Comment
 
@@ -108,3 +112,12 @@ class CommentUpdateView(UpdateView):
     model = Comment
     fields = ('comment', )
     success_url = reverse_lazy('index_view')
+
+class FoodtruckListCreateAPIView(ListCreateAPIView):
+    queryset = Foodtruck.objects.all()
+    serializer_class = FoodtruckSerializer
+
+class FoodtruckDetailUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = Foodtruck.objects.all()
+    serializer_class = FoodtruckSerializer
+    permission_classes = (IsUser, )
