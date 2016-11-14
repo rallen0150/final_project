@@ -40,6 +40,11 @@ class FoodtruckDetailView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['truck_list'] = Foodtruck.objects.all()
+        return context
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         context['menu'] = Menu.objects.filter(truck=self.kwargs['pk'])
         return context
 
@@ -96,6 +101,7 @@ class CommentCreateView(CreateView):
     def form_valid(self, form):
         instance = form.save(commit=False)
         instance.user = self.request.user
+        instance.truck_comment = Foodtruck.objects.get(id=self.kwargs['pk'])
         return super().form_valid(form)
 
 class CommentUpdateView(UpdateView):

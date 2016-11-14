@@ -17,4 +17,10 @@
     </div>
   {% endfor %}
 
+  {% for comment in truck_list.get_comment %}
+    <div>
+      {{ comment.comment }}
+    </div>
+  {% endfor %}
+
 {% endblock %}

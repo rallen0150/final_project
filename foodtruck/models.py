@@ -25,24 +25,24 @@ class Foodtruck(models.Model):
     latitude = models.FloatField()
     longitude = models.FloatField()
     checked_in = models.BooleanField(default=False)
-
+    # truck_comment = models.ForeignKey('foodtruck.Comment', null=True, blank=True)
 
     def __str__(self):
         return self.truck_name
+
+    def get_comment(self):
+        return Comment.objects.filter(truck_comment=self)
 
 class Commenter(models.Model):
     user = models.ForeignKey('auth.User')
     image = models.FileField(null=True, blank=True)
     favorite = models.ManyToManyField(Foodtruck, blank=True)
 
-    def __str__(self):
-        return self.user
-
 class Comment(models.Model):
     user = models.ForeignKey('auth.User')
     comment = models.TextField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
-    truck_comment = models.ForeignKey('foodtruck.Foodtruck', null=True, blank=True)
+    truck_comment = models.ForeignKey('foodtruck.Foodtruck')
 
     def __str__(self):
         return self.comment
