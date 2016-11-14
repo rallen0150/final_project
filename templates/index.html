@@ -2,6 +2,7 @@
 
 {% block content %}
 {{ request.user }}
+
   <h1>Find your Food Truck</h1>
 
   {% for truck in truck_list %}
@@ -58,19 +59,33 @@
             });
             var latlng = $.getJSON("http://localhost:8000/api/foodtrucks/", function(result) {
               console.log(result)
-              var icon = "https://upload.wikimedia.org/wikipedia/commons/5/55/Question_Mark.svg"
+              var icon = {url: "https://upload.wikimedia.org/wikipedia/commons/5/55/Question_Mark.svg",
+                          size: new google.maps.Size(20, 32),
+                          origin: new google.maps.Point(0, 0),
+                          anchor: new google.maps.Point(17, 34),
+                          scaledSize: new google.maps.Size(30, 32)};
               for (var i = 0; i < result.length; i++) {
                 console.log(i);
                 var obj = result[i];
-                var marker = new google.maps.Marker({
-                  position: new google.maps.LatLng(obj.latitude, obj.longitude),
-                  icon: icon,
-                  map: map
-                });
+                if (obj.checked_in == true) {
+                  var marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(obj.latitude, obj.longitude),
+                    icon: icon,
+                    map: map
+                  });
+                  var infowindow = new google.maps.InfoWindow({
+                    content: obj.truck_name
+                  });
+                  google.maps.event.addListener(marker, 'click', function() {
+                    infowindow.open(map, marker);
+                  })
+                }
               }
             });
 
           }
+          // google.maps.event.addDomListener(window, 'load', initialize);
+
       </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJ2GhgOOCaoypV0JCC4NnxS-M0enWpN64&callback=initMap">
     </script>

@@ -32,6 +32,12 @@ class Foodtruck(models.Model):
     def get_comment(self):
         return Comment.objects.filter(truck_comment=self)
 
+    @property
+    def image_url(self):
+        if self.picture:
+            return self.picture.url
+        return "https://upload.wikimedia.org/wikipedia/commons/5/55/Question_Mark.svg"
+
 class Commenter(models.Model):
     user = models.ForeignKey('auth.User')
     image = models.FileField(null=True, blank=True)
