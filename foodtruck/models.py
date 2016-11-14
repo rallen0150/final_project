@@ -9,7 +9,6 @@ class Menu(models.Model):
     def __str__(self):
         return self.food
 
-
 class Category(models.Model):
     food_type = models.CharField(max_length=255)
 
