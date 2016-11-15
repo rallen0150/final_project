@@ -87,6 +87,10 @@ class CheckinUpdateView(UpdateView):
     fields = ('checked_in', )
     success_url = reverse_lazy('index_view')
 
+    # def form_valid(self, form):
+    #     instance = form.save(commit=False)
+    #     return super().form_valid(form)
+
 class CommenterCreateView(CreateView):
     model = Commenter
     fields = ('image', 'favorite')

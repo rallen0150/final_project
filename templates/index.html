@@ -21,17 +21,6 @@
       </p>
       {% if request.user == truck.driver %}
         <a href="{% url 'checkin_update_view' truck.id %}">Checkin</a>
-        {% comment %}
-        <!-- <form class="" action="{% url 'checkin_update_view' truck.id %}" method="post">
-          <input type="checkbox" name="checked_in">
-          {% csrf_token %}
-          {% if truck.checked_in %}
-            <input type="submit" name="" value="Checkout!">
-          {% else %}
-            <input type="submit" name="" value="Checkin!">
-          {% endif %}
-        </form> -->
-        {% endcomment %}
       {% endif %}
     </blockquote>
   </div>
@@ -40,7 +29,7 @@
     <input type="text" id="Latitude" />
     Latitude:
     <input type="text" id="Longitude"/>
-    <input type="button" value="Get Address" onclick="GetAddress()" />
+    <input type="button" value="Find Address" onclick="GetAddress()" />
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
     <script type="text/javascript">
     // This is my reverse geocode function
@@ -65,14 +54,14 @@
           function initMap() {
             var map = new google.maps.Map(document.getElementById('map'), {
               zoom: 15,
-              center: {lat: 34.88774, lng: -82.390189},
+              center: {lat: 34.85073, lng: -82.39898},
             });
-            var geocoder = new google.maps.Geocoder;
+            // var geocoder = new google.maps.Geocoder;
             var latlng = $.getJSON("http://localhost:8000/api/foodtrucks/", function(result) {
               // console.log(result)
 
               // Create a custom marker
-              var icon = {url: "http://cdn.mysitemyway.com/icons-watermarks/simple-red/iconathon/iconathon_food-truck/iconathon_food-truck_simple-red_512x512.png",
+              var icon = {url: 'http://cdn.mysitemyway.com/icons-watermarks/simple-red/iconathon/iconathon_food-truck/iconathon_food-truck_simple-red_512x512.png',
                           size: new google.maps.Size(40, 40),
                           origin: new google.maps.Point(0, 0),
                           anchor: new google.maps.Point(17, 34),
@@ -85,12 +74,11 @@
                     position: new google.maps.LatLng(obj.latitude, obj.longitude),
                     icon: icon,
                     map: map,
-                    content: obj.truck_name + "<br>Latitude: " + obj.latitude + "<br/>Longitude: " + obj.longitude
+                    content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Latitude: " + obj.latitude + "<br/>Longitude: " + obj.longitude + '</div>'
                   });
+
                   // Starting the infowindow popup
-                  var infowindow = new google.maps.InfoWindow({
-                    maxWidth: 60
-                  });
+                  var infowindow = new google.maps.InfoWindow();
                   // Adds the click part of the infowindow on the marker
                   google.maps.event.addListener(marker, 'click', (function(marker, i, infowindow) {
                     return function() {
@@ -99,7 +87,7 @@
                     };
                   })(marker, i, infowindow));
                   // bounds.extend(marker.position);
-                  google.maps.event.trigger(marker, 'click');
+                  // google.maps.event.trigger(marker, 'click');
                 }
               }
             });

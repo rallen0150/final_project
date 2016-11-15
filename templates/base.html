@@ -1,9 +1,16 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <title>Foodtruck Finder</title>
+
+    <link type="text/css" rel="stylesheet" href="{% static 'semantic.css' %}"  media="screen"/>
+
     <style>
+      .body {
+        padding: 25px;
+      }
       #map {
         height: 450px;
         width: 50%;
@@ -13,22 +20,32 @@
         height: 350px;
         width: 370px;
       }
+      .scrollFix {
+        line-height: 1.20;
+        /*overflow: hidden;*/
+        height: 60px;
+        width: 60px;
+      }
+
     </style>
   </head>
   <body>
 
-    {% if not request.user.is_authenticated %}
-      <a href="{% url 'login' %}">Login</a>
-      <a href="{% url 'user_create_view' %}">Create New User</a>
-    {% else %}
-      <a href="{% url 'category_create_view' %}">New Food Category</a>
-      <a href="{% url 'foodtruck_create_view' %}">New Food Truck</a>
-      <a href="{% url 'commenter_create_view' %}">New Commenter</a>
-      <a href="{% url 'menu_create_view' %}">New Food Item</a>
-      <a href="{% url 'logout' %}?next={% url 'index_view' %}">Logout</a>
-    {% endif %}
+    <div class="body">
+      {% if not request.user.is_authenticated %}
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'user_create_view' %}">Create New User</a>
+      {% else %}
+        <a href="{% url 'category_create_view' %}">New Food Category</a>
+        <a href="{% url 'foodtruck_create_view' %}">New Food Truck</a>
+        <a href="{% url 'commenter_create_view' %}">New Commenter</a>
+        <a href="{% url 'menu_create_view' %}">New Food Item</a>
+        <a href="{% url 'logout' %}?next={% url 'index_view' %}">Logout</a>
+      {% endif %}
 
-    {% block content %}
-    {% endblock %}
+      {% block content %}
+      {% endblock %}
+    </div>
+
   </body>
 </html>
