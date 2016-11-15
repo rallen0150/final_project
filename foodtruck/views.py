@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView
 
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
@@ -39,12 +39,12 @@ class FoodtruckCreateView(CreateView):
         instance.driver = self.request.user
         return super().form_valid(form)
 
-class FoodtruckDetailView(ListView):
+class FoodtruckDetailView(DetailView):
     model = Foodtruck
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['truck_list'] = Foodtruck.objects.filter(self=self.kwarg['pk'])
+        context['truck'] = Foodtruck.objects.all()
         return context
 
     def get_context_data(self, **kwargs):

@@ -36,9 +36,28 @@
     </blockquote>
   </div>
   {% endfor %}
-
-
-
+  Latitude:
+    <input type="text" id="Latitude" />
+    Latitude:
+    <input type="text" id="Longitude"/>
+    <input type="button" value="Get Address" onclick="GetAddress()" />
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript">
+    // This is my reverse geocode function
+        function GetAddress() {
+            var latitude = parseFloat(document.getElementById("Latitude").value);
+            var longitude = parseFloat(document.getElementById("Longitude").value);
+            var latlng = new google.maps.LatLng(latitude, longitude);
+            var geocoder = geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if (results[0]) {
+                        alert("Location: " + results[0].formatted_address);
+                    }
+                }
+            });
+        }
+  </script>
   <div id="map"></div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
         <script type="text/javascript">
@@ -46,13 +65,15 @@
           function initMap() {
             var map = new google.maps.Map(document.getElementById('map'), {
               zoom: 15,
-              center: {lat: 34.8574, lng: -82.390189},
+              center: {lat: 34.88774, lng: -82.390189},
             });
-
+            var geocoder = new google.maps.Geocoder;
             var latlng = $.getJSON("http://localhost:8000/api/foodtrucks/", function(result) {
               // console.log(result)
-              var icon = {url: "https://upload.wikimedia.org/wikipedia/commons/5/55/Question_Mark.svg",
-                          size: new google.maps.Size(20, 40),
+
+              // Create a custom marker
+              var icon = {url: "http://cdn.mysitemyway.com/icons-watermarks/simple-red/iconathon/iconathon_food-truck/iconathon_food-truck_simple-red_512x512.png",
+                          size: new google.maps.Size(40, 40),
                           origin: new google.maps.Point(0, 0),
                           anchor: new google.maps.Point(17, 34),
                           scaledSize: new google.maps.Size(30, 35)};
@@ -64,9 +85,13 @@
                     position: new google.maps.LatLng(obj.latitude, obj.longitude),
                     icon: icon,
                     map: map,
-                    content: obj.truck_name
+                    content: obj.truck_name + "<br>Latitude: " + obj.latitude + "<br/>Longitude: " + obj.longitude
                   });
-                  var infowindow = new google.maps.InfoWindow();
+                  // Starting the infowindow popup
+                  var infowindow = new google.maps.InfoWindow({
+                    maxWidth: 60
+                  });
+                  // Adds the click part of the infowindow on the marker
                   google.maps.event.addListener(marker, 'click', (function(marker, i, infowindow) {
                     return function() {
                       infowindow.setContent(this.content);
@@ -78,7 +103,36 @@
                 }
               }
             });
-          }
+            // Trying to get a reverse geocode to get the address
+          //   document.getElementById('submit').addEventListener('click', function() {
+          //     geocodeLatLng(geocoder, map);
+          //     console.log(geocoder)
+          //   });
+          // }
+          //   function geocodeLatLng(geocoder, map, infowindow) {
+          //     var input = document.getElementById('latlng').value;
+          //     var latlngStr = input.split(',', 2);
+          //     var latlng = {lat: parseFloat(latlngStr[0]), lng: parseFloat(latlngStr[1])};
+          //     geocoder.geocode({'location': latlng}, function(results, status) {
+          //       if (status === 'OK') {
+          //         if (results[1]) {
+          //           map.setZoom(11);
+          //           var marker = new google.maps.Marker({
+          //             position: latlng,
+          //             map: map
+          //           });
+          //           infowindow.setContent(results[1].formatted_address);
+          //           infowindow.open(map, marker, infowindow);
+          //         } else {
+          //           window.alert('No results found');
+          //         }
+          //       } else {
+          //         window.alert('Geocoder failed due to: ' + status);
+          //       }
+          //     });
+            }
+
+
       </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJ2GhgOOCaoypV0JCC4NnxS-M0enWpN64&callback=initMap">
     </script>
