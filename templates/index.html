@@ -5,99 +5,190 @@
 
   <h1>Find your Food Truck</h1>
 
-  {% for truck in truck_list %}
-  <div class="truck_listing">
-    <a href="{% url 'foodtruck_detail_view' truck.id %}">{{ truck }}</a>
-    <blockquote>
-      <p>
-        Type: {{ truck.category.food_type }}
-      </p>
-      <p>
-        Latitude: {{ truck.latitude }}<br>
-        Longitude: {{ truck.longitude }}
-        {% if request.user == truck.driver %}
-          <a href="{% url 'location_update_view' truck.id %}">Move Location</a>
-        {% endif %}
-      </p>
-      {% if request.user == truck.driver %}
-        <a href="{% url 'checkin_update_view' truck.id %}">Checkin</a>
-      {% endif %}
-    </blockquote>
-  </div>
-  {% endfor %}
-  <div class="mapping">
-    Latitude:
-      <input type="text" id="Latitude" />
-      Latitude:
-      <input type="text" id="Longitude"/>
-      <input type="button" value="Find Address" onclick="GetAddress()" />
-      <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-      <script type="text/javascript">
-      // This is my reverse geocode function
-          function GetAddress() {
-              var latitude = parseFloat(document.getElementById("Latitude").value);
-              var longitude = parseFloat(document.getElementById("Longitude").value);
-              var latlng = new google.maps.LatLng(latitude, longitude);
-              var geocoder = geocoder = new google.maps.Geocoder();
-              geocoder.geocode({ 'latLng': latlng }, function (results, status) {
-                  if (status == google.maps.GeocoderStatus.OK) {
-                      if (results[0]) {
-                          alert("Location: " + results[0].formatted_address);
-                      }
-                  }
-              });
-          }
-    </script>
-  </div>
 
-  <div id="map"></div>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-        <script type="text/javascript">
+  <div class="ui grid">
+    <div class="two column row">
+      <div class="column">
+        {% for truck in truck_list %}
+        <div class="ui fluid accordion">
+          <div class="title">
+            <i class="dropdown icon"></i>
+            <a href="{% url 'foodtruck_detail_view' truck.id %}">{{ truck }}</a>
+          </div>
+          <div class="content">
+            <p class="transition hidden">
+              Type: {{ truck.category.food_type }}
+            <p>
+              Latitude: {{ truck.latitude }}<br>
+              Longitude: {{ truck.longitude }}
+              {% if request.user == truck.driver %}
+                <a href="{% url 'location_update_view' truck.id %}">Move Location</a>
+              {% endif %}
+            </p>
+            {% if request.user == truck.driver %}
+              <a href="{% url 'checkin_update_view' truck.id %}">Checkin</a>
+            {% endif %}
+            </p>
+          </div>
+        </div>
+      {% endfor %}
 
-          function initMap() {
-            var map = new google.maps.Map(document.getElementById('map'), {
-              zoom: 15,
-              center: {lat: 34.85073, lng: -82.39898},
-            });
-            // var geocoder = new google.maps.Geocoder;
-            var latlng = $.getJSON("https://powerful-brook-42988.herokuapp.com/api/foodtrucks/", function(result) {
-              // console.log(result)
-
-              // Create a custom marker
-              var icon = {url: 'http://cdn.mysitemyway.com/icons-watermarks/simple-red/iconathon/iconathon_food-truck/iconathon_food-truck_simple-red_512x512.png',
-                          size: new google.maps.Size(40, 40),
-                          origin: new google.maps.Point(0, 0),
-                          anchor: new google.maps.Point(17, 34),
-                          scaledSize: new google.maps.Size(30, 35)};
-              for (var i = 0; i < result.length; i++) {
-                // console.log(i);
-                var obj = result[i];
-                if (obj.checked_in == true) {
-                  var marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(obj.latitude, obj.longitude),
-                    icon: icon,
-                    map: map,
-                    content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Latitude: " + obj.latitude + "<br/>Longitude: " + obj.longitude + '</div>'
-                  });
-
-                  // Starting the infowindow popup
-                  var infowindow = new google.maps.InfoWindow();
-                  // Adds the click part of the infowindow on the marker
-                  google.maps.event.addListener(marker, 'click', (function(marker, i, infowindow) {
-                    return function() {
-                      infowindow.setContent(this.content);
-                      infowindow.open(map, this);
-                    };
-                  })(marker, i, infowindow));
-                  // bounds.extend(marker.position);
-                  // google.maps.event.trigger(marker, 'click');
-                }
-              }
-            });
-          }
-
-
+      <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+      <script src="js/accordion.js"></script>
+      <script type='text/javascript'>
+        $('.ui.accordion').accordion({ exclusive: false });
+          $('.ui.buttons .button').on('click', function() {
+          $(this).addClass('positive')
+                .siblings()
+                .removeClass('positive');
+          $('.treemenu').toggleClass('boxed');
+        });
       </script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJ2GhgOOCaoypV0JCC4NnxS-M0enWpN64&callback=initMap">
-    </script>
+    </div>
+    <div class="column">
+      Find Your Address Based off Lat/Long <br>
+      Latitude:
+        <input type="text" id="Latitude" />
+        Latitude:
+        <input type="text" id="Longitude"/>
+        <input type="button" value="Find Address" onclick="GetAddress()" />
+        <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+        <script type="text/javascript">
+        // This is my reverse geocode function
+            function GetAddress() {
+                var latitude = parseFloat(document.getElementById("Latitude").value);
+                var longitude = parseFloat(document.getElementById("Longitude").value);
+                var latlng = new google.maps.LatLng(latitude, longitude);
+                var geocoder = geocoder = new google.maps.Geocoder();
+                geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        if (results[0]) {
+                            alert("Location: " + results[0].formatted_address);
+                        }
+                    }
+                });
+            }
+      </script> <br> <br>
+      <div id="map"></div>
+
+            <script type="text/javascript">
+
+              function initMap() {
+                var map = new google.maps.Map(document.getElementById('map'), {
+                  zoom: 15,
+                  center: {lat: 34.8574, lng: -82.390189},
+                });
+
+                // If in Heroku
+                // var latlng = $.getJSON("https://powerful-brook-42988.herokuapp.com/api/foodtrucks/", function(result) {
+
+                // If on my LocalHost
+                var latlng = $.getJSON("http://localhost:8000/api/foodtrucks/", function(result) {
+
+                  // console.log(result)
+
+
+                  // Create a custom marker
+                  var icon = {
+                    Mexican: {url: 'http://cdn.mysitemyway.com/icons-watermarks/simple-red/iconathon/iconathon_food-truck/iconathon_food-truck_simple-red_512x512.png',
+                              size: new google.maps.Size(40, 40),
+                              origin: new google.maps.Point(0, 0),
+                              anchor: new google.maps.Point(17, 34),
+                              scaledSize: new google.maps.Size(30, 35)},
+                    Greek: {url: 'http://st.depositphotos.com/1005920/4316/i/110/depositphotos_43162503-Truck-icon.jpg',
+                              size: new google.maps.Size(50, 50),
+                              origin: new google.maps.Point(0, 0),
+                              anchor: new google.maps.Point(17, 34),
+                              scaledSize: new google.maps.Size(40, 45)},
+                    IceCream: {url: 'https://d30y9cdsu7xlg0.cloudfront.net/png/56083-200.png',
+                                size: new google.maps.Size(40, 40),
+                                origin: new google.maps.Point(0, 0),
+                                anchor: new google.maps.Point(17, 34),
+                                scaledSize: new google.maps.Size(30, 35)},
+                  }
+                  for (var i = 0; i < result.length; i++) {
+                    // console.log(i);
+                    var obj = result[i];
+                    if (obj.category == 1) {
+                      if (obj.checked_in == true) {
+                        var marker = new google.maps.Marker({
+                          position: new google.maps.LatLng(obj.latitude, obj.longitude),
+                          icon: icon['Mexican'],
+                          map: map,
+                          content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Latitude: " + obj.latitude + "<br/>Longitude: " + obj.longitude + '</div>'
+                        });
+
+                        // Starting the infowindow popup
+                        var infowindow = new google.maps.InfoWindow();
+                        // Adds the click part of the infowindow on the marker
+                        google.maps.event.addListener(marker, 'click', (function(marker, i, infowindow) {
+                          return function() {
+                            infowindow.setContent(this.content);
+                            infowindow.open(map, this);
+                          };
+                        })(marker, i, infowindow));
+                        // bounds.extend(marker.position);
+                        // Has the infowindows pop out instantly
+                        // google.maps.event.trigger(marker, 'click');
+                      }
+                    }
+                    if (obj.category == 2) {
+                      if (obj.checked_in == true) {
+                        var marker = new google.maps.Marker({
+                          position: new google.maps.LatLng(obj.latitude, obj.longitude),
+                          icon: icon['Greek'],
+                          map: map,
+                          content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Latitude: " + obj.latitude + "<br/>Longitude: " + obj.longitude + '</div>'
+                        });
+
+                        // Starting the infowindow popup
+                        var infowindow = new google.maps.InfoWindow();
+                        // Adds the click part of the infowindow on the marker
+                        google.maps.event.addListener(marker, 'click', (function(marker, i, infowindow) {
+                          return function() {
+                            infowindow.setContent(this.content);
+                            infowindow.open(map, this);
+                          };
+                        })(marker, i, infowindow));
+                        // bounds.extend(marker.position);
+                        // Has the infowindows pop out instantly
+                        // google.maps.event.trigger(marker, 'click');
+                      }
+                    }
+                    if (obj.category == 3) {
+                      if (obj.checked_in == true) {
+                        var marker = new google.maps.Marker({
+                          position: new google.maps.LatLng(obj.latitude, obj.longitude),
+                          icon: icon['IceCream'],
+                          map: map,
+                          content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Latitude: " + obj.latitude + "<br/>Longitude: " + obj.longitude + '</div>'
+                        });
+
+                        // Starting the infowindow popup
+                        var infowindow = new google.maps.InfoWindow();
+                        // Adds the click part of the infowindow on the marker
+                        google.maps.event.addListener(marker, 'click', (function(marker, i, infowindow) {
+                          return function() {
+                            infowindow.setContent(this.content);
+                            infowindow.open(map, this);
+                          };
+                        })(marker, i, infowindow));
+                        // bounds.extend(marker.position);
+                        // Has the infowindows pop out instantly
+                        // google.maps.event.trigger(marker, 'click');
+                      }
+                    }
+
+                  }
+                });
+              }
+          </script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJ2GhgOOCaoypV0JCC4NnxS-M0enWpN64&callback=initMap">
+        </script>
+    </div>
+  </div>
+</div>
+
+
+
 {% endblock %}
