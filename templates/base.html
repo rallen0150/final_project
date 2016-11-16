@@ -32,6 +32,10 @@
   <body>
 
     <div class="body">
+      <div class="ui sidebar left inverted menu">
+        <a href="#" class="item">Home</a>
+        <a href="#" class="item"></a>
+      </div>
       {% if not request.user.is_authenticated %}
         <a href="{% url 'login' %}">Login</a>
         <a href="{% url 'user_create_view' %}">Create New User</a>
