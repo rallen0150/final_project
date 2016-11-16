@@ -6,16 +6,45 @@
   <h1>Find your Food Truck</h1>
 
 
-  <div class="ui grid">
+  <div class="ui grid" >
       <div class="eight wide column">
+        <div class="ui accordion">
+          {% for truck in truck_list %}
+          <div class="title">
+            <i class="dropdown icon"></i>
+            <a href="{% url 'foodtruck_detail_view' truck.id %}">{{ truck }}</a>
+            <div class="ui star rating" data-rating="3">
+              <i class="icon"></i>
+              <i class="icon"></i>
+              <i class="icon"></i>
+              <i class="icon"></i>
+              <i class="icon"></i>
+            </div>
+          </div>
+          <div>
+            <p>
+              Type: {{ truck.category.food_type }}<br>
+              Latitude: {{ truck.latitude }}<br>
+              Longitude: {{ truck.longitude }}
+              {% if request.user == truck.driver %}
+                <a href="{% url 'location_update_view' truck.id %}"> Move Location</a>
+              {% endif %} <br>
+              {% if request.user == truck.driver %}
+                <a href="{% url 'checkin_update_view' truck.id %}">Checkin</a>
+              {% endif %}
+            </p>
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- {% comment %}
         {% for truck in truck_list %}
         <div class="ui fluid accordion">
           <div class="title">
             <i class="dropdown icon"></i>
             <a href="{% url 'foodtruck_detail_view' truck.id %}">{{ truck }}</a>
           </div>
-          <div class="content">
-            <p class="transition hidden">
+            <p>
               Type: {{ truck.category.food_type }}
             <p>
               Latitude: {{ truck.latitude }}<br>
@@ -28,21 +57,9 @@
               <a href="{% url 'checkin_update_view' truck.id %}">Checkin</a>
             {% endif %}
             </p>
-          </div>
         </div>
       {% endfor %}
-
-      <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-      <script src="js/accordion.js"></script>
-      <script type='text/javascript'>
-        $('.ui.accordion').accordion({ exclusive: false });
-          $('.ui.buttons .button').on('click', function() {
-          $(this).addClass('positive')
-                .siblings()
-                .removeClass('positive');
-          $('.treemenu').toggleClass('boxed');
-        });
-      </script>
+      {% endcomment %} -->
     </div>
     <div class="eight wide column">
       Find Your Address Based off Lat/Long <br>
@@ -51,7 +68,9 @@
         Latitude:
         <input type="text" id="Longitude"/>
         <input type="button" value="Find Address" onclick="GetAddress()" />
+        <!-- {% comment %}
         <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+        {% endcomment %} -->
         <script type="text/javascript">
         // This is my reverse geocode function
             function GetAddress() {

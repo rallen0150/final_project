@@ -6,8 +6,7 @@
     <title>Foodtruck Finder</title>
 
     <link type="text/css" rel="stylesheet" href="{% static 'semantic.css' %}"  media="screen"/>
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-    <link rel="text/javascript" rel="stylesheet" href="{% static 'semantic.js' %}" media="screen">
+
     <style>
       .body {
         padding: 25px;
@@ -47,6 +46,17 @@
       {% block content %}
       {% endblock %}
     </div>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+    <link type="text/javascript" rel="stylesheet" href="{% static 'semantic.js' %}"  media="screen"/>
+    <script type="text/javascript">
+      $(function() {
+        $('.ui.accordion').accordion();
+      });
+      $(function () {
+        $('.rating').rating({initialRating: 3, maxRating: 5});
+      })
 
+    </script>
   </body>
 </html>
