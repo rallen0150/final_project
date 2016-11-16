@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  {% if request.user == object.truck.driver %}
     <form class="" action="" method="post">
       {% csrf_token %}
       {{ form.as_p }}
@@ -22,5 +21,4 @@
       {% endcomment %} -->
       <input type="submit" name="" value="New Food Item!">
     </form>
-  {% endif %}
 {% endblock %}
