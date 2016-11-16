@@ -3,3 +3,4 @@ django
 djangorestframework
 requests
 gunicorn
+dj-database-url
