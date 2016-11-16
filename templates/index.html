@@ -7,8 +7,7 @@
 
 
   <div class="ui grid">
-    <div class="two column row">
-      <div class="column">
+      <div class="eight wide column">
         {% for truck in truck_list %}
         <div class="ui fluid accordion">
           <div class="title">
@@ -45,7 +44,7 @@
         });
       </script>
     </div>
-    <div class="column">
+    <div class="eight wide column">
       Find Your Address Based off Lat/Long <br>
       Latitude:
         <input type="text" id="Latitude" />
@@ -80,10 +79,10 @@
                 });
 
                 // If in Heroku
-                var latlng = $.getJSON("https://powerful-brook-42988.herokuapp.com/api/foodtrucks/", function(result) {
+                // var latlng = $.getJSON("https://powerful-brook-42988.herokuapp.com/api/foodtrucks/", function(result) {
 
                 // If on my LocalHost
-                // var latlng = $.getJSON("http://localhost:8000/api/foodtrucks/", function(result) {
+                var latlng = $.getJSON("http://localhost:8000/api/foodtrucks/", function(result) {
 
                   // console.log(result)
 
@@ -186,7 +185,6 @@
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJ2GhgOOCaoypV0JCC4NnxS-M0enWpN64&callback=initMap">
         </script>
     </div>
-  </div>
 </div>
 
 
