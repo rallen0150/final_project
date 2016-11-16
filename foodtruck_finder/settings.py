@@ -25,7 +25,7 @@ SECRET_KEY = 'd)e%z%1udtvsetwcs3pn+u_mq=+q$a^x6s*_g&)ofqof02ps3c'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['powerful-brook-42988.herokuapp.com', 'localhost']
 
 
 # Application definition
