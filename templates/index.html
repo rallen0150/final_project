@@ -6,7 +6,7 @@
   <h1>Find your Food Truck</h1>
 
   {% for truck in truck_list %}
-  <div class="">
+  <div class="truck_listing">
     <a href="{% url 'foodtruck_detail_view' truck.id %}">{{ truck }}</a>
     <blockquote>
       <p>
@@ -25,28 +25,31 @@
     </blockquote>
   </div>
   {% endfor %}
-  Latitude:
-    <input type="text" id="Latitude" />
+  <div class="mapping">
     Latitude:
-    <input type="text" id="Longitude"/>
-    <input type="button" value="Find Address" onclick="GetAddress()" />
-    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-    <script type="text/javascript">
-    // This is my reverse geocode function
-        function GetAddress() {
-            var latitude = parseFloat(document.getElementById("Latitude").value);
-            var longitude = parseFloat(document.getElementById("Longitude").value);
-            var latlng = new google.maps.LatLng(latitude, longitude);
-            var geocoder = geocoder = new google.maps.Geocoder();
-            geocoder.geocode({ 'latLng': latlng }, function (results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    if (results[0]) {
-                        alert("Location: " + results[0].formatted_address);
-                    }
-                }
-            });
-        }
-  </script>
+      <input type="text" id="Latitude" />
+      Latitude:
+      <input type="text" id="Longitude"/>
+      <input type="button" value="Find Address" onclick="GetAddress()" />
+      <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+      <script type="text/javascript">
+      // This is my reverse geocode function
+          function GetAddress() {
+              var latitude = parseFloat(document.getElementById("Latitude").value);
+              var longitude = parseFloat(document.getElementById("Longitude").value);
+              var latlng = new google.maps.LatLng(latitude, longitude);
+              var geocoder = geocoder = new google.maps.Geocoder();
+              geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+                  if (status == google.maps.GeocoderStatus.OK) {
+                      if (results[0]) {
+                          alert("Location: " + results[0].formatted_address);
+                      }
+                  }
+              });
+          }
+    </script>
+  </div>
+
   <div id="map"></div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
         <script type="text/javascript">

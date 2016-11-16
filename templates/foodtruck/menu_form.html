@@ -1,27 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <form class="" action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-
-    
-
-    <!-- {% comment %}
-    <p>
-      <input type="text" name="food" placeholder="Name of Food Item">
-    </p>
-    <p>
-      $<input type="number" name="price" step=".01" placeholder="Price">
-    </p>
-    {% if request.user == object.truck.driver %}
+  {% if request.user == object.truck.driver %}
+    <form class="" action="" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <!-- {% comment %}
       <p>
-        <select>
-          <option value="truck">{{ object.truck }}</option>
-        </select>
+        <input type="text" name="food" placeholder="Name of Food Item">
       </p>
-    {% endif %}
-    {% endcomment %} -->
-    <input type="submit" name="" value="New Driver!">
-  </form>
+      <p>
+        $<input type="number" name="price" step=".01" placeholder="Price">
+      </p>
+      {% if request.user == object.truck.driver %}
+        <p>
+          <select>
+            <option value="truck">{{ object.truck }}</option>
+          </select>
+        </p>
+      {% endif %}
+      {% endcomment %} -->
+      <input type="submit" name="" value="New Food Item!">
+    </form>
+  {% endif %}
 {% endblock %}
