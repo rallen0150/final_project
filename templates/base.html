@@ -44,8 +44,6 @@
           <ul><a href="{% url 'logout' %}?next={% url 'index_view' %}">Logout</a></ul>
         {% endif %}
       </div>
-
-
       <div class="pusher">
         <div class="ui basic icon fixed menu">
           <a id="toggle" class="item">
@@ -54,12 +52,11 @@
           </a>
         </div>
 
-        {% block content %}
-        {% endblock %}
       </div>
-
-
+      {% block content %}
+      {% endblock %}
     </div>
+
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/sidebar.js"></script>
@@ -73,12 +70,6 @@
         });
         $('.rating').rating();
       });
-
-
-
-
       </script>
-
-
   </body>
 </html>
