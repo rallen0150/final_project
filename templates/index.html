@@ -24,6 +24,7 @@
           <div>
             <p>
               <a href="{% url 'foodtruck_detail_view' truck.id %}">{{ truck }}</a><br>
+              <b>Address: {{ truck.find_address }}<br></b>
               Type: {{ truck.category.food_type }}<br>
               Latitude: {{ truck.latitude }}<br>
               Longitude: {{ truck.longitude }}
@@ -31,7 +32,11 @@
                 <a href="{% url 'location_update_view' truck.id %}"> Move Location</a>
               {% endif %} <br>
               {% if request.user == truck.driver %}
-                <a href="{% url 'checkin_update_view' truck.id %}">Checkin</a>
+                {% if not truck.checked_in %}
+                  <a href="{% url 'checkin_update_view' truck.id %}">Check In</a>
+                {% else %}
+                  <a href="{% url 'checkin_update_view' truck.id %}">Check Out</a>
+                {% endif %}
               {% endif %}
             </p>
           </div>
@@ -100,7 +105,7 @@
                 var latitude = parseFloat(document.getElementById("Latitude").value);
                 var longitude = parseFloat(document.getElementById("Longitude").value);
                 var latlng = new google.maps.LatLng(latitude, longitude);
-                var geocoder = geocoder = new google.maps.Geocoder();
+                var geocoder = new google.maps.Geocoder();
                 geocoder.geocode({ 'latLng': latlng }, function (results, status) {
                     if (status == google.maps.GeocoderStatus.OK) {
                         if (results[0]) {
@@ -121,10 +126,10 @@
                 });
 
                 // If in Heroku
-                var latlng = $.getJSON("https://powerful-brook-42988.herokuapp.com/api/foodtrucks/", function(result) {
+                // var latlng = $.getJSON("https://powerful-brook-42988.herokuapp.com/api/foodtrucks/", function(result) {
 
                 // If on my LocalHost
-                // var latlng = $.getJSON("http://localhost:8000/api/foodtrucks/", function(result) {
+                var latlng = $.getJSON("http://localhost:8000/api/foodtrucks/", function(result) {
 
                   // console.log(result)
 
@@ -216,7 +221,7 @@
                         })(marker, i, infowindow));
                         // bounds.extend(marker.position);
                         // Has the infowindows pop out instantly
-                        // google.maps.event.trigger(marker, 'click');
+                        google.maps.event.trigger(marker, 'click');
                       }
                     }
 

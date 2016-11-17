@@ -1,5 +1,7 @@
 from django.db import models
+import googlemaps
 
+gmaps = googlemaps.Client(key='AIzaSyCJ2GhgOOCaoypV0JCC4NnxS-M0enWpN64')
 
 class Menu(models.Model):
     food = models.CharField(max_length=255)
@@ -35,6 +37,10 @@ class Foodtruck(models.Model):
 
     def get_comment(self):
         return Comment.objects.filter(truck_comment=self)
+
+    def find_address(self):
+        reverse_geocode_result = gmaps.reverse_geocode((self.latitude, self.longitude))
+        return reverse_geocode_result[0]['formatted_address']
 
     @property
     def image_url(self):
