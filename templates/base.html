@@ -32,35 +32,53 @@
   <body>
 
     <div class="body">
-      <div class="ui sidebar left inverted menu">
-        <a href="#" class="item">Home</a>
-        <a href="#" class="item"></a>
+      <div class="ui sidebar vertical left inverted menu">
+        {% if not request.user.is_authenticated %}
+          <ui><a href="{% url 'login' %}">Login</a></ui>
+          <ul><a href="{% url 'user_create_view' %}">Create New User</a></ul>
+        {% else %}
+          <ul><a href="{% url 'category_create_view' %}">New Food Category</a></ul>
+          <ul><a href="{% url 'foodtruck_create_view' %}">New Food Truck</a></ul>
+          <ul><a href="{% url 'commenter_create_view' %}">New Commenter</a></ul>
+          <ul><a href="{% url 'menu_create_view' %}">New Food Item</a></ul>
+          <ul><a href="{% url 'logout' %}?next={% url 'index_view' %}">Logout</a></ul>
+        {% endif %}
       </div>
-      {% if not request.user.is_authenticated %}
-        <a href="{% url 'login' %}">Login</a>
-        <a href="{% url 'user_create_view' %}">Create New User</a>
-      {% else %}
-        <a href="{% url 'category_create_view' %}">New Food Category</a>
-        <a href="{% url 'foodtruck_create_view' %}">New Food Truck</a>
-        <a href="{% url 'commenter_create_view' %}">New Commenter</a>
-        <a href="{% url 'menu_create_view' %}">New Food Item</a>
-        <a href="{% url 'logout' %}?next={% url 'index_view' %}">Logout</a>
-      {% endif %}
 
-      {% block content %}
-      {% endblock %}
+
+      <div class="pusher">
+        <div class="ui basic icon fixed menu">
+          <a id="toggle" class="item">
+            <i class="sidebar icon"></i>
+            Menu
+          </a>
+        </div>
+
+        {% block content %}
+        {% endblock %}
+      </div>
+
+
     </div>
     <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/sidebar.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/rating.min.js"></script>
     <link type="text/javascript" rel="stylesheet" href="{% static 'semantic.js' %}"  media="screen"/>
     <script type="text/javascript">
       $(function() {
         $('.ui.accordion').accordion();
+        $('#toggle').click(function() {
+          $('.ui.sidebar').sidebar('toggle');
+        });
+        $('.rating').rating();
       });
-      $(function () {
-        $('.rating').rating({initialRating: 3, maxRating: 5});
-      })
 
-    </script>
+
+
+
+      </script>
+
+
   </body>
 </html>
