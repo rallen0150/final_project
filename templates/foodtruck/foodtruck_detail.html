@@ -30,20 +30,21 @@
     <div class="actions">
       <a href="{% url 'reply_create_view' comment.id %}">Reply</a>
     </div>
-    {% comment %}
     <blockquote>
       <div class="comments">
+        {% for reply in comment.get_reply %}
         <div class="comment">
           <div class="content">
-            {{ comment.user }} <i id="time">{{ comment.created|timesince }}</i><style>#time{ padding-left: 1.8em;}</style>
+            {{ reply.user }} <i id="time">{{ reply.created|timesince }}</i><style>#time{ padding-left: 1.8em;}</style>
           </div>
           <div class="text">
-            <b>{{ comment.get_reply.reply }}</b>
+            <b>{{ reply }}</b>
           </div>
+
         </div>
       </div>
+      {% endfor %}
     </blockquote>
-    {% endcomment %}
     <br> <br>
     {% endfor %}
     <form class="ui reply form" action="{% url 'comment_create_view' object.id %}" method="post">

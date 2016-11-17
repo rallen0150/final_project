@@ -134,5 +134,5 @@ class ReplyCreateView(CreateView):
     def form_valid(self, form):
         instance = form.save(commit=False)
         instance.user = self.request.user
-        instance.reply = Comment.objects.get(id=self.kwargs['pk'])
+        instance.comment = Comment.objects.get(id=self.kwargs['pk'])
         return super().form_valid(form)
