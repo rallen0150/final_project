@@ -30,4 +30,4 @@ urlpatterns = [
     url(r'^(?P<pk>\d+)/update/comment/$', CommentUpdateView.as_view(), name='comment_update_view'),
     url(r'^api/foodtrucks/$', FoodtruckListCreateAPIView.as_view(), name='foodtruck_list_create_api_view'),
     url(r'^api/foodtrucks/(?P<pk>\d+)/$', FoodtruckDetailUpdateDestroyAPIView.as_view(), name='foodtruck_detail_update_api_view'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

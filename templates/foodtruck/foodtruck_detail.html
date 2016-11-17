@@ -16,7 +16,7 @@
       </blockquote>
     </div>
   {% endfor %}
-    <img src="{{ MEDIA_URL }}{{ object.image_url }}" alt="Picture of {{ object.image_url }}" />
+    <img src="{{ STATIC_URL }}{{ object.image_url }}" alt="Picture of {{ object.image_url }}" />
   {% for comment in object.get_comment %}
     <div>
       {{ comment.comment }}
