@@ -31,6 +31,7 @@ class Foodtruck(models.Model):
     longitude = models.FloatField()
     checked_in = models.BooleanField(default=False)
     # truck_comment = models.ForeignKey('foodtruck.Comment', null=True, blank=True)
+    rating = models.FloatField(null=True, blank=True)
 
     def __str__(self):
         return self.truck_name
