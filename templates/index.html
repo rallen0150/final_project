@@ -12,7 +12,7 @@
           {% for truck in truck_list %}
           <div class="title">
             <i class="dropdown icon"></i>
-            <a href="{% url 'foodtruck_detail_view' truck.id %}">{{ truck }}</a>
+            <b>{{ truck }}</b>
             <div class="ui star rating" data-rating="3">
               <i class="icon"></i>
               <i class="icon"></i>
@@ -23,6 +23,7 @@
           </div>
           <div>
             <p>
+              <a href="{% url 'foodtruck_detail_view' truck.id %}">{{ truck }}</a><br>
               Type: {{ truck.category.food_type }}<br>
               Latitude: {{ truck.latitude }}<br>
               Longitude: {{ truck.longitude }}

@@ -37,6 +37,7 @@
           <ui><a href="{% url 'login' %}">Login</a></ui>
           <ul><a href="{% url 'user_create_view' %}">Create New User</a></ul>
         {% else %}
+          <ul><a href="{% url 'index_view' %}">Home</a></ul>
           <ul><a href="{% url 'category_create_view' %}">New Food Category</a></ul>
           <ul><a href="{% url 'foodtruck_create_view' %}">New Food Truck</a></ul>
           <ul><a href="{% url 'commenter_create_view' %}">New Commenter</a></ul>
