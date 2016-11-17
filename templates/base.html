@@ -44,15 +44,17 @@
           <ul><a href="{% url 'logout' %}?next={% url 'index_view' %}">Logout</a></ul>
         {% endif %}
       </div>
+      {% comment %}
       <div class="pusher">
         <div class="ui basic icon fixed menu">
           <a id="toggle" class="item">
-            <i class="sidebar icon"></i>
+            <i class="content icon"></i>
             Menu
           </a>
         </div>
-
       </div>
+      {% endcomment %}
+      
       {% block content %}
       {% endblock %}
     </div>
@@ -65,10 +67,10 @@
     <script type="text/javascript">
       $(function() {
         $('.ui.accordion').accordion();
-        $('#toggle').click(function() {
-          $('.ui.sidebar').sidebar('toggle');
-        });
-        $('.rating').rating();
+        // $('#toggle').click(function() {
+        //   $('.ui.sidebar').sidebar('toggle');
+        // });
+        // $('.rating').rating();
       });
       </script>
   </body>
