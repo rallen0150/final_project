@@ -55,3 +55,15 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.comment
+
+    def get_reply(self):
+        return Reply.objects.filter(comment=self)
+
+class Reply(models.Model):
+    comment = models.ForeignKey(Comment)
+    reply = models.TextField()
+    user = models.ForeignKey('auth.User')
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.reply

@@ -9,7 +9,7 @@ from foodtruck.serializers import FoodtruckSerializer
 from foodtruck.permissions import IsUser
 
 from django.urls import reverse_lazy
-from foodtruck.models import Category, Foodtruck, Menu, Commenter, Comment
+from foodtruck.models import Category, Foodtruck, Menu, Commenter, Comment, Reply
 
 class IndexView(TemplateView):
     template_name = 'index.html'
@@ -125,3 +125,14 @@ class FoodtruckDetailUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Foodtruck.objects.all()
     serializer_class = FoodtruckSerializer
     permission_classes = (IsUser, )
+
+class ReplyCreateView(CreateView):
+    model = Reply
+    fields = ('reply', )
+    success_url = reverse_lazy('index_view')
+
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.user = self.request.user
+        instance.reply = Comment.objects.get(id=self.kwargs['pk'])
+        return super().form_valid(form)

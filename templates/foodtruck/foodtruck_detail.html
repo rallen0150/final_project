@@ -16,11 +16,45 @@
       </blockquote>
     </div>
   {% endfor %}
-    <img src="{{ STATIC_URL }}{{ object.image_url }}" alt="Picture of {{ object.image_url }}" />
-  {% for comment in object.get_comment %}
-    <div>
-      {{ comment.comment }}
+    <img src="{{ MEDIA_URL }}{{ object.image_url }}" alt="Picture of {{ object.image_url }}" />
+
+  <div class="ui threaded comments">
+    <h3 class="ui dividing header">Comments</h3>
+    {% for comment in object.get_comment %}
+    <div class="comments">
+      {{ comment.user }} <i id="time">{{ comment.created|timesince }}</i><style>#time{ padding-left: 1.8em;}</style>
     </div>
-  {% endfor %}
+    <div class="content">
+      <b>{{ comment.comment }}</b>
+    </div>
+    <div class="actions">
+      <a href="{% url 'reply_create_view' comment.id %}">Reply</a>
+    </div>
+    {% comment %}
+    <blockquote>
+      <div class="comments">
+        <div class="comment">
+          <div class="content">
+            {{ comment.user }} <i id="time">{{ comment.created|timesince }}</i><style>#time{ padding-left: 1.8em;}</style>
+          </div>
+          <div class="text">
+            <b>{{ comment.get_reply.reply }}</b>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    {% endcomment %}
+    <br> <br>
+    {% endfor %}
+    <form class="ui reply form" action="{% url 'comment_create_view' object.id %}" method="post">
+      {% csrf_token %}
+      <div class="field">
+        <textarea name="comment" rows="8" cols="40"></textarea>
+         <button type="submit"><i class="reply icon"></i> Reply! </button>
+      </div>
+    </form>
+
+  </div>
+
 
 {% endblock %}
