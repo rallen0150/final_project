@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from foodtruck.models import Category, Comment, Commenter, Foodtruck, Menu
+from foodtruck.models import Category, Comment, Profile, Foodtruck, Menu
 
 class FoodtruckSerializer(serializers.ModelSerializer):
     # get_food = serializers.ReadOnlyField()

@@ -1,36 +1,40 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <br><br><br>
-  <form class="" action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" name="" value="New Driver!">
-  </form>
+  {% if request.user.profile.is_driver %}
+    <br><br><br>
+    <form class="" action="" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" name="" value="New Driver!">
+    </form>
 
-  <br><br>
+    <br><br>
 
-  <b>Need to Know Your Lat/Lng Location?</b> <br><br> 
-  Find Lat/Lng Through Address <br>
-  Address: <input type="text" name="" id="address">
-  <input type="button" value="Find Lat/Lng" onclick="codeAddress()">
-  <script type="text/javascript">
-    function codeAddress() {
-      var address = document.getElementById('address').value;
-      var geocoder = new google.maps.Geocoder();
-      geocoder.geocode({'address': address}, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-          // map.setCenter(results[0].geometry.location);
-          // var marker = new google.maps.Marker({
-          //     map: map,
-          //     position: results[0].geometry.location
-          // });
-          alert("Lat/Lng: " + results[0].geometry.location);
-        } else {
-          alert('Geocode was not successful for the following reason: ' + status);
-        }
-      });
-    }
-  </script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJ2GhgOOCaoypV0JCC4NnxS-M0enWpN64&callback=initMap"></script>
+    <b>Need to Know Your Lat/Lng Location?</b> <br><br>
+    Find Lat/Lng Through Address <br>
+    Address: <input type="text" name="" id="address">
+    <input type="button" value="Find Lat/Lng" onclick="codeAddress()">
+    <script type="text/javascript">
+      function codeAddress() {
+        var address = document.getElementById('address').value;
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({'address': address}, function(results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            // map.setCenter(results[0].geometry.location);
+            // var marker = new google.maps.Marker({
+            //     map: map,
+            //     position: results[0].geometry.location
+            // });
+            alert("Lat/Lng: " + results[0].geometry.location);
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+      }
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJ2GhgOOCaoypV0JCC4NnxS-M0enWpN64&callback=initMap"></script>
+  {% else %}
+    <h1>Not Supposed To Be Here!!!</h1>
+  {% endif %}
 {% endblock %}

@@ -1,5 +1,9 @@
 from django.db import models
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 import googlemaps
+from django.contrib.auth.models import User
+
 
 gmaps = googlemaps.Client(key='AIzaSyCJ2GhgOOCaoypV0JCC4NnxS-M0enWpN64')
 
@@ -53,17 +57,39 @@ class Foodtruck(models.Model):
             return self.picture.url
         return "https://upload.wikimedia.org/wikipedia/commons/5/55/Question_Mark.svg"
 
-class Commenter(models.Model):
+STATUS = [
+    ('T', 'Truck Driver'),
+    ('A', 'User Account')
+]
+
+
+class Profile(models.Model):
     user = models.OneToOneField('auth.User')
     image = models.FileField(null=True, blank=True)
     favorite = models.ManyToManyField(Foodtruck, blank=True)
+    status = models.CharField(max_length=1, choices=STATUS)
 
     @property
     def contents(self):
         return self.favorite.all()
 
+    @property
+    def is_driver(self):
+        return self.status == 'T'
+
+    @property
+    def is_user(self):
+        return self.status == 'A'
+
     # def __str__(self):
     #     return self.contents
+
+@receiver(post_save, sender=User)
+def create(**kwargs):
+    created = kwargs['created']
+    instance = kwargs['instance']
+    if created:
+        Profile.objects.create(user=instance)
 
 class Comment(models.Model):
     user = models.ForeignKey('auth.User')

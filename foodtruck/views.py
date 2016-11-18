@@ -9,7 +9,7 @@ from foodtruck.serializers import FoodtruckSerializer
 from foodtruck.permissions import IsUser
 
 from django.urls import reverse_lazy
-from foodtruck.models import Category, Foodtruck, Menu, Commenter, Comment, Reply
+from foodtruck.models import Category, Foodtruck, Menu, Profile, Comment, Reply
 
 class IndexView(TemplateView):
     template_name = 'index.html'
@@ -91,9 +91,9 @@ class CheckinUpdateView(UpdateView):
     #     instance = form.save(commit=False)
     #     return super().form_valid(form)
 
-class CommenterCreateView(CreateView):
-    model = Commenter
-    fields = ('image', 'favorite')
+class ProfileUpdateView(UpdateView):
+    model = Profile
+    fields = ('image', 'status')
     success_url = reverse_lazy('index_view')
 
     def form_valid(self, form):
@@ -137,8 +137,13 @@ class ReplyCreateView(CreateView):
         instance.comment = Comment.objects.get(id=self.kwargs['pk'])
         return super().form_valid(form)
 
-class CommenterDetailView(DetailView):
-    model = Commenter
+class ProfileDetailView(DetailView):
+    model = Profile
 
     # def get_object(self):
     #     return Commenter.objects.get(user=self.request.user)
+
+class ImageUpdateView(UpdateView):
+    model = Profile
+    fields = ('image', )
+    success_url = reverse_lazy('index_view')

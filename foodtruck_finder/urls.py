@@ -7,9 +7,10 @@ from django.conf import settings
 from foodtruck.views import IndexView, UserCreateView, CategoryCreateView, \
                             FoodtruckCreateView, MenuCreateView, FoodtruckDetailView, \
                             FoodUpdateView, PriceUpdateView, LocationUpdateView, \
-                            CheckinUpdateView, FoodtruckUpdateView, CommenterCreateView, \
+                            CheckinUpdateView, FoodtruckUpdateView, ProfileUpdateView, \
                             CommentCreateView, CommentUpdateView, FoodtruckListCreateAPIView, \
-                            FoodtruckDetailUpdateDestroyAPIView, ReplyCreateView, CommenterDetailView
+                            FoodtruckDetailUpdateDestroyAPIView, ReplyCreateView, ProfileDetailView, \
+                            ImageUpdateView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -25,11 +26,12 @@ urlpatterns = [
     url(r'^price/update/(?P<pk>\d+)/$', PriceUpdateView.as_view(), name='price_update_view'),
     url(r'^new_location/(?P<pk>\d+)/$', LocationUpdateView.as_view(), name='location_update_view'),
     url(r'^checkin/(?P<pk>\d+)/$', CheckinUpdateView.as_view(), name='checkin_update_view'),
-    url(r'^new_commenter/$', CommenterCreateView.as_view(), name='commenter_create_view'),
+    url(r'^account/profile/(?P<pk>\d+)/$', ProfileUpdateView.as_view(), name='profile_update_view'),
     url(r'^foodtruck/(?P<pk>\d+)/comment/$', CommentCreateView.as_view(), name='comment_create_view'),
     url(r'^(?P<pk>\d+)/update/comment/$', CommentUpdateView.as_view(), name='comment_update_view'),
     url(r'^api/foodtrucks/$', FoodtruckListCreateAPIView.as_view(), name='foodtruck_list_create_api_view'),
     url(r'^api/foodtrucks/(?P<pk>\d+)/$', FoodtruckDetailUpdateDestroyAPIView.as_view(), name='foodtruck_detail_update_api_view'),
     url(r'^comment/(?P<pk>\d+)/reply/$', ReplyCreateView.as_view(), name='reply_create_view'),
-    url(r'^account/profile/(?P<pk>\d+)/$', CommenterDetailView.as_view(), name='commenter_detail_view'),
+    url(r'^account/profile/(?P<pk>\d+)/detail/$', ProfileDetailView.as_view(), name='profile_detail_view'),
+    url(r'^account/profile/(?P<pk>\d+)/image/$', ImageUpdateView.as_view(), name='image_update_view'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
