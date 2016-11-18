@@ -2,6 +2,15 @@
 
 {% block content %}
   <br> <br>
+  <a href="{% url 'favorite_update_view' user.id %}">Favorite</a>
+  <form class="" action="{% url 'favorite_update_view' object.id %}" method="post">
+    {% csrf_token %}
+    {% if not object in request.user.profile.favorite.all %}
+      <button type="submit" class='ui blue submit button' name="favorite" value="Favorite"> <i class="star icon"></i> Favorite</button>
+    {% else %}
+      <button type="submit" class='ui blue submit button' name="favorite" value="Unfavorite"> <i class="empty star icon"></i> Unfavorite</button>
+    {% endif %}
+  </form>
   {% for food in menu %}
     <div>
       {{ food.food }}

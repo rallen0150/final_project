@@ -1,13 +1,14 @@
-from django.shortcuts import render
+import requests
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView
 
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
 from foodtruck.serializers import FoodtruckSerializer
 from foodtruck.permissions import IsUser
 
+from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from foodtruck.models import Category, Foodtruck, Menu, Profile, Comment, Reply
 
@@ -45,11 +46,16 @@ class FoodtruckDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['truck'] = Foodtruck.objects.all()
+        context['menu'] = Menu.objects.filter(truck=self.kwargs['pk'])
+        context['favorite'] = Profile.objects.all()
         return context
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = Menu.objects.filter(truck=self.kwargs['pk'])
+        return context
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
         return context
 
 class FoodtruckUpdateView(UpdateView):
@@ -117,7 +123,7 @@ class CommentUpdateView(UpdateView):
     fields = ('comment', )
     success_url = reverse_lazy('index_view')
 
-class FoodtruckListCreateAPIView(ListCreateAPIView):
+class FoodtruckListAPIView(ListAPIView):
     queryset = Foodtruck.objects.all()
     serializer_class = FoodtruckSerializer
 
@@ -147,3 +153,22 @@ class ImageUpdateView(UpdateView):
     model = Profile
     fields = ('image', )
     success_url = reverse_lazy('index_view')
+
+class FavoriteUpdateView(UpdateView):
+    model = Profile
+    fields = ('favorite', )
+    # success_url = reverse_lazy('index_view')
+
+    # Davis helped with the def post!
+    def post(self, request, pk):
+        favorite = self.request.POST.get('favorite')
+        print(favorite)
+        profile = Profile.objects.get(user=self.request.user)
+        if favorite == 'Favorite':
+            profile.favorite.add(Foodtruck.objects.get(id=self.kwargs['pk']))
+        else:
+            profile.favorite.remove(Foodtruck.objects.get(id=self.kwargs['pk']))
+        return HttpResponseRedirect("/")
+
+class MapTestView(TemplateView):
+    template_name = 'map_test.html'

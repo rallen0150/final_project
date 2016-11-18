@@ -36,20 +36,23 @@ class Foodtruck(models.Model):
     checked_in = models.BooleanField(default=False)
     # truck_comment = models.ForeignKey('foodtruck.Comment', null=True, blank=True)
     rating = models.FloatField(null=True, blank=True)
+    # address = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return self.truck_name
 
+    @property
     def get_comment(self):
         return Comment.objects.filter(truck_comment=self)
 
+    @property
     def find_address(self):
         reverse_geocode_result = gmaps.reverse_geocode((self.latitude, self.longitude))
         return reverse_geocode_result[0]['formatted_address']
 
     @property
     def get_user(self):
-        return Commenter.objects.filter(user=self)
+        return Profile.objects.filter(user=self)
 
     @property
     def image_url(self):
