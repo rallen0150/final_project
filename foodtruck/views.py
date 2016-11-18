@@ -136,3 +136,9 @@ class ReplyCreateView(CreateView):
         instance.user = self.request.user
         instance.comment = Comment.objects.get(id=self.kwargs['pk'])
         return super().form_valid(form)
+
+class CommenterDetailView(DetailView):
+    model = Commenter
+
+    # def get_object(self):
+    #     return Commenter.objects.get(user=self.request.user)

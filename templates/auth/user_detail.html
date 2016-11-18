@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Welcome {{ request.user }}</h1>
+
+  <h3>Favorites</h3>
+  {% for x in commenter.contents %}
+  <div class="">
+    <a href="{% url 'foodtruck_detail_view' x.id %}">{{ x }}</a>
+  </div>
+
+  {% endfor %}
+{% endblock %}

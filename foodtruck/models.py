@@ -44,15 +44,26 @@ class Foodtruck(models.Model):
         return reverse_geocode_result[0]['formatted_address']
 
     @property
+    def get_user(self):
+        return Commenter.objects.filter(user=self)
+
+    @property
     def image_url(self):
         if self.picture:
             return self.picture.url
         return "https://upload.wikimedia.org/wikipedia/commons/5/55/Question_Mark.svg"
 
 class Commenter(models.Model):
-    user = models.ForeignKey('auth.User')
+    user = models.OneToOneField('auth.User')
     image = models.FileField(null=True, blank=True)
     favorite = models.ManyToManyField(Foodtruck, blank=True)
+
+    @property
+    def contents(self):
+        return self.favorite.all()
+
+    # def __str__(self):
+    #     return self.contents
 
 class Comment(models.Model):
     user = models.ForeignKey('auth.User')

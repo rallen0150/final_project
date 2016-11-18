@@ -41,6 +41,7 @@
           <ul><a id="options" href="{% url 'user_create_view' %}"> <i class="add user icon"></i> Create New User</a></ul>
         {% else %}
           <ul><a id="options" href="{% url 'index_view' %}"> <i class="home icon"></i> Home</a></ul>
+          <ul><a id="options" href="{% url 'commenter_detail_view' user.id %}">Profile</a></ul>
           <ul><a id="options" href="{% url 'category_create_view' %}">New Food Category</a></ul>
           <ul><a id="options" href="{% url 'foodtruck_create_view' %}"> <i class="bus icon"></i> New Food Truck</a></ul>
           <ul><a id="options" href="{% url 'commenter_create_view' %}"> <i class="add user icon"></i> New Commenter</a></ul>

@@ -116,23 +116,18 @@
             }
       </script> <br> <br>
       <div id="map"></div>
+          <script type="text/javascript">
 
-            <script type="text/javascript">
+          function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+              zoom: 15,
+              center: {lat: 34.8574, lng: -82.390189},
+            });
 
-              function initMap() {
-                var map = new google.maps.Map(document.getElementById('map'), {
-                  zoom: 15,
-                  center: {lat: 34.8574, lng: -82.390189},
-                });
 
-                // If in Heroku
-                // var latlng = $.getJSON("https://powerful-brook-42988.herokuapp.com/api/foodtrucks/", function(result) {
-
-                // If on my LocalHost
                 var latlng = $.getJSON("/api/foodtrucks/", function(result) {
 
                   // console.log(result)
-
 
                   // Create a custom marker
                   var icon = {

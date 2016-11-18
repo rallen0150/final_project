@@ -6,3 +6,5 @@ gunicorn
 dj-database-url
 whitenoise
 googlemaps
+elasticsearch
+django-haystack
