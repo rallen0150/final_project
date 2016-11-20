@@ -10,13 +10,18 @@ from foodtruck.views import IndexView, UserCreateView, CategoryCreateView, \
                             CheckinUpdateView, FoodtruckUpdateView, ProfileUpdateView, \
                             CommentCreateView, CommentUpdateView, FoodtruckListAPIView, \
                             FoodtruckDetailUpdateDestroyAPIView, ReplyCreateView, ProfileDetailView, \
-                            ImageUpdateView, FavoriteUpdateView, MapTestView
+                            ImageUpdateView, FavoriteUpdateView, MapTestView, ProfileListCreateAPIView, \
+                            ProfileDetailUpdateDestroyAPIView
+
+from rest_framework.authtoken.views import obtain_auth_token
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', IndexView.as_view(), name='index_view'),
     url(r'^', include('django.contrib.auth.urls'), name='login'),
-    url(r'^new_driver/$', UserCreateView.as_view(), name='user_create_view'),
+    url(r'^obtain-token/$', obtain_auth_token),
+    url(r'^new_user/$', UserCreateView.as_view(), name='user_create_view'),
     url(r'^new_category/$', CategoryCreateView.as_view(), name='category_create_view'),
     url(r'^new_foodtruck/$', FoodtruckCreateView.as_view(), name='foodtruck_create_view'),
     url(r'^create_menu/$', MenuCreateView.as_view(), name='menu_create_view'),
@@ -35,5 +40,7 @@ urlpatterns = [
     url(r'^account/profile/(?P<pk>\d+)/detail/$', ProfileDetailView.as_view(), name='profile_detail_view'),
     url(r'^account/profile/(?P<pk>\d+)/image/$', ImageUpdateView.as_view(), name='image_update_view'),
     url(r'^account/profile/(?P<pk>\d+)/favorite/$', FavoriteUpdateView.as_view(), name='favorite_update_view'),
+    url(r'^api/profile/$', ProfileListCreateAPIView.as_view(), name='profile_list_create_api_view'),
+    url(r'^api/profile/(?P<pk>\d+)/$', ProfileDetailUpdateDestroyAPIView.as_view(), name='profile_detail_update_destroy_api_view'),
     url(r'^map/test/$', MapTestView.as_view()),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

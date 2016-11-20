@@ -4,6 +4,14 @@ from django.db.models.signals import post_save
 import googlemaps
 from django.contrib.auth.models import User
 
+from rest_framework.authtoken.models import Token
+from django.conf import settings
+
+# For token
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
 
 gmaps = googlemaps.Client(key='AIzaSyCJ2GhgOOCaoypV0JCC4NnxS-M0enWpN64')
 
@@ -61,7 +69,7 @@ class Foodtruck(models.Model):
         return "https://upload.wikimedia.org/wikipedia/commons/5/55/Question_Mark.svg"
 
 STATUS = [
-    ('T', 'Truck Driver'),
+    ('T', 'Truck useruser'),
     ('A', 'User Account')
 ]
 
@@ -77,7 +85,7 @@ class Profile(models.Model):
         return self.favorite.all()
 
     @property
-    def is_driver(self):
+    def is_useruser(self):
         return self.status == 'T'
 
     @property

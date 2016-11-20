@@ -1,12 +1,14 @@
-import requests
+
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView
 
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
-from foodtruck.serializers import FoodtruckSerializer
-from foodtruck.permissions import IsUser
+from foodtruck.serializers import FoodtruckSerializer, ProfileSerializer
+from foodtruck.permissions import IsUser, IsProfileUser
+from rest_framework.permissions import IsAuthenticated
+
 
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
@@ -157,18 +159,34 @@ class ImageUpdateView(UpdateView):
 class FavoriteUpdateView(UpdateView):
     model = Profile
     fields = ('favorite', )
-    # success_url = reverse_lazy('index_view')
+    success_url = reverse_lazy('index_view')
 
     # Davis helped with the def post!
     def post(self, request, pk):
         favorite = self.request.POST.get('favorite')
-        print(favorite)
         profile = Profile.objects.get(user=self.request.user)
         if favorite == 'Favorite':
             profile.favorite.add(Foodtruck.objects.get(id=self.kwargs['pk']))
         else:
             profile.favorite.remove(Foodtruck.objects.get(id=self.kwargs['pk']))
         return HttpResponseRedirect("/")
+
+class ProfileListCreateAPIView(ListCreateAPIView):
+    # queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    permission_classes = (IsAuthenticated, )
+
+    def get_queryset(self):
+        return Profile.objects.filter(user=self.request.user)
+
+
+class ProfileDetailUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    # queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+    permission_classes = (IsProfileUser, )
+
+    def get_queryset(self):
+        return Profile.objects.filter(user=self.request.user)
 
 class MapTestView(TemplateView):
     template_name = 'map_test.html'
