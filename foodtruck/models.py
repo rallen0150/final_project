@@ -122,3 +122,8 @@ class Reply(models.Model):
 
     def __str__(self):
         return self.reply
+
+class Truck_Rating(models.Model):
+    rater = models.ForeignKey('auth.User')
+    rating = models.IntegerField()
+    truck_rated = models.ForeignKey(Foodtruck)

@@ -1,0 +1,5 @@
+{{ object.title }}
+{{ object.driver }}
+{{ object.truck_name }}
+{{ object.category }}
+{{ object.checked_in }}

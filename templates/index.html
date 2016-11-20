@@ -43,6 +43,9 @@
           {% endfor %}
         </div>
 
+
+
+
         <!-- {% comment %}
         {% for truck in truck_list %}
         <div class="ui fluid accordion">
@@ -73,14 +76,19 @@
       <input type="button" value="Find Lat/Lng" onclick="CodeAddress()">
       <script type="text/javascript">
         function CodeAddress() {
-          var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 14,
-            center: {lat: 34.8574, lng: -82.390189},
-          });
-          var address = document.getElementById('address').value;
           var geocoder = new google.maps.Geocoder();
+          // var map = new google.maps.Map(document.getElementById('map'), {
+          //   zoom: 13,
+          //   center: {lat: 34.8574, lng: -82.390189},
+          // });
+          var address = document.getElementById('address').value;
+
           geocoder.geocode({'address': address}, function(results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
+              var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 15,
+                center: results[0].geometry.location,
+              });
               // map.setCenter(results[0].geometry.location);
               $.getJSON("/api/foodtrucks/", function(result) {
 
