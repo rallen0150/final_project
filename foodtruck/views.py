@@ -1,18 +1,19 @@
-
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import TemplateView, ListView, DetailView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, FormView
 
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
-from foodtruck.serializers import FoodtruckSerializer, ProfileSerializer
+from foodtruck.serializers import FoodtruckSerializer, ProfileSerializer, RatingSerializer
 from foodtruck.permissions import IsUser, IsProfileUser
 from rest_framework.permissions import IsAuthenticated
 
+from foodtruck.forms import ContactForm
+from django.core.mail import send_mail
 
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
-from foodtruck.models import Category, Foodtruck, Menu, Profile, Comment, Reply
+from foodtruck.models import Category, Foodtruck, Menu, Profile, Comment, Reply, Truck_Rating
 
 class IndexView(TemplateView):
     template_name = 'index.html'
@@ -171,6 +172,11 @@ class FavoriteUpdateView(UpdateView):
             profile.favorite.remove(Foodtruck.objects.get(id=self.kwargs['pk']))
         return HttpResponseRedirect("/")
 
+class EmailUpdateView(UpdateView):
+    model = Profile
+    fields = ('email', )
+    success_url = reverse_lazy('index_view')
+
 class ProfileListCreateAPIView(ListCreateAPIView):
     # queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
@@ -187,6 +193,37 @@ class ProfileDetailUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return Profile.objects.filter(user=self.request.user)
+
+class TruckRatingListCreateAPIView(ListCreateAPIView):
+    queryset = Truck_Rating.objects.all()
+    serializer_class = RatingSerializer
+
+    def post(self, request, pk):
+        rating = self.request.POST.get('voting')
+        truck = Foodtruck.objects.get(id=pk)
+        Truck_Rating.objects.create(rater=self.request.user, truck_rated=truck, rating=rating)
+        return HttpResponseRedirect("/")
+
+class TruckRatingDetailUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = Truck_Rating.objects.all()
+    serializer_class = RatingSerializer
+
+class ContactMeView(TemplateView):
+    template_name = 'contact.html'
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context['form'] = ContactForm()
+        return context
+
+class SendMailView(FormView):
+    template_name = 'contact.html'
+    success_url = reverse_lazy("contact_me_view")
+    form_class = ContactForm
+
+    def form_valid(self, form):
+        form.send_email()
+        return super().form_valid(form)
 
 class MapTestView(TemplateView):
     template_name = 'map_test.html'

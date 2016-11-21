@@ -16,10 +16,9 @@
 
     {% if query %}
       <h3>Search Results</h3>
-
       {% for result in page.object_list %}
         <p>
-          <a href="{% url 'profile_detail_view' result.object.driver.id %}">{{ result.object.driver }}</a>
+          <a href="{% url 'foodtruck_detail_view' result.object.id %}">{{ result.object.truck_name }}</a>
         </p>
       {% empty %}
         <p>

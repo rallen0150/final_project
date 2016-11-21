@@ -8,3 +8,4 @@ whitenoise
 googlemaps
 elasticsearch
 django-haystack
+django-widget-tweaks

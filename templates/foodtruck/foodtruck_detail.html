@@ -1,70 +1,131 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'rating.css' %}" media="screen" title="no title">
+{% endblock %}
 
 {% block content %}
+
   <br> <br>
-  <a href="{% url 'favorite_update_view' user.id %}">Favorite</a>
-  <form class="" action="{% url 'favorite_update_view' object.id %}" method="post">
-    {% csrf_token %}
-    {% if not object in request.user.profile.favorite.all %}
-      <button type="submit" class='ui blue submit button' name="favorite" value="Favorite"> <i class="star icon"></i> Favorite</button>
-    {% else %}
-      <button type="submit" class='ui blue submit button' name="favorite" value="Unfavorite"> <i class="empty star icon"></i> Unfavorite</button>
-    {% endif %}
-  </form>
-  {% for food in menu %}
-    <div>
-      {{ food.food }}
-      {% if request.user == food.truck.driver %}
-        <a href="{% url 'food_update_view' food.id %}">Update Food</a>
+  <div class="ui grid">
+    <div class="eight wide column">
+      <form class="" action="{% url 'truck_rating_list_create_api_view' object.id %}" method="post">
+        {% csrf_token %}
+        <div class=" ui star rating star_rating_system">
+         <input type="radio" name="rating" class="rating" value="1" />
+         <input type="radio" name="rating" class="rating" value="2" />
+         <input type="radio" name="rating" class="rating" value="3" />
+         <input type="radio" name="rating" class="rating" value="4" />
+         <input type="radio" name="rating" class="rating" value="5" />
+       </div>
+      </form>
+      <br>
+      {% if request.user.is_authenticated %}
+        <form class="" action="{% url 'favorite_update_view' object.id %}" method="post">
+          {% csrf_token %}
+          {% if not object in request.user.profile.favorite.all %}
+            <button type="submit" class='ui blue submit button' name="favorite" value="Favorite"> <i class="star icon"></i> Favorite</button>
+          {% else %}
+            <button type="submit" class='ui blue submit button' name="favorite" value="Unfavorite"> <i class="empty star icon"></i> Unfavorite</button>
+          {% endif %}
+        </form>
       {% endif %}
-      <blockquote>
-        ${{ food.price }}
-        {% if request.user == food.truck.driver %}
-          <a href="{% url 'price_update_view' food.id %}">Update Price</a>
-        {% endif %}
-      </blockquote>
-    </div>
-  {% endfor %}
-    <img src="{{ MEDIA_URL }}{{ object.image_url }}" alt="Picture of {{ object.image_url }}" />
-
-  <div class="ui threaded comments">
-    <h3 class="ui dividing header">Comments</h3>
-    {% for comment in object.get_comment %}
-    <div class="comments">
-      {{ comment.user }} <i id="time">{{ comment.created|timesince }}</i><style>#time{ padding-left: 1.8em;}</style>
-    </div>
-    <div class="content">
-      <b>{{ comment.comment }}</b>
-    </div>
-    <div class="actions">
-      <a href="{% url 'reply_create_view' comment.id %}">Reply</a>
-    </div>
-    <blockquote>
-      <div class="comments">
-        {% for reply in comment.get_reply %}
-        <div class="comment">
-          <div class="content">
-            {{ reply.user }} <i id="time">{{ reply.created|timesince }}</i><style>#time{ padding-left: 1.8em;}</style>
-          </div>
-          <div class="text">
-            <b>{{ reply }}</b>
-          </div>
-
+      {% for food in menu %}
+        <div>
+          {{ food.food }}
+          {% if request.user == food.truck.driver %}
+            <a href="{% url 'food_update_view' food.id %}">Update Food</a>
+          {% endif %}
+          <blockquote>
+            ${{ food.price }}
+            {% if request.user == food.truck.driver %}
+              <a href="{% url 'price_update_view' food.id %}">Update Price</a>
+            {% endif %}
+          </blockquote>
         </div>
-      </div>
       {% endfor %}
-    </blockquote>
-    <br> <br>
-    {% endfor %}
-    <form class="ui reply form" action="{% url 'comment_create_view' object.id %}" method="post">
-      {% csrf_token %}
-      <div class="field">
-        <textarea name="comment" rows="8" cols="40"></textarea>
-         <button type="submit"><i class="reply icon"></i> Reply! </button>
+        <img src="{{ MEDIA_URL }}{{ object.image_url }}" alt="Picture of {{ object.image_url }}" />
+    </div>
+    <div class="eight wide column">
+      <div class="ui threaded comments">
+        <h3 class="ui dividing header">Comments</h3>
+        {% for comment in object.get_comment %}
+        <div class="comments">
+          {{ comment.user }} <i id="time">{{ comment.created|timesince }}</i><style>#time{ padding-left: 1.8em;}</style>
+        </div>
+        <div class="content">
+          <b>{{ comment.comment }}</b>
+        </div>
+        <div class="actions">
+          <a href="{% url 'reply_create_view' comment.id %}">Reply</a>
+        </div>
+        <blockquote>
+          <div class="comments">
+            {% for reply in comment.get_reply %}
+            <div class="comment">
+              <div class="content">
+                {{ reply.user }} <i id="time">{{ reply.created|timesince }}</i><style>#time{ padding-left: 1.8em;}</style>
+              </div>
+              <div class="text">
+                <b>{{ reply }}</b>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </blockquote>
+        <br> <br>
+        {% endfor %}
+        <form class="ui reply form" action="{% url 'comment_create_view' object.id %}" method="post">
+          {% csrf_token %}
+          <div class="field">
+            <textarea name="comment" rows="8" cols="40"></textarea>
+             <button type="submit"><i class="reply icon"></i> Comment! </button>
+          </div>
+        </form>
       </div>
-    </form>
-
+    </div>
   </div>
+{% endblock %}
 
+{% block js %}
+  <link type="text/javascript" href="{% static 'rating.js' %}"/>
+  <script type="text/javascript">
+    function getCookie(name) {
+       var cookieValue = null;
+       if (document.cookie && document.cookie !== '') {
+           var cookies = document.cookie.split(';');
+           for (var i = 0; i < cookies.length; i++) {
+               var cookie = jQuery.trim(cookies[i]);
+               // Does this cookie string begin with the name we want?
+               if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                   cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                   break;
+               }
+           }
+       }
+       return cookieValue;
+      }
+      var csrftoken = getCookie('csrftoken');
 
+      function csrfSafeMethod(method) {
+       // these HTTP methods do not require CSRF protection
+       return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+      }
+      $.ajaxSetup({
+       beforeSend: function(xhr, settings) {
+           if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+               xhr.setRequestHeader("X-CSRFToken", csrftoken);
+           }
+       }
+      });
+
+      $('document').ready(function(){
+       $('.star_rating_system').rating(function(vote, event){
+
+         console.log(vote, event);
+         $.post("{% url 'truck_rating_list_create_api_view' object.id %}", {voting: vote});
+       });
+      })
+  </script>
 {% endblock %}

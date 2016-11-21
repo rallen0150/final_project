@@ -79,6 +79,7 @@ class Profile(models.Model):
     image = models.FileField(null=True, blank=True)
     favorite = models.ManyToManyField(Foodtruck, blank=True)
     status = models.CharField(max_length=1, choices=STATUS)
+    email = models.EmailField(null=True, blank=True)
 
     @property
     def contents(self):
@@ -91,6 +92,12 @@ class Profile(models.Model):
     @property
     def is_user(self):
         return self.status == 'A'
+
+    @property
+    def image_url(self):
+        if self.image:
+            return self.image.url
+        return "https://dhqbrvplips7x.cloudfront.net/webchat/1.0.23/agent-e202505f.png"
 
     # def __str__(self):
     #     return self.contents

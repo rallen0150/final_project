@@ -11,7 +11,9 @@ from foodtruck.views import IndexView, UserCreateView, CategoryCreateView, \
                             CommentCreateView, CommentUpdateView, FoodtruckListAPIView, \
                             FoodtruckDetailUpdateDestroyAPIView, ReplyCreateView, ProfileDetailView, \
                             ImageUpdateView, FavoriteUpdateView, MapTestView, ProfileListCreateAPIView, \
-                            ProfileDetailUpdateDestroyAPIView
+                            ProfileDetailUpdateDestroyAPIView, TruckRatingListCreateAPIView, \
+                            TruckRatingDetailUpdateDestroyAPIView, EmailUpdateView, ContactMeView, \
+                            SendMailView
 
 from rest_framework.authtoken.views import obtain_auth_token
 
@@ -41,7 +43,12 @@ urlpatterns = [
     url(r'^account/profile/(?P<pk>\d+)/detail/$', ProfileDetailView.as_view(), name='profile_detail_view'),
     url(r'^account/profile/(?P<pk>\d+)/image/$', ImageUpdateView.as_view(), name='image_update_view'),
     url(r'^account/profile/(?P<pk>\d+)/favorite/$', FavoriteUpdateView.as_view(), name='favorite_update_view'),
+    url(r'^account/profile/(?P<pk>\d+)/email/$', EmailUpdateView.as_view(), name='email_update_view'),
     url(r'^api/profile/$', ProfileListCreateAPIView.as_view(), name='profile_list_create_api_view'),
     url(r'^api/profile/(?P<pk>\d+)/$', ProfileDetailUpdateDestroyAPIView.as_view(), name='profile_detail_update_destroy_api_view'),
+    url(r'^api/profile/(?P<pk>\d+)/rating/$', TruckRatingListCreateAPIView.as_view(), name='truck_rating_list_create_api_view'),
+    url(r'^api/profile/(?P<pk>\d+)/rating/$', TruckRatingDetailUpdateDestroyAPIView.as_view(), name='truck_rating_detail_update_destroy_api_view'),
+    url(r'^contact/$', ContactMeView.as_view(), name='contact_me_view'),
+    url(r'^send_mail/$', SendMailView.as_view(), name='send_mail'),
     url(r'^map/test/$', MapTestView.as_view()),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
