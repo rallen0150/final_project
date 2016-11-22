@@ -4,6 +4,7 @@ from foodtruck.models import Category, Comment, Profile, Foodtruck, Menu, Truck_
 
 class FoodtruckSerializer(serializers.ModelSerializer):
     # get_food = serializers.ReadOnlyField()
+    show_avg_rating = serializers.FloatField()
     class Meta:
         model = Foodtruck
         fields = '__all__'
@@ -18,4 +19,4 @@ class RatingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Truck_Rating
-        fields = '__all__'
+        fields = ('truck_rated', 'rating')

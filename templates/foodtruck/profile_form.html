@@ -2,7 +2,7 @@
 
 {% block content %}
 <br><br>
-  <form class="" action="" method="post">
+  <form class="" action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" class="ui blue submit button" name="" value="Submit">

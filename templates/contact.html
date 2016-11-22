@@ -1,18 +1,32 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
 
+{% block css %}
+  <style media="screen">
+    .questions {
+      text-align: center;
+    }
+  </style>
+{% endblock %}
+
 {% block content %}
 <br><br>
-  <form class="" action="{% url 'send_mail' %}" method="post">
-    {% csrf_token %}
-    <p>
-      {{ form.sender|attr:"placeholder:Who are you?"|attr:"type:email" }}
-    </p>
-    <p>
-      {{ form.message|add_class:"materialize-textarea"|attr:"placeholder:What would you like to say?" }}
-    </p>
-    <button type="submit" class="ui blue submit button">
-     Contact Me!
-   </button>
-  </form>
+<div class="ui two column centered grid">
+  <div class="column">
+    <h2 class="questions">If you have any Questions or Comments please contact me!</h2>
+      <form class="" action="{% url 'send_mail' %}" method="post">
+        {% csrf_token %}
+        <p>
+          {{ form.sender|attr:"placeholder:Who are you?"|attr:"type:email" }}
+        </p>
+        <p>
+          {{ form.message|add_class:"materialize-textarea"|attr:"placeholder:What would you like to say?" }}
+        </p>
+        <button type="submit" class="ui blue submit button">
+         Contact Me!
+       </button>
+      </form>
+  </div>
+</div>
+
 {% endblock %}

@@ -53,6 +53,9 @@ class Foodtruck(models.Model):
     def avg_rating(self):
         return round(Truck_Rating.objects.filter(truck_rated=self).aggregate(Avg('rating')).get('rating__avg'))
 
+    @property
+    def show_avg_rating(self):
+        return Truck_Rating.objects.filter(truck_rated=self).aggregate(Avg('rating')).get('rating__avg')
 
     @property
     def get_comment(self):

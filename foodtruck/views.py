@@ -198,11 +198,9 @@ class TruckRatingListCreateAPIView(ListCreateAPIView):
     queryset = Truck_Rating.objects.all()
     serializer_class = RatingSerializer
 
-    def post(self, request, pk):
-        rating = self.request.POST.get('voting')
-        truck = Foodtruck.objects.get(id=pk)
-        Truck_Rating.objects.create(rater=self.request.user, truck_rated=truck, rating=rating)
-        return HttpResponseRedirect("/")
+    def perform_create(self, serializer):
+        Truck_Rating.objects.filter(rater=self.request.user, truck_rated=serializer.validated_data["truck_rated"]).delete()
+        serializer.save(rater=self.request.user)
 
 class TruckRatingDetailUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Truck_Rating.objects.all()

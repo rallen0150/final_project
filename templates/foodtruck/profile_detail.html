@@ -3,11 +3,16 @@
 {% block content %}
   {% if object.user == request.user %}
     <h1>Welcome {{ request.user }}</h1>
+  {% else %}
+    <h1>{{ object.user }}</h1>
+  {% endif %}
 
-    <img id="profile_pic" src="{{ MEDIA_URL }}{{ object.image_url }}" alt="Picture of {{ object.image_url }}" />
+    <img class="ui medium rounded image" id="profile_pic" src="{{ MEDIA_URL }}{{ object.image_url }}" alt="Picture of {{ object.image_url }}" /><br>
 
-    <a href="{% url 'image_update_view' user.id %}"> <i class="image icon"></i> Update Image</a>
-    <a href="{% url 'email_update_view' user.id %}">Update Email</a>
+    {% if object.user == request.user %}
+      <a href="{% url 'image_update_view' user.id %}"> <i class="image icon"></i> Update Image</a> <br>
+      <a href="{% url 'email_update_view' user.id %}"> <i class="mail outline icon"></i> Update Email</a>
+    {% endif %}
 
     <h3>Favorites</h3>
     {% for commenter in object.contents %}
@@ -15,5 +20,4 @@
       <a href="{% url 'foodtruck_detail_view' commenter.id %}">{{ commenter }}</a>
     </div>
     {% endfor %}
-  {% endif %}
 {% endblock %}

@@ -42,7 +42,7 @@
 
     <div class="body">
       <div class="ui sidebar vertical left inverted menu">
-        <ul id='options'>{{ request.user }}</ul>
+        <ul id="options"><a href="{% url 'profile_detail_view' user.id %}"><img class="ui tiny avatar image" src="{{ MEDIA_URL }}{{ request.user.profile.image_url }}"></a> {{ request.user }}</ul>
         <ul id="options" >{{ request.user.profile.email }}</ul>
         <hr id="options">
         {% if not request.user.is_authenticated %}
@@ -71,9 +71,7 @@
             <i class="content icon"></i>
             Menu
           </a>
-          <div class="right menu">
-            <h4>Signed In As: {{ request.user }}</h4>
-          </div>
+
         </div>
 
       </div>
