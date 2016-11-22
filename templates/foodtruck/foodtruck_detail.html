@@ -49,46 +49,50 @@
         <img src="{{ MEDIA_URL }}{{ object.image_url }}" alt="Picture of {{ object.image_url }}" />
     </div>
     <div class="eight wide column">
-      <div class="ui threaded comments">
-        <h3 class="ui dividing header">Comments</h3>
-        {% for comment in object.get_comment %}
-        <div class="comments">
-          {{ comment.user }} <i id="time">{{ comment.created|timesince }}</i><style>#time{ padding-left: 1.8em;}</style>
-        </div>
-        <div class="content">
-          <b>{{ comment.comment }}</b> &nbsp;&nbsp;&nbsp;
-          {% if request.user == comment.user %}
-            <a href="{% url 'comment_update_view' comment.id %}"> <i class="edit icon"></i> Update Comment</a>
-          {% endif %}
-        </div>
-        <div class="actions">
-          <a href="{% url 'reply_create_view' comment.id %}"> <i class="reply icon"></i> Reply</a>
-        </div>
-        <blockquote>
-          <div class="comments">
-            {% for reply in comment.get_reply %}
-            <div class="comment">
-              <div class="content">
-                {{ reply.user }} <i id="time">{{ reply.created|timesince }}</i><style>#time{ padding-left: 1.8em;}</style>
+        <div class="ui minimal comments">
+          <h3 class="ui dividing header">Comments</h3>
+          {% for comment in object.get_comment %}
+          <div class="comment">
+            <a class="avatar">
+              <img src="{{ MEDIA_URL}}{{ comment.user.profile.image_url }}">
+            </a>&nbsp;&nbsp; {{ comment.user }} <i id="time">{{ comment.created|timesince }}</i><style>#time{ padding-left: 1.8em;}</style>
+          </div>
+          <div class="content">
+            <b>&nbsp; &nbsp;{{ comment.comment }}</b>
+            {% if request.user == comment.user %}
+              <a href="{% url 'comment_update_view' comment.id %}"> <i class="edit icon"></i> Update Comment</a>
+            {% endif %}
+          </div>
+          <div class="actions">
+            &nbsp; &nbsp;<a href="{% url 'reply_create_view' comment.id %}"> <i class="reply icon"></i> Reply</a>
+          </div>
+          <blockquote>
+            <div class="comments">
+              {% for reply in comment.get_reply %}
+              <div class="comment">
+                <div class="contents">
+                  <a class="avatar">
+                    <img src="{{ MEDIA_URL}}{{ reply.user.profile.image_url }}">
+                  </a>&nbsp; &nbsp; {{ reply.user }} <i id="time">{{ reply.created|timesince }}</i><style>#time{ padding-left: 1.8em;}</style>
+                </div>
+                <div class="text">
+                  <b>&nbsp; &nbsp;{{ reply }}</b>
+                </div>
               </div>
-              <div class="text">
-                <b>{{ reply }}</b>
-              </div>
+              {% endfor %}
             </div>
-            {% endfor %}
-          </div>
-        </blockquote>
-        <br> <br>
-        {% endfor %}
-        <form class="ui reply form" action="{% url 'comment_create_view' object.id %}" method="post">
-          {% csrf_token %}
-          <div class="field">
-            <textarea name="comment" rows="5" cols="30"></textarea>
-             <button type="submit"><i class="comment icon"></i> Comment!</button>
-          </div>
-        </form>
+          </blockquote>
+          <br>
+          {% endfor %}
+          <form class="ui reply form" action="{% url 'comment_create_view' object.id %}" method="post">
+            {% csrf_token %}
+            <div class="field">
+              <textarea name="comment" rows="5" cols="30"></textarea>
+               <button type="submit"><i class="comment icon"></i> Comment!</button>
+            </div>
+          </form>
+        </div>
       </div>
-    </div>
   </div>
 {% endblock %}
 
