@@ -44,6 +44,7 @@
       <div class="ui sidebar vertical left inverted menu">
         <ul id='options'>{{ request.user }}</ul>
         <ul id="options" >{{ request.user.profile.email }}</ul>
+        <hr id="options">
         {% if not request.user.is_authenticated %}
           <ul><a id="options" href="{% url 'login' %}"> <i class="user icon"></i> Login</a></ul>
           <ul><a id="options" href="{% url 'user_create_view' %}"> <i class="add user icon"></i> Create New User</a></ul>
@@ -85,15 +86,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/sidebar.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/components/rating.min.js"></script>
 
-    <link type="text/javascript" rel="stylesheet" href="{% static 'semantic.js' %}"  media="screen"/>
+    <script type="text/javascript" src="{% static 'semantic.js' %}"></script>
     <script type="text/javascript">
         $(function() {
-          $('.ui.accordion').accordion();
+          $('.ui.accordion').accordion({
+            active: false,
+            collapsible: true
+          });
+
           $('#toggle').click(function() {
             $('.ui.sidebar').sidebar('toggle');
-          });
-          $('.star_rating_system').rating({
-            maxRating: 5
           });
         });
       </script>

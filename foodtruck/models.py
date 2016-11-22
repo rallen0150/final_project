@@ -3,6 +3,7 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 import googlemaps
 from django.contrib.auth.models import User
+from django.db.models import Avg
 
 from rest_framework.authtoken.models import Token
 from django.conf import settings
@@ -43,11 +44,15 @@ class Foodtruck(models.Model):
     longitude = models.FloatField()
     checked_in = models.BooleanField(default=False)
     # truck_comment = models.ForeignKey('foodtruck.Comment', null=True, blank=True)
-    rating = models.FloatField(null=True, blank=True)
     # address = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return self.truck_name
+
+    @property
+    def avg_rating(self):
+        return round(Truck_Rating.objects.filter(truck_rated=self).aggregate(Avg('rating')).get('rating__avg'))
+
 
     @property
     def get_comment(self):

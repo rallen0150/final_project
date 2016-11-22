@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block css %}
-  <link rel="stylesheet" href="{% static 'rating.css' %}" media="screen" title="no title">
+  <link type="text/css" rel="stylesheet" href="{% static 'rating.css' %}"  media="screen"/>
 {% endblock %}
 
 {% block content %}
@@ -10,15 +10,16 @@
   <br> <br>
   <div class="ui grid">
     <div class="eight wide column">
+      {{ object.avg_rating }}
       <form class="" action="{% url 'truck_rating_list_create_api_view' object.id %}" method="post">
         {% csrf_token %}
-        <div class=" ui star rating star_rating_system">
-         <input type="radio" name="rating" class="rating" value="1" />
-         <input type="radio" name="rating" class="rating" value="2" />
-         <input type="radio" name="rating" class="rating" value="3" />
-         <input type="radio" name="rating" class="rating" value="4" />
-         <input type="radio" name="rating" class="rating" value="5" />
-       </div>
+        <div class="star_rating">
+          <input type="radio" name="rating" class="rating" value="1" {% if object.avg_rating == 1 %}checked='checked'{% endif %} style="display:none;">
+          <input type="radio" name="rating" class="rating" value="2" {% if object.avg_rating == 2 %}checked='checked'{% endif %} style="display:none;">
+          <input type="radio" name="rating" class="rating" value="3" {% if object.avg_rating == 3 %}checked='checked'{% endif %} style="display:none;">
+          <input type="radio" name="rating" class="rating" value="4" {% if object.avg_rating == 4 %}checked='checked'{% endif %} style="display:none;">
+          <input type="radio" name="rating" class="rating" value="5" {% if object.avg_rating == 5 %}checked='checked'{% endif %} style="display:none;">
+        </div>
       </form>
       <br>
       {% if request.user.is_authenticated %}
@@ -55,10 +56,13 @@
           {{ comment.user }} <i id="time">{{ comment.created|timesince }}</i><style>#time{ padding-left: 1.8em;}</style>
         </div>
         <div class="content">
-          <b>{{ comment.comment }}</b>
+          <b>{{ comment.comment }}</b> &nbsp;&nbsp;&nbsp;
+          {% if request.user == comment.user %}
+            <a href="{% url 'comment_update_view' comment.id %}"> <i class="edit icon"></i> Update Comment</a>
+          {% endif %}
         </div>
         <div class="actions">
-          <a href="{% url 'reply_create_view' comment.id %}">Reply</a>
+          <a href="{% url 'reply_create_view' comment.id %}"> <i class="reply icon"></i> Reply</a>
         </div>
         <blockquote>
           <div class="comments">
@@ -79,8 +83,8 @@
         <form class="ui reply form" action="{% url 'comment_create_view' object.id %}" method="post">
           {% csrf_token %}
           <div class="field">
-            <textarea name="comment" rows="8" cols="40"></textarea>
-             <button type="submit"><i class="reply icon"></i> Comment! </button>
+            <textarea name="comment" rows="5" cols="30"></textarea>
+             <button type="submit"><i class="comment icon"></i> Comment!</button>
           </div>
         </form>
       </div>
@@ -89,7 +93,7 @@
 {% endblock %}
 
 {% block js %}
-  <link type="text/javascript" href="{% static 'rating.js' %}"/>
+  <script type="text/javascript" src="{% static 'rating.js' %}"></script>
   <script type="text/javascript">
     function getCookie(name) {
        var cookieValue = null;
@@ -121,11 +125,10 @@
       });
 
       $('document').ready(function(){
-       $('.star_rating_system').rating(function(vote, event){
-
+       $('.star_rating').rating(function(vote, event){
          console.log(vote, event);
          $.post("{% url 'truck_rating_list_create_api_view' object.id %}", {voting: vote});
        });
-      })
+     })
   </script>
 {% endblock %}
