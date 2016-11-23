@@ -6,7 +6,6 @@
 
   <h1>Find your Food Truck</h1>
 
-
   <div class="ui grid" >
       <div class="eight wide column">
         <div class="ui accordion">
@@ -17,11 +16,11 @@
             <form class="" action="" method="post">
               {% csrf_token %}
               <div class="star_rating_system">
-                <i class="empty star icon" name="rating" value="1" {% if truck.avg_rating == 1 %}checked='checked'{% endif %}></i>
-                <i class="empty star icon" name="rating" value="2" {% if truck.avg_rating == 2 %}checked='checked'{% endif %}></i>
-                <i class="empty star icon" name="rating" value="3" {% if truck.avg_rating == 3 %}checked='checked'{% endif %}></i>
-                <i class="empty star icon" name="rating" value="4" {% if truck.avg_rating == 4 %}checked='checked'{% endif %}></i>
-                <i class="empty star icon" name="rating" value="5" {% if truck.avg_rating == 5 %}checked='checked'{% endif %}></i>
+                <i class="empty star icon" value="1"></i>
+                <i class="empty star icon" value="2"></i>
+                <i class="empty star icon" value="3"></i>
+                <i class="empty star icon" value="4"></i>
+                <i class="empty star icon" value="5"></i>
               </div>
             </form>
 

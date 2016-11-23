@@ -28,6 +28,7 @@
           height: 60px;
           width: 60px;
         }
+
         #options {
           color: white;
         }
@@ -42,13 +43,13 @@
 
     <div class="body">
       <div class="ui sidebar vertical left inverted menu">
-        <ul id="options"><a href="{% url 'profile_detail_view' user.id %}"><img class="ui tiny avatar image" src="{{ MEDIA_URL }}{{ request.user.profile.image_url }}"></a> {{ request.user }}</ul>
-        <ul id="options" >{{ request.user.profile.email }}</ul>
-        <hr id="options">
         {% if not request.user.is_authenticated %}
           <ul><a id="options" href="{% url 'login' %}"> <i class="user icon"></i> Login</a></ul>
           <ul><a id="options" href="{% url 'user_create_view' %}"> <i class="add user icon"></i> Create New User</a></ul>
         {% else %}
+          <ul id="options"><a href="{% url 'profile_detail_view' user.id %}"><img class="ui tiny avatar image" src="{{ MEDIA_URL }}{{ request.user.profile.image_url }}"></a> {{ request.user }}</ul>
+          <ul id="options" >{{ request.user.profile.email }}</ul>
+          <hr id="options">
           <ul><a id="options" href="{% url 'index_view' %}"> <i class="home icon"></i> Home</a></ul>
           <ul><a id='options' href="{% url 'contact_me_view' %}"> <i class="mail square icon"></i> Contact Me</a></ul>
           {% if not request.user.profile.is_driver %}

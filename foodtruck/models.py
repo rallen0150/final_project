@@ -77,7 +77,7 @@ class Foodtruck(models.Model):
         return "https://upload.wikimedia.org/wikipedia/commons/5/55/Question_Mark.svg"
 
 STATUS = [
-    ('T', 'Truck useruser'),
+    ('T', 'Truck Driver'),
     ('A', 'User Account')
 ]
 
@@ -94,7 +94,7 @@ class Profile(models.Model):
         return self.favorite.all()
 
     @property
-    def is_useruser(self):
+    def is_driver(self):
         return self.status == 'T'
 
     @property
