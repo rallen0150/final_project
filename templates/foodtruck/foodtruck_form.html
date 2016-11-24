@@ -2,7 +2,6 @@
 
 {% block content %}
   {% if request.user.profile.is_driver %}
-  {% if request.user == object.driver %}
     <br><br><br>
     <form class="" action="" method="post" enctype="multipart/form-data">
       {% csrf_token %}
@@ -35,9 +34,7 @@
       }
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJ2GhgOOCaoypV0JCC4NnxS-M0enWpN64&callback=initMap"></script>
-    {% else %}
-      <h1>Can't Change Another Driver's Truck!</h1>
-    {% endif %}
+    
   {% else %}
     <h1>Not Supposed To Be Here!!!</h1>
   {% endif %}
