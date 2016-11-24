@@ -21,43 +21,7 @@
           <div class="title">
             <i class="dropdown icon"></i>
             <b>{{ truck }}</b>
-            {% if truck.avg_rating == 1 %}
-            <div class="ui star rating star_rating_system">
-              <i class="star icon"></i>
-              <i class="empty star icon"></i>
-              <i class="empty star icon"></i>
-              <i class="empty star icon"></i>
-              <i class="empty star icon"></i>
-            {% endif %}
-            {% if truck.avg_rating == 2 %}
-                <i class="star icon"></i>
-                <i class="star icon"></i>
-                <i class="empty star icon"></i>
-                <i class="empty star icon"></i>
-                <i class="empty star icon"></i>
-            {% endif %}
-            {% if truck.avg_rating == 3 %}
-                <i class="star icon"></i>
-                <i class="star icon"></i>
-                <i class="star icon"></i>
-                <i class="empty star icon"></i>
-                <i class="empty star icon"></i>
-            {% endif %}
-            {% if truck.avg_rating == 4 %}
-                <i class="star icon"></i>
-                <i class="star icon"></i>
-                <i class="star icon"></i>
-                <i class="star icon"></i>
-                <i class="empty star icon"></i>
-            {% endif %}
-            {% if truck.avg_rating == 5 %}
-                <i class="star icon"></i>
-                <i class="star icon"></i>
-                <i class="star icon"></i>
-                <i class="star icon"></i>
-                <i class="star icon"></i>
-              </div>
-            {% endif %}
+            <i class="star icon"></i> Avg. Rating: {{ truck.show_avg_rating|floatformat:2 }}
           </div>
           <div id="list">
             <p>
