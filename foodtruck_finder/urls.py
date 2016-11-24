@@ -22,7 +22,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', IndexView.as_view(), name='index_view'),
     url(r'^', include('django.contrib.auth.urls'), name='login'),
-    url(r'^search/', include('haystack.urls'), name='search_url'),
+    url(r'^search/', include('haystack.urls'), name='search'),
     url(r'^obtain-token/$', obtain_auth_token),
     url(r'^new_user/$', UserCreateView.as_view(), name='user_create_view'),
     url(r'^new_category/$', CategoryCreateView.as_view(), name='category_create_view'),

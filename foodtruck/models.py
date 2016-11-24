@@ -40,11 +40,11 @@ class Foodtruck(models.Model):
     picture = models.FileField(null=True, blank=True)
     category = models.ForeignKey(Category)
     # menu = models.ManyToManyField(Menu)
-    latitude = models.FloatField()
-    longitude = models.FloatField()
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
     checked_in = models.BooleanField(default=False)
     # truck_comment = models.ForeignKey('foodtruck.Comment', null=True, blank=True)
-    # address = models.CharField(max_length=255, blank=True, null=True)
+    address = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return self.truck_name
@@ -65,6 +65,11 @@ class Foodtruck(models.Model):
     def find_address(self):
         reverse_geocode_result = gmaps.reverse_geocode((self.latitude, self.longitude))
         return reverse_geocode_result[0]['formatted_address']
+
+    @property
+    def find_lat_lng(self):
+        geocode_result = gmaps.geocode(self.address)
+        return(geocode_result[0]['geometry']['location'])
 
     @property
     def get_user(self):

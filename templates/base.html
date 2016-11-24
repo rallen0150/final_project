@@ -52,6 +52,7 @@
           <hr id="options">
           <ul><a id="options" href="{% url 'index_view' %}"> <i class="home icon"></i> Home</a></ul>
           <ul><a id='options' href="{% url 'contact_me_view' %}"> <i class="mail square icon"></i> Contact Me</a></ul>
+          <ul><a id="options" href="/search/"> <i class="search icon"></i> Truck/Driver Search</a></ul>
           {% if not request.user.profile.is_driver %}
             {% if not request.user.profile.is_user %}
               <ul><a id="options" href="{% url 'profile_update_view' user.id %}"> <i class="add user icon"></i> New Profile</a></ul>

@@ -1,6 +1,14 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
+{% block css %}
+  <style media="screen">
+    .star.icon {
+      color: #DAA520;
+    }
+  </style>
+{% endblock %}
+
 {% block content %}
 <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 
@@ -13,28 +21,54 @@
           <div class="title">
             <i class="dropdown icon"></i>
             <b>{{ truck }}</b>
-            <form class="" action="" method="post">
-              {% csrf_token %}
-              <div class="star_rating_system">
-                <i class="empty star icon" value="1"></i>
-                <i class="empty star icon" value="2"></i>
-                <i class="empty star icon" value="3"></i>
-                <i class="empty star icon" value="4"></i>
-                <i class="empty star icon" value="5"></i>
+            {% if truck.avg_rating == 1 %}
+            <div class="ui star rating star_rating_system">
+              <i class="star icon"></i>
+              <i class="empty star icon"></i>
+              <i class="empty star icon"></i>
+              <i class="empty star icon"></i>
+              <i class="empty star icon"></i>
+            {% endif %}
+            {% if truck.avg_rating == 2 %}
+                <i class="star icon"></i>
+                <i class="star icon"></i>
+                <i class="empty star icon"></i>
+                <i class="empty star icon"></i>
+                <i class="empty star icon"></i>
+            {% endif %}
+            {% if truck.avg_rating == 3 %}
+                <i class="star icon"></i>
+                <i class="star icon"></i>
+                <i class="star icon"></i>
+                <i class="empty star icon"></i>
+                <i class="empty star icon"></i>
+            {% endif %}
+            {% if truck.avg_rating == 4 %}
+                <i class="star icon"></i>
+                <i class="star icon"></i>
+                <i class="star icon"></i>
+                <i class="star icon"></i>
+                <i class="empty star icon"></i>
+            {% endif %}
+            {% if truck.avg_rating == 5 %}
+                <i class="star icon"></i>
+                <i class="star icon"></i>
+                <i class="star icon"></i>
+                <i class="star icon"></i>
+                <i class="star icon"></i>
               </div>
-            </form>
-
+            {% endif %}
           </div>
           <div id="list">
             <p>
               <a href="{% url 'foodtruck_detail_view' truck.id %}">{{ truck }}</a><br>
               <b>Address: {{ truck.find_address }}<br></b>
-              Type: {{ truck.category.food_type }}<br>
-              Latitude: {{ truck.latitude }}<br>
-              Longitude: {{ truck.longitude }}
+              {{ truck.find_lat_lng }}
               {% if request.user == truck.driver %}
                 <a href="{% url 'location_update_view' truck.id %}"> Move Location</a>
               {% endif %} <br>
+              Type: {{ truck.category.food_type }}<br>
+
               {% if request.user == truck.driver %}
                 {% if not truck.checked_in %}
                   <a href="{% url 'checkin_update_view' truck.id %}">Check In</a>
@@ -46,38 +80,12 @@
           </div>
           {% endfor %}
         </div>
-
-
-
-
-        <!-- {% comment %}
-        {% for truck in truck_list %}
-        <div class="ui fluid accordion">
-          <div class="title">
-            <i class="dropdown icon"></i>
-            <a href="{% url 'foodtruck_detail_view' truck.id %}">{{ truck }}</a>
-          </div>
-            <p>
-              Type: {{ truck.category.food_type }}
-            <p>
-              Latitude: {{ truck.latitude }}<br>
-              Longitude: {{ truck.longitude }}
-              {% if request.user == truck.driver %}
-                <a href="{% url 'location_update_view' truck.id %}">Move Location</a>
-              {% endif %}
-            </p>
-            {% if request.user == truck.driver %}
-              <a href="{% url 'checkin_update_view' truck.id %}">Checkin</a>
-            {% endif %}
-            </p>
-        </div>
-      {% endfor %}
-      {% endcomment %} -->
     </div>
     <div class="eight wide column">
-      Find Lat/Lng Through Address <br>
+      Find Which Trucks Are Around You! <br>
       Address: <input type="text" name="" id="address">
       <input type="button" value="Find Lat/Lng" onclick="CodeAddress()">
+
       <script type="text/javascript">
         function CodeAddress() {
           var geocoder = new google.maps.Geocoder();
@@ -199,32 +207,8 @@
           });
         }
       </script>
-      <br>
-      Find Your Address Based off Lat/Long <br>
-      Latitude:
-        <input type="text" id="Latitude" />
-        Latitude:
-        <input type="text" id="Longitude"/>
-        <input type="button" value="Find Address" onclick="GetAddress()" />
-        <!-- {% comment %}
-        <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-        {% endcomment %} -->
-        <script type="text/javascript">
-        // This is my reverse geocode function
-            function GetAddress() {
-                var latitude = parseFloat(document.getElementById("Latitude").value);
-                var longitude = parseFloat(document.getElementById("Longitude").value);
-                var latlng = new google.maps.LatLng(latitude, longitude);
-                var geocoder = new google.maps.Geocoder();
-                geocoder.geocode({ 'latLng': latlng }, function (results, status) {
-                    if (status == google.maps.GeocoderStatus.OK) {
-                        if (results[0]) {
-                            alert("Location: " + results[0].formatted_address);
-                        }
-                    }
-                });
-            }
-      </script> <br> <br>
+      <br><br>
+
 
       <div id="map"></div>
 
@@ -234,7 +218,16 @@
             var map = new google.maps.Map(document.getElementById('map'), {
               zoom: 15,
               center: {lat: 34.8574, lng: -82.390189},
-            });
+             });
+
+             var geocoder = new google.maps.Geocoder();
+             // var map = new google.maps.Map(document.getElementById('map'), {
+             //   zoom: 13,
+             //   center: {lat: 34.8574, lng: -82.390189},
+             // });
+             var address = document.getElementById('address').value;
+
+
 
 
                 var latlng = $.getJSON("/api/foodtrucks/", function(result) {
@@ -262,13 +255,16 @@
                   for (var i = 0; i < result.length; i++) {
                     // console.log(i);
                     var obj = result[i];
+                    console.log(obj.address);
+                    var x = obj.find_lat_lng;
+                    console.log(x);
                     if (obj.category == 1) {
                       if (obj.checked_in == true) {
                         var marker = new google.maps.Marker({
-                          position: new google.maps.LatLng(obj.latitude, obj.longitude),
+                          position: x,
                           icon: icon['Mexican'],
                           map: map,
-                          content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Latitude: " + obj.latitude + "<br/>Longitude: " + obj.longitude + '</div>'
+                          content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Address: " + obj.address + '</div>'
                         });
 
                         // Starting the infowindow popup
@@ -288,10 +284,10 @@
                     if (obj.category == 2) {
                       if (obj.checked_in == true) {
                         var marker = new google.maps.Marker({
-                          position: new google.maps.LatLng(obj.latitude, obj.longitude),
+                          position: x,
                           icon: icon['Greek'],
                           map: map,
-                          content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Latitude: " + obj.latitude + "<br/>Longitude: " + obj.longitude + '</div>'
+                          content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Address: " + obj.address + '</div>'
                         });
 
                         // Starting the infowindow popup
@@ -311,10 +307,10 @@
                     if (obj.category == 3) {
                       if (obj.checked_in == true) {
                         var marker = new google.maps.Marker({
-                          position: new google.maps.LatLng(obj.latitude, obj.longitude),
+                          position: x,
                           icon: icon['IceCream'],
                           map: map,
-                          content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Latitude: " + obj.latitude + "<br/>Longitude: " + obj.longitude + '</div>'
+                          content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Address: " + obj.address + '</div>'
                         });
 
                         // Starting the infowindow popup
@@ -360,3 +356,31 @@ $(function() {
 </script>
 
 {% endblock %}
+
+<!-- NOT IN THE PROGRAM, BUT JUST IN CASE I NEED IT -->
+
+Find Your Address Based off Lat/Long <br>
+Latitude:
+  <input type="text" id="Latitude" />
+  Latitude:
+  <input type="text" id="Longitude"/>
+  <input type="button" value="Find Address" onclick="GetAddress()" />
+  <!-- {% comment %}
+  <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+  {% endcomment %} -->
+  <script type="text/javascript">
+  // This is my reverse geocode function
+      function GetAddress() {
+          var latitude = parseFloat(document.getElementById("Latitude").value);
+          var longitude = parseFloat(document.getElementById("Longitude").value);
+          var latlng = new google.maps.LatLng(latitude, longitude);
+          var geocoder = new google.maps.Geocoder();
+          geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+              if (status == google.maps.GeocoderStatus.OK) {
+                  if (results[0]) {
+                      alert("Location: " + results[0].formatted_address);
+                  }
+              }
+          });
+      }
+</script> <br>

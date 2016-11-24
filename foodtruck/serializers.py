@@ -5,6 +5,7 @@ from foodtruck.models import Category, Comment, Profile, Foodtruck, Menu, Truck_
 class FoodtruckSerializer(serializers.ModelSerializer):
     # get_food = serializers.ReadOnlyField()
     show_avg_rating = serializers.FloatField()
+    find_lat_lng = serializers.ReadOnlyField()
     class Meta:
         model = Foodtruck
         fields = '__all__'

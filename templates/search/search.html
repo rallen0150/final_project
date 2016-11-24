@@ -1,5 +1,16 @@
 {% extends 'base.html' %}
 
+{% block css %}
+  <style media="screen">
+    #opt {
+      border: 1px solid #dddddd;
+      text-align: center;
+      padding: 8px;
+      width: 30%
+    }
+  </style>
+{% endblock %}
+
 {% block content %}
   <h2>Food Truck Search</h2>
 
@@ -17,9 +28,20 @@
     {% if query %}
       <h3>Search Results</h3>
       {% for result in page.object_list %}
-        <p>
-          <a href="{% url 'foodtruck_detail_view' result.object.id %}">{{ result.object.truck_name }}</a>
-        </p>
+        <table border="1">
+          <tr id="opt">
+            <th id="opt">Truck Name </th>
+            <th id="opt">Driver </th>
+            <th id="opt">Truck Category </th>
+            <th id="opt">Checked In? </th>
+          </tr>
+          <tr id="opt">
+            <td id="opt"><a href="{% url 'foodtruck_detail_view' result.object.id %}">{{ result.object.truck_name }}</a></td>
+            <td id="opt">{{ result.object.driver }}</td>
+            <td id="opt">{{ result.object.category }}</td>
+            <td id="opt">{{ result.object.checked_in }}</td>
+          </tr>
+        </table>
       {% empty %}
         <p>
           <b>No results found</b>

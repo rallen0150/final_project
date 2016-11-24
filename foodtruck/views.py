@@ -35,7 +35,7 @@ class CategoryCreateView(CreateView):
 
 class FoodtruckCreateView(CreateView):
     model = Foodtruck
-    fields = ('truck_name', 'picture', 'category', 'latitude', 'longitude', 'checked_in')
+    fields = ('truck_name', 'picture', 'category', 'address', 'checked_in')
     success_url = reverse_lazy('menu_create_view')
 
     def form_valid(self, form):
@@ -88,7 +88,7 @@ class PriceUpdateView(UpdateView):
 
 class LocationUpdateView(UpdateView):
     model = Foodtruck
-    fields = ('latitude', 'longitude')
+    fields = ('address', )
     success_url = reverse_lazy('index_view')
 
 class CheckinUpdateView(UpdateView):
