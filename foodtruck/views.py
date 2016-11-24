@@ -86,6 +86,14 @@ class PriceUpdateView(UpdateView):
     fields = ('price', )
     success_url = reverse_lazy('index_view')
 
+class MenuDetailView(DetailView):
+    model = Menu
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['object'] = Foodtruck.objects.all()
+        return context
+
 class LocationUpdateView(UpdateView):
     model = Foodtruck
     fields = ('address', )

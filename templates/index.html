@@ -62,8 +62,7 @@
           <div id="list">
             <p>
               <a href="{% url 'foodtruck_detail_view' truck.id %}">{{ truck }}</a><br>
-              <b>Address: {{ truck.find_address }}<br></b>
-              {{ truck.find_lat_lng }}
+              <b>Address: {{ truck.address }}</b>
               {% if request.user == truck.driver %}
                 <a href="{% url 'location_update_view' truck.id %}"> Move Location</a>
               {% endif %} <br>
@@ -125,10 +124,12 @@
                   for (var i = 0; i < result.length; i++) {
                     // console.log(i);
                     var obj = result[i];
+                    var x = obj.find_lat_lng;
+                    console.log(x);
                     if (obj.category == 1) {
                       if (obj.checked_in == true) {
                         var marker = new google.maps.Marker({
-                          position: new google.maps.LatLng(obj.latitude, obj.longitude),
+                          position: x,
                           icon: icon['Mexican'],
                           map: map,
                           content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Latitude: " + obj.latitude + "<br/>Longitude: " + obj.longitude + '</div>'
@@ -151,7 +152,7 @@
                     if (obj.category == 2) {
                       if (obj.checked_in == true) {
                         var marker = new google.maps.Marker({
-                          position: new google.maps.LatLng(obj.latitude, obj.longitude),
+                          position: x,
                           icon: icon['Greek'],
                           map: map,
                           content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Latitude: " + obj.latitude + "<br/>Longitude: " + obj.longitude + '</div>'
@@ -174,7 +175,7 @@
                     if (obj.category == 3) {
                       if (obj.checked_in == true) {
                         var marker = new google.maps.Marker({
-                          position: new google.maps.LatLng(obj.latitude, obj.longitude),
+                          position: x,
                           icon: icon['IceCream'],
                           map: map,
                           content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Latitude: " + obj.latitude + "<br/>Longitude: " + obj.longitude + '</div>'

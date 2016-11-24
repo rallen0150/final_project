@@ -13,7 +13,7 @@ from foodtruck.views import IndexView, UserCreateView, CategoryCreateView, \
                             ImageUpdateView, FavoriteUpdateView, MapTestView, ProfileListCreateAPIView, \
                             ProfileDetailUpdateDestroyAPIView, TruckRatingListCreateAPIView, \
                             TruckRatingDetailUpdateDestroyAPIView, EmailUpdateView, ContactMeView, \
-                            SendMailView
+                            SendMailView, MenuDetailView
 
 from rest_framework.authtoken.views import obtain_auth_token
 
@@ -37,6 +37,7 @@ urlpatterns = [
     url(r'^account/profile/(?P<pk>\d+)/$', ProfileUpdateView.as_view(), name='profile_update_view'),
     url(r'^foodtruck/(?P<pk>\d+)/comment/$', CommentCreateView.as_view(), name='comment_create_view'),
     url(r'^(?P<pk>\d+)/update/comment/$', CommentUpdateView.as_view(), name='comment_update_view'),
+    url(r'^menu/(?P<pk>\d+)/$', MenuDetailView.as_view(), name='menu_detail_view'),
     url(r'^api/foodtrucks/$', FoodtruckListAPIView.as_view(), name='foodtruck_list_api_view'),
     url(r'^api/foodtrucks/(?P<pk>\d+)/$', FoodtruckDetailUpdateDestroyAPIView.as_view(), name='foodtruck_detail_update_api_view'),
     url(r'^comment/(?P<pk>\d+)/reply/$', ReplyCreateView.as_view(), name='reply_create_view'),
@@ -46,8 +47,8 @@ urlpatterns = [
     url(r'^account/profile/(?P<pk>\d+)/email/$', EmailUpdateView.as_view(), name='email_update_view'),
     url(r'^api/profile/$', ProfileListCreateAPIView.as_view(), name='profile_list_create_api_view'),
     url(r'^api/profile/(?P<pk>\d+)/$', ProfileDetailUpdateDestroyAPIView.as_view(), name='profile_detail_update_destroy_api_view'),
-    url(r'^api/profile/(?P<pk>\d+)/rating/$', TruckRatingListCreateAPIView.as_view(), name='truck_rating_list_create_api_view'),
-    url(r'^api/profile/(?P<pk>\d+)/rating/$', TruckRatingDetailUpdateDestroyAPIView.as_view(), name='truck_rating_detail_update_destroy_api_view'),
+    url(r'^api/foodtrucks/(?P<pk>\d+)/rating/$', TruckRatingListCreateAPIView.as_view(), name='truck_rating_list_create_api_view'),
+    url(r'^api/(?P<pk>\d+)/rating/$', TruckRatingDetailUpdateDestroyAPIView.as_view(), name='truck_rating_detail_update_destroy_api_view'),
     url(r'^contact/$', ContactMeView.as_view(), name='contact_me_view'),
     url(r'^send_mail/$', SendMailView.as_view(), name='send_mail'),
     url(r'^map/test/$', MapTestView.as_view()),

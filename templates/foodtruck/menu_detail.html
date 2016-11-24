@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% for food in object.get_menu %}
+  <div>
+    {{ food.food }}
+    {% if request.user == food.truck.driver %}
+      <a href="{% url 'food_update_view' food.id %}">Update Food</a>
+    {% endif %}
+    <blockquote>
+      ${{ food.price }}
+      {% if request.user == food.truck.driver %}
+        <a href="{% url 'price_update_view' food.id %}">Update Price</a>
+      {% endif %}
+    </blockquote>
+  </div>
+{% endfor %}
+{% endblock %}

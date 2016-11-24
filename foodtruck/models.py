@@ -40,14 +40,16 @@ class Foodtruck(models.Model):
     picture = models.FileField(null=True, blank=True)
     category = models.ForeignKey(Category)
     # menu = models.ManyToManyField(Menu)
-    latitude = models.FloatField(null=True, blank=True)
-    longitude = models.FloatField(null=True, blank=True)
     checked_in = models.BooleanField(default=False)
     # truck_comment = models.ForeignKey('foodtruck.Comment', null=True, blank=True)
     address = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return self.truck_name
+
+    @property
+    def get_menu(self):
+        return Menu.objects.filter(truck=self)
 
     @property
     def avg_rating(self):

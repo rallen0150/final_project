@@ -10,6 +10,7 @@
   <br> <br>
   <div class="ui grid">
     <div class="eight wide column">
+      <a href="{% url 'menu_detail_view' object.id %}">View Menu</a><br><br>
       Average Rating Of Truck: {{ object.show_avg_rating|floatformat:2 }}
       <form class="" action="{% url 'truck_rating_list_create_api_view' object.id %}" method="post">
         {% csrf_token %}
@@ -32,7 +33,8 @@
           {% endif %}
         </form>
       {% endif %}
-      {% for food in menu %}
+      <br>
+      {% for food in object.get_menu %}
         <div>
           {{ food.food }}
           {% if request.user == food.truck.driver %}
@@ -46,6 +48,7 @@
           </blockquote>
         </div>
       {% endfor %}
+
         <img src="{{ MEDIA_URL }}{{ object.image_url }}" alt="Picture of {{ object.image_url }}" />
     </div>
     <div class="eight wide column">
