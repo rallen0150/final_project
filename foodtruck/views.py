@@ -1,5 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import authenticate, login
+
 from django.views.generic import TemplateView, ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, FormView
 
@@ -23,10 +25,27 @@ class IndexView(TemplateView):
         context['truck_list'] = Foodtruck.objects.all()
         return context
 
-class UserCreateView(CreateView):
+class UserCreateView(FormView):
+    template_name = "auth/user_form.html"
     model = User
     form_class = UserCreationForm
     success_url = reverse_lazy('index_view')
+
+    # def get_success_url(self, **kwargs):
+    #   return reverse_lazy('profile_update_view', args=[int(self.kwargs['pk'])])
+
+    # Had to look this up on StackOverflow
+    def form_valid(self, form):
+      #save the new user first
+      form.save()
+      #get the username and password
+      username = self.request.POST['username']
+      password = self.request.POST['password1']
+      #authenticate user then login
+      user = authenticate(username=username, password=password)
+      login(self.request, user)
+      return super(UserCreateView, self).form_valid(form)
+
 
 class CategoryCreateView(CreateView):
     model = Category
@@ -69,7 +88,7 @@ class FoodtruckUpdateView(UpdateView):
 class MenuCreateView(CreateView):
     model = Menu
     fields = ('food', 'price', 'truck')
-    success_url = reverse_lazy('index_view')
+    success_url = reverse_lazy('menu_create_view')
 
     # def form_valid(self, form):
     #     instance = form.save(commit=False)
@@ -84,7 +103,10 @@ class FoodUpdateView(UpdateView):
 class PriceUpdateView(UpdateView):
     model = Menu
     fields = ('price', )
-    success_url = reverse_lazy('index_view')
+    # success_url = reverse_lazy('index_view')
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
 
 class MenuDetailView(DetailView):
     model = Menu
@@ -97,12 +119,18 @@ class MenuDetailView(DetailView):
 class LocationUpdateView(UpdateView):
     model = Foodtruck
     fields = ('address', )
-    success_url = reverse_lazy('index_view')
+    # success_url = reverse_lazy('index_view')
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
 
 class CheckinUpdateView(UpdateView):
     model = Foodtruck
     fields = ('checked_in', )
-    success_url = reverse_lazy('index_view')
+    # success_url = reverse_lazy('index_view')
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
 
     # def form_valid(self, form):
     #     instance = form.save(commit=False)
@@ -111,7 +139,9 @@ class CheckinUpdateView(UpdateView):
 class ProfileUpdateView(UpdateView):
     model = Profile
     fields = ('image', 'status')
-    success_url = reverse_lazy('index_view')
+    # success_url = reverse_lazy('index_view')
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('profile_detail_view', args=[int(self.kwargs['pk'])])
 
     def form_valid(self, form):
         instance = form.save(commit=False)
@@ -121,7 +151,10 @@ class ProfileUpdateView(UpdateView):
 class CommentCreateView(CreateView):
     model = Comment
     fields = ('comment', )
-    success_url = reverse_lazy('index_view')
+    # success_url = reverse_lazy('index_view')
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
 
     def form_valid(self, form):
         instance = form.save(commit=False)
@@ -148,6 +181,9 @@ class ReplyCreateView(CreateView):
     fields = ('reply', )
     success_url = reverse_lazy('index_view')
 
+    # def get_success_url(self, **kwargs):
+        # return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
+
     def form_valid(self, form):
         instance = form.save(commit=False)
         instance.user = self.request.user
@@ -163,12 +199,18 @@ class ProfileDetailView(DetailView):
 class ImageUpdateView(UpdateView):
     model = Profile
     fields = ('image', )
-    success_url = reverse_lazy('index_view')
+    # success_url = reverse_lazy('index_view')
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('profile_detail_view', args=[int(self.kwargs['pk'])])
 
 class FavoriteUpdateView(UpdateView):
     model = Profile
     fields = ('favorite', )
     success_url = reverse_lazy('index_view')
+
+    # def get_success_url(self, **kwargs):
+    #     return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
 
     # Davis helped with the def post!
     def post(self, request, pk):
@@ -183,7 +225,10 @@ class FavoriteUpdateView(UpdateView):
 class EmailUpdateView(UpdateView):
     model = Profile
     fields = ('email', )
-    success_url = reverse_lazy('index_view')
+    # success_url = reverse_lazy('index_view')
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('profile_detail_view', args=[int(self.kwargs['pk'])])
 
 class ProfileListCreateAPIView(ListCreateAPIView):
     # queryset = Profile.objects.all()

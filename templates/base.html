@@ -59,7 +59,6 @@
             {% endif %}
           {% endif %}
           <ul><a id="options" href="{% url 'profile_detail_view' user.id %}"> <i class="users icon"></i> Profile</a></ul>
-          <ul><a id="options" href="{% url 'category_create_view' %}">New Food Category</a></ul>
           {% if request.user.profile.is_driver %}
             <ul><a id="options" href="{% url 'foodtruck_create_view' %}"> <i class="bus icon"></i> New Food Truck</a></ul>
             <ul><a id="options" href="{% url 'menu_create_view' %}"> <i class="food icon"></i> New Food Item</a></ul>

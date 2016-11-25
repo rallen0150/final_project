@@ -23,6 +23,8 @@
       {% endcomment %} -->
       <input type="submit" name="" value="New Food Item!">
     </form>
+
+    <b><a href="{% url 'index_view' %}">Finished Making Menu, Back to Home</a></b>
   {% else %}
     <h1>Not Supposed To Be Here!!!</h1>
   {% endif %}
