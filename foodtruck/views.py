@@ -127,10 +127,10 @@ class LocationUpdateView(UpdateView):
 class CheckinUpdateView(UpdateView):
     model = Foodtruck
     fields = ('checked_in', )
-    # success_url = reverse_lazy('index_view')
-
-    def get_success_url(self, **kwargs):
-        return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
+    success_url = reverse_lazy('index_view')
+    
+    # def get_success_url(self, **kwargs):
+    #     return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
 
     # def form_valid(self, form):
     #     instance = form.save(commit=False)
