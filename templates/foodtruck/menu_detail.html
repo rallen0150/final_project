@@ -29,7 +29,7 @@
         <a id="anchor" href="{% url 'food_update_view' food.id %}">Update Food</a>
       {% endif %}
       <blockquote>
-        <b id="price_size">${{ food.price }}</b>
+        <b id="price_size">${{ food.price|floatformat:2 }}</b>
         {% if request.user == food.truck.driver %}
           <a id="anchor" href="{% url 'price_update_view' food.id %}">Update Price</a>
         {% endif %}
