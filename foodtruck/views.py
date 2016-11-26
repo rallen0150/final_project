@@ -103,32 +103,32 @@ class FoodUpdateView(UpdateView):
 class PriceUpdateView(UpdateView):
     model = Menu
     fields = ('price', )
-    # success_url = reverse_lazy('index_view')
+    success_url = reverse_lazy('index_view')
 
-    def get_success_url(self, **kwargs):
-        return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
+    # def get_success_url(self, **kwargs):
+    #     return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
 
 class MenuDetailView(DetailView):
     model = Menu
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['object'] = Foodtruck.objects.all()
+        context['menu'] = Menu.objects.filter(truck=self.kwargs['pk'])
         return context
 
 class LocationUpdateView(UpdateView):
     model = Foodtruck
     fields = ('address', )
-    # success_url = reverse_lazy('index_view')
+    success_url = reverse_lazy('index_view')
 
-    def get_success_url(self, **kwargs):
-        return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
+    # def get_success_url(self, **kwargs):
+    #     return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
 
 class CheckinUpdateView(UpdateView):
     model = Foodtruck
     fields = ('checked_in', )
     success_url = reverse_lazy('index_view')
-    
+
     # def get_success_url(self, **kwargs):
     #     return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
 
@@ -182,7 +182,7 @@ class ReplyCreateView(CreateView):
     success_url = reverse_lazy('index_view')
 
     # def get_success_url(self, **kwargs):
-        # return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
+    #     return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
 
     def form_valid(self, form):
         instance = form.save(commit=False)

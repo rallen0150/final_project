@@ -1,18 +1,41 @@
 {% extends 'base.html' %}
 
+{% block css %}
+  <style media="screen">
+  .menu_items{
+    text-align: center;
+    font-family: cursive;
+  }
+  #food_size {
+    font-size: 28px;
+    text-decoration: underline;
+  }
+  #price_size {
+    font-size: 22px;
+  }
+  #anchor {
+    font-family: sans-serif;
+  }
+  </style>
+{% endblock %}
+
 {% block content %}
-{% for food in object.get_menu %}
-  <div>
-    {{ food.food }}
-    {% if request.user == food.truck.driver %}
-      <a href="{% url 'food_update_view' food.id %}">Update Food</a>
-    {% endif %}
-    <blockquote>
-      ${{ food.price }}
+<br><br>
+<div class="menu_items">
+  {% for food in menu %}
+    <div>
+      <b id='food_size'>{{ food.food }}</b>
       {% if request.user == food.truck.driver %}
-        <a href="{% url 'price_update_view' food.id %}">Update Price</a>
+        <a id="anchor" href="{% url 'food_update_view' food.id %}">Update Food</a>
       {% endif %}
-    </blockquote>
-  </div>
-{% endfor %}
+      <blockquote>
+        <b id="price_size">${{ food.price }}</b>
+        {% if request.user == food.truck.driver %}
+          <a id="anchor" href="{% url 'price_update_view' food.id %}">Update Price</a>
+        {% endif %}
+      </blockquote>
+    </div>
+  {% endfor %}
+</div>
+
 {% endblock %}
