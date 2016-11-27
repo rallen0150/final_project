@@ -70,6 +70,7 @@
                 center: results[0].geometry.location,
               });
               // map.setCenter(results[0].geometry.location);
+
               $.getJSON("/api/foodtrucks/", function(result) {
 
                 var icon = {
