@@ -26,8 +26,8 @@
 
 {% block content %}
 <br><br>
-<b id="menu_title">{{ menu.truck.truck_name }}'s Menu</b>
 <div class="menu_items">
+  <b id="menu_title">{{ object.truck }}'s Menu</b> <br><br>
   {% for food in menu %}
     <div>
       <b id='food_size'>{{ food.food }}</b>
