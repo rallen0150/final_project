@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
-from urlparse import urlparse
+from urllib.parse import urlparse
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -149,10 +149,25 @@ REST_FRAMEWORK = {
     )
 }
 
+# HAYSTACK_CONNECTIONS = {
+#     'default': {
+#         'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+#         'URL': 'localhost:9200',
+#         'INDEX_NAME': 'haystack',
+#     },
+# }
+
+es = urlparse(os.environ.get('SEARCHBOX_URL') or 'http://127.0.0.1:9200/')
+
+port = es.port or 80
+
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
-        'URL': 'localhost:9200',
-        'INDEX_NAME': 'haystack',
+        'URL': es.scheme + '://' + es.hostname + ':' + str(port),
+        'INDEX_NAME': 'documents',
     },
 }
+
+if es.username:
+    HAYSTACK_CONNECTIONS['default']['KWARGS'] = {"http_auth": es.username + ':' + es.password}
