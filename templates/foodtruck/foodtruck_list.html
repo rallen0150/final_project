@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block css %}
+  <style media="screen">
+    .star.icon {
+      color: #DAA520;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+<br><br>
+  <div class="ui accordion">
+    {% for truck in object_list|dictsort:"truck_name" %}
+    <div class="title">
+      <i class="dropdown icon"></i>
+      <b>{{ truck }}</b>
+      <i class="star icon"></i> Avg. Rating: {{ truck.show_avg_rating|floatformat:2 }}
+    </div>
+    <div id="list">
+      <p>
+        <a href="{% url 'foodtruck_detail_view' truck.id %}">{{ truck }}</a><br>
+        <b>Address: {{ truck.address }}</b>
+        {% if request.user == truck.driver %}
+          <a href="{% url 'location_update_view' truck.id %}"> Move Location</a>
+        {% endif %} <br>
+        Type: {{ truck.category.food_type }}<br>
+
+        {% if request.user == truck.driver %}
+          {% if not truck.checked_in %}
+            <a href="{% url 'checkin_update_view' truck.id %}">Check In</a>
+          {% else %}
+            <a href="{% url 'checkin_update_view' truck.id %}">Check Out</a>
+          {% endif %}
+        {% endif %}
+      </p>
+    </div>
+    {% endfor %}
+  </div>
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+    {% endif %}
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">Next</a>
+    {% endif %}
+  </ul>
+{% endblock %}
+
+
+{% block js %}
+  <script src="https://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+    <script type="text/javascript">
+    $(function() {
+      $('.ui.accordion').accordion({
+        active: false,
+        collapsible: true
+      });
+    })
+    </script>
+{% endblock %}

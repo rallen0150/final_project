@@ -10,6 +10,7 @@ from foodtruck.serializers import FoodtruckSerializer, ProfileSerializer, Rating
 from foodtruck.permissions import IsUser, IsProfileUser
 from rest_framework.permissions import IsAuthenticated
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from foodtruck.forms import ContactForm
 from django.core.mail import send_mail
 
@@ -84,6 +85,10 @@ class FoodtruckUpdateView(UpdateView):
     model = Foodtruck
     fields = ('truck_name', 'picture')
     success_url = reverse_lazy('index_view')
+
+class FoodtruckListView(ListView):
+    model = Foodtruck
+    paginate_by = 8
 
 class MenuCreateView(CreateView):
     model = Menu
@@ -230,7 +235,7 @@ class EmailUpdateView(UpdateView):
     def get_success_url(self, **kwargs):
         return reverse_lazy('profile_detail_view', args=[int(self.kwargs['pk'])])
 
-class ProfileListCreateAPIView(ListCreateAPIView):
+class ProfileListAPIView(ListAPIView):
     # queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
     permission_classes = (IsAuthenticated, )

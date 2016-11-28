@@ -10,6 +10,9 @@
       text-align: center;
       text-decoration: underline;
     }
+    .list_stuff {
+      font-size: 36px;
+    }
   </style>
 {% endblock %}
 
@@ -20,6 +23,12 @@
 
   <div class="ui grid" >
       <div class="eight wide column">
+        <a class="list_stuff" href="{% url 'foodtruck_list_view' %}">List Of Trucks</a>
+        <br><br><br><br><br><br>
+        <a class="list_stuff" href="{% url 'foodtruck_list_api_view' %}">API of Trucks</a>
+        <br><br><br><br><br><br>
+        <a class="list_stuff" href="{% url 'profile_list_api_view' %}">Profile API</a>
+        {% comment %}
         <div class="ui accordion">
           {% for truck in truck_list %}
           <div class="title">
@@ -46,8 +55,8 @@
             </p>
           </div>
           {% endfor %}
-
         </div>
+        {% endcomment %}
     </div>
     <div class="eight wide column">
       Find Which Trucks Are Around You! <br>
