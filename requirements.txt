@@ -9,3 +9,5 @@ googlemaps
 elasticsearch
 django-haystack
 django-widget-tweaks
+django-storages
+boto
