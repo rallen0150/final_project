@@ -6,6 +6,9 @@
     .star.icon {
       color: #DAA520;
     }
+    #truck_name {
+      font-size: 24px;
+    }
   </style>
 {% endblock %}
 
@@ -17,7 +20,7 @@
       {% for truck in object_list|dictsort:"truck_name" %}
       <div class="title">
         <i class="dropdown icon"></i>
-        <b>{{ truck }}</b>
+        <b id="truck_name">{{ truck }}</b>
         <i class="star icon"></i> Avg. Rating: {{ truck.show_avg_rating|floatformat:2 }}
       </div>
       <div id="list">
@@ -36,6 +39,7 @@
               <a href="{% url 'checkin_update_view' truck.id %}">Check Out</a>
             {% endif %}
           {% endif %}
+          
         </p>
       </div>
       {% endfor %}
