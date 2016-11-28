@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import authenticate, login
 
 from django.views.generic import TemplateView, ListView, DetailView
@@ -24,6 +24,7 @@ class IndexView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['truck_list'] = Foodtruck.objects.all()
+        context['login'] = AuthenticationForm
         return context
 
 class UserCreateView(FormView):

@@ -11,7 +11,8 @@
 
     {% if object.user == request.user %}
       <a href="{% url 'image_update_view' user.id %}"> <i class="image icon"></i> Update Image</a> <br>
-      <a href="{% url 'email_update_view' user.id %}"> <i class="mail outline icon"></i> Update Email</a>
+      <a href="{% url 'email_update_view' user.id %}"> <i class="mail outline icon"></i> Update Email</a><br>
+      <a href="{% url 'profile_list_api_view' %}">View your API</a>
     {% endif %}
 
     <h3>Favorites</h3>

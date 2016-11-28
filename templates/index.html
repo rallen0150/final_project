@@ -23,11 +23,22 @@
 
   <div class="ui grid" >
       <div class="eight wide column">
+        {% if not request.user.is_authenticated %}
+        <div class="ui hidden div"></div>
+        <div class="ui corner labeled input">
+          <form class="" action="{% url 'login' %}" method="post">
+              {% csrf_token %}
+              {{ login.as_p }}
+              <input class="ui positive button" type="submit" name="" value="Login!">
+          </form>
+        </div>
+        {% else %}
         <a class="list_stuff" href="{% url 'foodtruck_list_view' %}">List Of Trucks</a>
         <br><br><br><br><br><br>
         <a class="list_stuff" href="{% url 'foodtruck_list_api_view' %}">API of Trucks</a>
         <br><br><br><br><br><br>
         <a class="list_stuff" href="{% url 'profile_list_api_view' %}">Profile API</a>
+        {% endif %}
         {% comment %}
         <div class="ui accordion">
           {% for truck in truck_list %}
