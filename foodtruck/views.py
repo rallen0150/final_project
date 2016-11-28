@@ -71,7 +71,7 @@ class FoodtruckDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['truck'] = Foodtruck.objects.all()
         context['menu'] = Menu.objects.filter(truck=self.kwargs['pk'])
-        context['favorite'] = Profile.objects.all()
+        context['profile'] = Profile.objects.all()
         return context
 
     def get_context_data(self, **kwargs):

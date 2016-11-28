@@ -35,41 +35,8 @@
         {% else %}
         <a class="list_stuff" href="{% url 'foodtruck_list_view' %}"><i class="list layout icon"></i> List Of Trucks</a>
         <br><br><br><br><br><br>
-        <a class="list_stuff" href="{% url 'foodtruck_list_api_view' %}"><i class="truck icon"></i> API of Trucks</a>
-        <br><br><br><br><br><br>
-        <a class="list_stuff" href="{% url 'profile_list_api_view' %}"><i class="user icon"></i> Profile API</a>
-        <br><br><br><br><br><br>
         <a class="list_stuff" href="{% url 'map_view' %}"><i class="map icon"></i> View Map on Full Screen</a>
         {% endif %}
-        {% comment %}
-        <div class="ui accordion">
-          {% for truck in truck_list %}
-          <div class="title">
-            <i class="dropdown icon"></i>
-            <b>{{ truck }}</b>
-            <i class="star icon"></i> Avg. Rating: {{ truck.show_avg_rating|floatformat:2 }}
-          </div>
-          <div id="list">
-            <p>
-              <a href="{% url 'foodtruck_detail_view' truck.id %}">{{ truck }}</a><br>
-              <b>Address: {{ truck.address }}</b>
-              {% if request.user == truck.driver %}
-                <a href="{% url 'location_update_view' truck.id %}"> Move Location</a>
-              {% endif %} <br>
-              Type: {{ truck.category.food_type }}<br>
-
-              {% if request.user == truck.driver %}
-                {% if not truck.checked_in %}
-                  <a href="{% url 'checkin_update_view' truck.id %}">Check In</a>
-                {% else %}
-                  <a href="{% url 'checkin_update_view' truck.id %}">Check Out</a>
-                {% endif %}
-              {% endif %}
-            </p>
-          </div>
-          {% endfor %}
-        </div>
-        {% endcomment %}
     </div>
     <div class="eight wide column">
       Find Which Trucks Are Around You! <br>

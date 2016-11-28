@@ -3,6 +3,27 @@
 
 {% block css %}
   <link type="text/css" rel="stylesheet" href="{% static 'rating.css' %}"  media="screen"/>
+  <style media="screen">
+  .menu_items{
+    text-align: center;
+    font-family: cursive;
+  }
+  #food_size {
+    font-size: 22px;
+    text-decoration: underline;
+  }
+  #price_size {
+    font-size: 18px;
+  }
+  #anchor {
+    font-family: sans-serif;
+  }
+  #menu_title {
+    font-size: 28px;
+    font-family: cursive;
+    text-decoration: underline;
+  }
+  </style>
 {% endblock %}
 
 {% block content %}
@@ -38,8 +59,24 @@
           {% endif %}
         </form>
       {% endif %}
-      <br>
-        <img src="{{ MEDIA_URL }}{{ object.image_url }}" alt="Picture of {{ object.image_url }}" />
+      <br><br>
+      <div class="menu_items">
+        <b id="menu_title">{{ object }}'s Menu</b> <br><br>
+        {% for food in object.get_menu %}
+          <div>
+            <b id='food_size'>{{ food.food }}</b>
+            {% if request.user == food.truck.driver %}
+              <a id="anchor" href="{% url 'food_update_view' food.id %}">Update Food</a>
+            {% endif %}
+            <blockquote>
+              <b id="price_size">${{ food.price|floatformat:2 }}</b>
+              {% if request.user == food.truck.driver %}
+                <a id="anchor" href="{% url 'price_update_view' food.id %}">Update Price</a>
+              {% endif %}
+            </blockquote>
+          </div>
+        {% endfor %}
+      </div>
     </div>
     <div class="eight wide column">
         <div class="ui minimal comments">

@@ -96,6 +96,9 @@ class Profile(models.Model):
     status = models.CharField(max_length=1, choices=STATUS)
     email = models.EmailField(null=True, blank=True)
 
+    def __str__(self):
+        return str(self.user)
+
     @property
     def contents(self):
         return self.favorite.all()

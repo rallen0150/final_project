@@ -15,5 +15,5 @@ class ContactForm(forms.Form):
                Message: {}
                """.format(sender, message)
         recipient_list = [os.environ.get("EMAIL_HOST_USER")]
-        print(recipient_list)
+        # print(recipient_list)
         send_mail(subject, body, sender, recipient_list)
