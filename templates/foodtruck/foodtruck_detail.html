@@ -4,10 +4,10 @@
 {% block css %}
   <link type="text/css" rel="stylesheet" href="{% static 'rating.css' %}"  media="screen"/>
   <style media="screen">
-  #title {
+  .truckname {
     text-align: center;
     text-decoration: underline;
-    font-size: 24px;
+    font-size: 32px;
   }
   .menu_items{
     font-family: cursive;
@@ -32,8 +32,10 @@
 {% endblock %}
 
 {% block content %}
-<br>
-  <b id="title">{{ object }}</b>
+  <br><br>
+  <div class="truckname">
+    <b id="title">{{ object }}</b>
+  </div>
   <br> <br>
   <div class="ui grid">
     <div class="eight wide column">
