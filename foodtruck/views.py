@@ -213,10 +213,10 @@ class ImageUpdateView(UpdateView):
 class FavoriteUpdateView(UpdateView):
     model = Profile
     fields = ('favorite', )
-    success_url = reverse_lazy('index_view')
+    # success_url = reverse_lazy('index_view')
 
-    # def get_success_url(self, **kwargs):
-    #     return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
 
     # Davis helped with the def post!
     def post(self, request, pk):
@@ -226,7 +226,7 @@ class FavoriteUpdateView(UpdateView):
             profile.favorite.add(Foodtruck.objects.get(id=self.kwargs['pk']))
         else:
             profile.favorite.remove(Foodtruck.objects.get(id=self.kwargs['pk']))
-        return HttpResponseRedirect("/")
+        return HttpResponseRedirect(reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])]))
 
 class EmailUpdateView(UpdateView):
     model = Profile
