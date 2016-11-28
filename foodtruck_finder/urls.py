@@ -13,7 +13,7 @@ from foodtruck.views import IndexView, UserCreateView, CategoryCreateView, \
                             ImageUpdateView, FavoriteUpdateView, MapTestView, ProfileListAPIView, \
                             ProfileDetailUpdateDestroyAPIView, TruckRatingListCreateAPIView, \
                             TruckRatingDetailUpdateDestroyAPIView, EmailUpdateView, ContactMeView, \
-                            SendMailView, MenuDetailView, FoodtruckListView
+                            SendMailView, MenuDetailView, FoodtruckListView, MapView
 
 from rest_framework.authtoken.views import obtain_auth_token
 
@@ -52,5 +52,6 @@ urlpatterns = [
     url(r'^api/(?P<pk>\d+)/rating/$', TruckRatingDetailUpdateDestroyAPIView.as_view(), name='truck_rating_detail_update_destroy_api_view'),
     url(r'^contact/$', ContactMeView.as_view(), name='contact_me_view'),
     url(r'^send_mail/$', SendMailView.as_view(), name='send_mail'),
+    url(r'^full_map/$', MapView.as_view(), name='map_view'),
     url(r'^map/test/$', MapTestView.as_view()),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

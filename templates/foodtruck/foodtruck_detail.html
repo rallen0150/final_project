@@ -11,9 +11,9 @@
   <div class="ui grid">
     <div class="eight wide column">
       {% if request.user == object.driver %}
-        <a href="{% url 'foodtruck_update_view' object.id %}"><i class="edit icon"></i> Update Truck</a> <br>
+        <a href="{% url 'foodtruck_update_view' object.id %}"><i class="red edit icon"></i> Update Truck</a> <br>
       {% endif %}
-      <a href="{% url 'menu_detail_view' object.id %}"><i class="food icon"></i> View Menu</a><br><br>
+      <a href="{% url 'menu_detail_view' object.id %}"><i class="red food icon"></i> View Menu</a><br><br>
       Average Rating Of Truck: {{ object.show_avg_rating|floatformat:2 }}
       {% if request.user.profile.is_user %}
       <form class="" action="{% url 'truck_rating_list_create_api_view' object.id %}" method="post">

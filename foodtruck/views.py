@@ -282,5 +282,8 @@ class SendMailView(FormView):
         form.send_email()
         return super().form_valid(form)
 
+class MapView(TemplateView):
+    template_name = 'map.html'
+
 class MapTestView(TemplateView):
     template_name = 'map_test.html'

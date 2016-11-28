@@ -51,6 +51,7 @@
           <ul id="options" >{{ request.user.profile.email }}</ul>
           <hr id="options">
           <ul><a id="options" href="{% url 'index_view' %}"> <i class="home icon"></i> Home</a></ul>
+          <ul><a id="options" href="{% url 'map_view' %}"> <i class="map icon"></i> View Map</a></ul>
           <ul><a id='options' href="{% url 'contact_me_view' %}"> <i class="mail square icon"></i> Contact Me</a></ul>
           <ul><a id="options" href="/search/"> <i class="search icon"></i> Truck/Driver Search</a></ul>
           {% if not request.user.profile.is_driver %}
