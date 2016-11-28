@@ -5,11 +5,9 @@
   <link type="text/css" rel="stylesheet" href="{% static 'rating.css' %}"  media="screen"/>
   <style media="screen">
   #title {
-    padding-left: 450px;
     text-align: center;
     text-decoration: underline;
     font-size: 24px;
-
   }
   .menu_items{
     font-family: cursive;
@@ -29,17 +27,13 @@
     font-family: cursive;
     text-decoration: underline;
   }
-  #image {
-    height: 70px;
-    width: 85px;
-  }
+
   </style>
 {% endblock %}
 
 {% block content %}
 <br>
   <b id="title">{{ object }}</b>
-  <img id="image" src="{{ MEDIA_URL }}{{ object.image_url }}" alt="Picture of {{ object.image_url }}" />
   <br> <br>
   <div class="ui grid">
     <div class="eight wide column">
