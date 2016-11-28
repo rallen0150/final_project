@@ -19,7 +19,7 @@
 {% block content %}
 <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 
-  <h1 class="titlename">Find your Food Truck</h1>
+  <h1 class="titlename">Truckin' Around</h1>
 
   <div class="ui grid" >
       <div class="eight wide column">
@@ -95,64 +95,22 @@
 
               $.getJSON("/api/foodtrucks/", function(result) {
 
-                var icon = {
-                  Mexican: {url: 'http://cdn.mysitemyway.com/icons-watermarks/simple-red/iconathon/iconathon_food-truck/iconathon_food-truck_simple-red_512x512.png',
-                            size: new google.maps.Size(40, 40),
-                            origin: new google.maps.Point(0, 0),
-                            anchor: new google.maps.Point(17, 34),
-                            scaledSize: new google.maps.Size(30, 35)},
-                  Greek: {url: 'http://st.depositphotos.com/1005920/4316/i/110/depositphotos_43162503-Truck-icon.jpg',
-                            size: new google.maps.Size(50, 50),
-                            origin: new google.maps.Point(0, 0),
-                            anchor: new google.maps.Point(17, 34),
-                            scaledSize: new google.maps.Size(40, 45)},
-                  IceCream: {url: 'https://d30y9cdsu7xlg0.cloudfront.net/png/56083-200.png',
-                              size: new google.maps.Size(40, 40),
-                              origin: new google.maps.Point(0, 0),
-                              anchor: new google.maps.Point(17, 34),
-                              scaledSize: new google.maps.Size(30, 35)},
-                  Doughnut: {url: 'http://st2.depositphotos.com/5934840/11939/v/950/depositphotos_119390456-Donut-truck-fast-food-icon.jpg',
-                              size: new google.maps.Size(50, 50),
-                              origin: new google.maps.Point(0, 0),
-                              anchor: new google.maps.Point(17, 34),
-                              scaledSize: new google.maps.Size(40, 45)},
-                  FastFood: {url: 'http://us.123rf.com/450wm/jemastock/jemastock1608/jemastock160814254/61924582-hamburger-delivery-fast-food-urban-business-icon-flat-and-isolated-design-vector-illustration.jpg?ver=6',
-                            size: new google.maps.Size(40, 40),
-                            origin: new google.maps.Point(0, 0),
-                            anchor: new google.maps.Point(17, 34),
-                            scaledSize: new google.maps.Size(30, 35)},
-                  BBQ: {url: 'http://rlv.zcache.com/bbq_with_cutlery_icon_flyer-r859cba6d8afb423ca17066861ae2e0ca_vgvyf_8byvr_324.jpg',
-                            size: new google.maps.Size(50, 50),
-                            origin: new google.maps.Point(0, 0),
-                            anchor: new google.maps.Point(17, 34),
-                            scaledSize: new google.maps.Size(40, 45)},
-                  Organic: {url: 'http://previews.123rf.com/images/alexutemov/alexutemov1508/alexutemov150800045/43202021-Vegan-city-food-car-icon-Nature-product-vitamin-symbol-auto-restaurant-mobile-kitchen-hot-fastfood-g-Stock-Vector.jpg',
-                              size: new google.maps.Size(40, 40),
-                              origin: new google.maps.Point(0, 0),
-                              anchor: new google.maps.Point(17, 34),
-                              scaledSize: new google.maps.Size(30, 35)},
-                  Deserts: {url: 'http://i.ebayimg.com/images/i/221607405151-0-1/s-l1000.jpg',
-                              size: new google.maps.Size(50, 50),
-                              origin: new google.maps.Point(0, 0),
-                              anchor: new google.maps.Point(17, 34),
-                              scaledSize: new google.maps.Size(40, 45)},
-                  Other: {url: 'https://d30y9cdsu7xlg0.cloudfront.net/png/188819-200.png',
-                              size: new google.maps.Size(50, 50),
-                              origin: new google.maps.Point(0, 0),
-                              anchor: new google.maps.Point(17, 34),
-                              scaledSize: new google.maps.Size(40, 45)},
-                }
+
 
                   for (var i = 0; i < result.length; i++) {
                     // console.log(i);
                     var obj = result[i];
                     var x = obj.find_lat_lng;
                     console.log(x);
-                    if (obj.category == 1) {
+
                       if (obj.checked_in == true) {
                         var marker = new google.maps.Marker({
                           position: x,
-                          icon: icon['Mexican'],
+                          icon: {url: obj.picture,
+                                      size: new google.maps.Size(50, 50),
+                                      origin: new google.maps.Point(0, 0),
+                                      anchor: new google.maps.Point(17, 34),
+                                      scaledSize: new google.maps.Size(40, 45)},
                           map: map,
                           content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Address: " + obj.address + '</div>'                        });
 
@@ -169,191 +127,8 @@
                         // Has the infowindows pop out instantly
                         // google.maps.event.trigger(marker, 'click');
                       }
-                    }
-                    if (obj.category == 2) {
-                      if (obj.checked_in == true) {
-                        var marker = new google.maps.Marker({
-                          position: x,
-                          icon: icon['Greek'],
-                          map: map,
-                          content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Address: " + obj.address + '</div>'
-                        });
 
-                        // Starting the infowindow popup
-                        var infowindow = new google.maps.InfoWindow();
-                        // Adds the click part of the infowindow on the marker
-                        google.maps.event.addListener(marker, 'click', (function(marker, i, infowindow) {
-                          return function() {
-                            infowindow.setContent(this.content);
-                            infowindow.open(map, this);
-                          };
-                        })(marker, i, infowindow));
-                        // bounds.extend(marker.position);
-                        // Has the infowindows pop out instantly
-                        // google.maps.event.trigger(marker, 'click');
-                      }
-                    }
-                    if (obj.category == 3) {
-                      if (obj.checked_in == true) {
-                        var marker = new google.maps.Marker({
-                          position: x,
-                          icon: icon['IceCream'],
-                          map: map,
-                          content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Address: " + obj.address + '</div>'
-                        });
 
-                        // Starting the infowindow popup
-                        var infowindow = new google.maps.InfoWindow();
-                        // Adds the click part of the infowindow on the marker
-                        google.maps.event.addListener(marker, 'click', (function(marker, i, infowindow) {
-                          return function() {
-                            infowindow.setContent(this.content);
-                            infowindow.open(map, this);
-                          };
-                        })(marker, i, infowindow));
-                        // bounds.extend(marker.position);
-                        // Has the infowindows pop out instantly
-                        // google.maps.event.trigger(marker, 'click');
-                      }
-                    }
-                    if (obj.category == 4) {
-                      if (obj.checked_in == true) {
-                        var marker = new google.maps.Marker({
-                          position: x,
-                          icon: icon['Doughnut'],
-                          map: map,
-                          content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Address: " + obj.address + '</div>'
-                        });
-
-                        // Starting the infowindow popup
-                        var infowindow = new google.maps.InfoWindow();
-                        // Adds the click part of the infowindow on the marker
-                        google.maps.event.addListener(marker, 'click', (function(marker, i, infowindow) {
-                          return function() {
-                            infowindow.setContent(this.content);
-                            infowindow.open(map, this);
-                          };
-                        })(marker, i, infowindow));
-                        // bounds.extend(marker.position);
-                        // Has the infowindows pop out instantly
-                        // google.maps.event.trigger(marker, 'click');
-                      }
-                    }
-                    if (obj.category == 5) {
-                      if (obj.checked_in == true) {
-                        var marker = new google.maps.Marker({
-                          position: x,
-                          icon: icon['FastFood'],
-                          map: map,
-                          content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Address: " + obj.address + '</div>'
-                        });
-
-                        // Starting the infowindow popup
-                        var infowindow = new google.maps.InfoWindow();
-                        // Adds the click part of the infowindow on the marker
-                        google.maps.event.addListener(marker, 'click', (function(marker, i, infowindow) {
-                          return function() {
-                            infowindow.setContent(this.content);
-                            infowindow.open(map, this);
-                          };
-                        })(marker, i, infowindow));
-                        // bounds.extend(marker.position);
-                        // Has the infowindows pop out instantly
-                        // google.maps.event.trigger(marker, 'click');
-                      }
-                    }
-                    if (obj.category == 6) {
-                      if (obj.checked_in == true) {
-                        var marker = new google.maps.Marker({
-                          position: x,
-                          icon: icon['BBQ'],
-                          map: map,
-                          content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Address: " + obj.address + '</div>'
-                        });
-
-                        // Starting the infowindow popup
-                        var infowindow = new google.maps.InfoWindow();
-                        // Adds the click part of the infowindow on the marker
-                        google.maps.event.addListener(marker, 'click', (function(marker, i, infowindow) {
-                          return function() {
-                            infowindow.setContent(this.content);
-                            infowindow.open(map, this);
-                          };
-                        })(marker, i, infowindow));
-                        // bounds.extend(marker.position);
-                        // Has the infowindows pop out instantly
-                        // google.maps.event.trigger(marker, 'click');
-                      }
-                    }
-                    if (obj.category == 7) {
-                      if (obj.checked_in == true) {
-                        var marker = new google.maps.Marker({
-                          position: x,
-                          icon: icon['Organic'],
-                          map: map,
-                          content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Address: " + obj.address + '</div>'
-                        });
-
-                        // Starting the infowindow popup
-                        var infowindow = new google.maps.InfoWindow();
-                        // Adds the click part of the infowindow on the marker
-                        google.maps.event.addListener(marker, 'click', (function(marker, i, infowindow) {
-                          return function() {
-                            infowindow.setContent(this.content);
-                            infowindow.open(map, this);
-                          };
-                        })(marker, i, infowindow));
-                        // bounds.extend(marker.position);
-                        // Has the infowindows pop out instantly
-                        // google.maps.event.trigger(marker, 'click');
-                      }
-                    }
-                    if (obj.category == 8) {
-                      if (obj.checked_in == true) {
-                        var marker = new google.maps.Marker({
-                          position: x,
-                          icon: icon['Deserts'],
-                          map: map,
-                          content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Address: " + obj.address + '</div>'
-                        });
-
-                        // Starting the infowindow popup
-                        var infowindow = new google.maps.InfoWindow();
-                        // Adds the click part of the infowindow on the marker
-                        google.maps.event.addListener(marker, 'click', (function(marker, i, infowindow) {
-                          return function() {
-                            infowindow.setContent(this.content);
-                            infowindow.open(map, this);
-                          };
-                        })(marker, i, infowindow));
-                        // bounds.extend(marker.position);
-                        // Has the infowindows pop out instantly
-                        // google.maps.event.trigger(marker, 'click');
-                      }
-                    }
-                    if (obj.category == 9) {
-                      if (obj.checked_in == true) {
-                        var marker = new google.maps.Marker({
-                          position: x,
-                          icon: icon['Other'],
-                          map: map,
-                          content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Address: " + obj.address + '</div>'
-                        });
-
-                        // Starting the infowindow popup
-                        var infowindow = new google.maps.InfoWindow();
-                        // Adds the click part of the infowindow on the marker
-                        google.maps.event.addListener(marker, 'click', (function(marker, i, infowindow) {
-                          return function() {
-                            infowindow.setContent(this.content);
-                            infowindow.open(map, this);
-                          };
-                        })(marker, i, infowindow));
-                        // bounds.extend(marker.position);
-                        // Has the infowindows pop out instantly
-                        // google.maps.event.trigger(marker, 'click');
-                      }
-                    }
                   }
               });
               var marker = new google.maps.Marker({
@@ -414,66 +189,23 @@
 
                   // console.log(result)
 
-                  // Create a custom marker
-                  var icon = {
-                    Mexican: {url: 'http://cdn.mysitemyway.com/icons-watermarks/simple-red/iconathon/iconathon_food-truck/iconathon_food-truck_simple-red_512x512.png',
-                              size: new google.maps.Size(40, 40),
-                              origin: new google.maps.Point(0, 0),
-                              anchor: new google.maps.Point(17, 34),
-                              scaledSize: new google.maps.Size(30, 35)},
-                    Greek: {url: 'http://st.depositphotos.com/1005920/4316/i/110/depositphotos_43162503-Truck-icon.jpg',
-                              size: new google.maps.Size(50, 50),
-                              origin: new google.maps.Point(0, 0),
-                              anchor: new google.maps.Point(17, 34),
-                              scaledSize: new google.maps.Size(40, 45)},
-                    IceCream: {url: 'https://d30y9cdsu7xlg0.cloudfront.net/png/56083-200.png',
-                                size: new google.maps.Size(40, 40),
-                                origin: new google.maps.Point(0, 0),
-                                anchor: new google.maps.Point(17, 34),
-                                scaledSize: new google.maps.Size(30, 35)},
-                    Doughnut: {url: 'http://st2.depositphotos.com/5934840/11939/v/950/depositphotos_119390456-Donut-truck-fast-food-icon.jpg',
-                                size: new google.maps.Size(50, 50),
-                                origin: new google.maps.Point(0, 0),
-                                anchor: new google.maps.Point(17, 34),
-                                scaledSize: new google.maps.Size(40, 45)},
-                    FastFood: {url: 'http://us.123rf.com/450wm/jemastock/jemastock1608/jemastock160814254/61924582-hamburger-delivery-fast-food-urban-business-icon-flat-and-isolated-design-vector-illustration.jpg?ver=6',
-                              size: new google.maps.Size(40, 40),
-                              origin: new google.maps.Point(0, 0),
-                              anchor: new google.maps.Point(17, 34),
-                              scaledSize: new google.maps.Size(30, 35)},
-                    BBQ: {url: 'http://rlv.zcache.com/bbq_with_cutlery_icon_flyer-r859cba6d8afb423ca17066861ae2e0ca_vgvyf_8byvr_324.jpg',
-                              size: new google.maps.Size(50, 50),
-                              origin: new google.maps.Point(0, 0),
-                              anchor: new google.maps.Point(17, 34),
-                              scaledSize: new google.maps.Size(40, 45)},
-                    Organic: {url: 'http://previews.123rf.com/images/alexutemov/alexutemov1508/alexutemov150800045/43202021-Vegan-city-food-car-icon-Nature-product-vitamin-symbol-auto-restaurant-mobile-kitchen-hot-fastfood-g-Stock-Vector.jpg',
-                                size: new google.maps.Size(40, 40),
-                                origin: new google.maps.Point(0, 0),
-                                anchor: new google.maps.Point(17, 34),
-                                scaledSize: new google.maps.Size(30, 35)},
-                    Deserts: {url: 'http://i.ebayimg.com/images/i/221607405151-0-1/s-l1000.jpg',
-                                size: new google.maps.Size(50, 50),
-                                origin: new google.maps.Point(0, 0),
-                                anchor: new google.maps.Point(17, 34),
-                                scaledSize: new google.maps.Size(40, 45)},
-                    Other: {url: 'https://d30y9cdsu7xlg0.cloudfront.net/png/188819-200.png',
-                                size: new google.maps.Size(50, 50),
-                                origin: new google.maps.Point(0, 0),
-                                anchor: new google.maps.Point(17, 34),
-                                scaledSize: new google.maps.Size(40, 45)},
-                  }
+
                   for (var i = 0; i < result.length; i++) {
                     // console.log(i);
                     var obj = result[i];
                     console.log(obj.address);
                     var x = obj.find_lat_lng;
                     console.log(x);
-                    console.log(obj.image_url);
-                    if (obj.category == 1) {
+                    console.log(obj.picture);
+
                       if (obj.checked_in == true) {
                         var marker = new google.maps.Marker({
                           position: x,
-                          icon: icon['Mexican'],
+                          icon: {url: obj.picture,
+                                      size: new google.maps.Size(50, 50),
+                                      origin: new google.maps.Point(0, 0),
+                                      anchor: new google.maps.Point(17, 34),
+                                      scaledSize: new google.maps.Size(40, 45)},
                           map: map,
                           content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Address: " + obj.address + '</div>'
                         });
@@ -491,191 +223,8 @@
                         // Has the infowindows pop out instantly
                         // google.maps.event.trigger(marker, 'click');
                       }
-                    }
-                    if (obj.category == 2) {
-                      if (obj.checked_in == true) {
-                        var marker = new google.maps.Marker({
-                          position: x,
-                          icon: icon['Greek'],
-                          map: map,
-                          content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Address: " + obj.address + '</div>'
-                        });
 
-                        // Starting the infowindow popup
-                        var infowindow = new google.maps.InfoWindow();
-                        // Adds the click part of the infowindow on the marker
-                        google.maps.event.addListener(marker, 'click', (function(marker, i, infowindow) {
-                          return function() {
-                            infowindow.setContent(this.content);
-                            infowindow.open(map, this);
-                          };
-                        })(marker, i, infowindow));
-                        // bounds.extend(marker.position);
-                        // Has the infowindows pop out instantly
-                        // google.maps.event.trigger(marker, 'click');
-                      }
-                    }
-                    if (obj.category == 3) {
-                      if (obj.checked_in == true) {
-                        var marker = new google.maps.Marker({
-                          position: x,
-                          icon: icon['IceCream'],
-                          map: map,
-                          content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Address: " + obj.address + '</div>'
-                        });
 
-                        // Starting the infowindow popup
-                        var infowindow = new google.maps.InfoWindow();
-                        // Adds the click part of the infowindow on the marker
-                        google.maps.event.addListener(marker, 'click', (function(marker, i, infowindow) {
-                          return function() {
-                            infowindow.setContent(this.content);
-                            infowindow.open(map, this);
-                          };
-                        })(marker, i, infowindow));
-                        // bounds.extend(marker.position);
-                        // Has the infowindows pop out instantly
-                        // google.maps.event.trigger(marker, 'click');
-                      }
-                    }
-                    if (obj.category == 4) {
-                      if (obj.checked_in == true) {
-                        var marker = new google.maps.Marker({
-                          position: x,
-                          icon: icon['Doughnut'],
-                          map: map,
-                          content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Address: " + obj.address + '</div>'
-                        });
-
-                        // Starting the infowindow popup
-                        var infowindow = new google.maps.InfoWindow();
-                        // Adds the click part of the infowindow on the marker
-                        google.maps.event.addListener(marker, 'click', (function(marker, i, infowindow) {
-                          return function() {
-                            infowindow.setContent(this.content);
-                            infowindow.open(map, this);
-                          };
-                        })(marker, i, infowindow));
-                        // bounds.extend(marker.position);
-                        // Has the infowindows pop out instantly
-                        // google.maps.event.trigger(marker, 'click');
-                      }
-                    }
-                    if (obj.category == 5) {
-                      if (obj.checked_in == true) {
-                        var marker = new google.maps.Marker({
-                          position: x,
-                          icon: icon['FastFood'],
-                          map: map,
-                          content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Address: " + obj.address + '</div>'
-                        });
-
-                        // Starting the infowindow popup
-                        var infowindow = new google.maps.InfoWindow();
-                        // Adds the click part of the infowindow on the marker
-                        google.maps.event.addListener(marker, 'click', (function(marker, i, infowindow) {
-                          return function() {
-                            infowindow.setContent(this.content);
-                            infowindow.open(map, this);
-                          };
-                        })(marker, i, infowindow));
-                        // bounds.extend(marker.position);
-                        // Has the infowindows pop out instantly
-                        // google.maps.event.trigger(marker, 'click');
-                      }
-                    }
-                    if (obj.category == 6) {
-                      if (obj.checked_in == true) {
-                        var marker = new google.maps.Marker({
-                          position: x,
-                          icon: icon['BBQ'],
-                          map: map,
-                          content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Address: " + obj.address + '</div>'
-                        });
-
-                        // Starting the infowindow popup
-                        var infowindow = new google.maps.InfoWindow();
-                        // Adds the click part of the infowindow on the marker
-                        google.maps.event.addListener(marker, 'click', (function(marker, i, infowindow) {
-                          return function() {
-                            infowindow.setContent(this.content);
-                            infowindow.open(map, this);
-                          };
-                        })(marker, i, infowindow));
-                        // bounds.extend(marker.position);
-                        // Has the infowindows pop out instantly
-                        // google.maps.event.trigger(marker, 'click');
-                      }
-                    }
-                    if (obj.category == 7) {
-                      if (obj.checked_in == true) {
-                        var marker = new google.maps.Marker({
-                          position: x,
-                          icon: icon['Organic'],
-                          map: map,
-                          content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Address: " + obj.address + '</div>'
-                        });
-
-                        // Starting the infowindow popup
-                        var infowindow = new google.maps.InfoWindow();
-                        // Adds the click part of the infowindow on the marker
-                        google.maps.event.addListener(marker, 'click', (function(marker, i, infowindow) {
-                          return function() {
-                            infowindow.setContent(this.content);
-                            infowindow.open(map, this);
-                          };
-                        })(marker, i, infowindow));
-                        // bounds.extend(marker.position);
-                        // Has the infowindows pop out instantly
-                        // google.maps.event.trigger(marker, 'click');
-                      }
-                    }
-                    if (obj.category == 8) {
-                      if (obj.checked_in == true) {
-                        var marker = new google.maps.Marker({
-                          position: x,
-                          icon: icon['Deserts'],
-                          map: map,
-                          content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Address: " + obj.address + '</div>'
-                        });
-
-                        // Starting the infowindow popup
-                        var infowindow = new google.maps.InfoWindow();
-                        // Adds the click part of the infowindow on the marker
-                        google.maps.event.addListener(marker, 'click', (function(marker, i, infowindow) {
-                          return function() {
-                            infowindow.setContent(this.content);
-                            infowindow.open(map, this);
-                          };
-                        })(marker, i, infowindow));
-                        // bounds.extend(marker.position);
-                        // Has the infowindows pop out instantly
-                        // google.maps.event.trigger(marker, 'click');
-                      }
-                    }
-                    if (obj.category == 9) {
-                      if (obj.checked_in == true) {
-                        var marker = new google.maps.Marker({
-                          position: x,
-                          icon: icon['Other'],
-                          map: map,
-                          content: '<div class="scrollFix">' + '<b>' + obj.truck_name + '</b>' + "<br><hr>Address: " + obj.address + '</div>'
-                        });
-
-                        // Starting the infowindow popup
-                        var infowindow = new google.maps.InfoWindow();
-                        // Adds the click part of the infowindow on the marker
-                        google.maps.event.addListener(marker, 'click', (function(marker, i, infowindow) {
-                          return function() {
-                            infowindow.setContent(this.content);
-                            infowindow.open(map, this);
-                          };
-                        })(marker, i, infowindow));
-                        // bounds.extend(marker.position);
-                        // Has the infowindows pop out instantly
-                        // google.maps.event.trigger(marker, 'click');
-                      }
-                    }
                   }
                 });
               }
