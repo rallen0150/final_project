@@ -11,9 +11,6 @@
   <form class="" action="{% url 'foodtruck_email_view' trucks.id %}" method="post">
     {% csrf_token %}
     <p>
-      {{ form.sender|attr:"placeholder:What truck do you drive?" }}
-    </p>
-    <p>
       {{ form.message|add_class:"materialize-textarea"|attr:"placeholder:Where is your new address?" }}
     </p>
     <button type="submit" class="ui blue submit button">

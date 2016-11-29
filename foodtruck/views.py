@@ -14,8 +14,11 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from foodtruck.forms import ContactForm, MultipleEmailForm
 from django.core.mail import send_mail
 
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
+
 from django.http import HttpResponseRedirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from foodtruck.models import Category, Foodtruck, Menu, Profile, Comment, Reply, Truck_Rating
 
 class IndexView(TemplateView):
@@ -31,10 +34,10 @@ class UserCreateView(FormView):
     template_name = "auth/user_form.html"
     model = User
     form_class = UserCreationForm
-    success_url = reverse_lazy('index_view')
+    # success_url = reverse_lazy('index_view')
 
-    # def get_success_url(self, **kwargs):
-    #   return reverse_lazy('profile_update_view', args=[int(self.kwargs['pk'])])
+    def get_success_url(self, **kwargs):
+      return reverse_lazy('profile_update_view')
 
     # Had to look this up on StackOverflow
     def form_valid(self, form):
@@ -47,7 +50,6 @@ class UserCreateView(FormView):
       user = authenticate(username=username, password=password)
       login(self.request, user)
       return super(UserCreateView, self).form_valid(form)
-
 
 class CategoryCreateView(CreateView):
     model = Category
@@ -93,13 +95,16 @@ class FoodtruckListView(ListView):
 
 class MenuCreateView(CreateView):
     model = Menu
-    fields = ('food', 'price', 'truck')
-    success_url = reverse_lazy('menu_create_view')
+    fields = ('food', 'price')
+    # success_url = reverse_lazy('menu_create_view')
 
-    # def form_valid(self, form):
-    #     instance = form.save(commit=False)
-    #     instance.truck = self.truck.driver
-    #     return super().form_valid(form)
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
+
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.truck = Foodtruck.objects.get(id=self.kwargs['pk'])
+        return super().form_valid(form)
 
 class FoodUpdateView(UpdateView):
     model = Menu
@@ -142,12 +147,20 @@ class CheckinUpdateView(UpdateView):
     #     instance = form.save(commit=False)
     #     return super().form_valid(form)
 
+@login_required
+def account_redirect(request):
+    return redirect('profile_update_view', pk=request.user.id, name=request.user)
+
 class ProfileUpdateView(UpdateView):
-    model = Profile
+
     fields = ('image', 'status')
     # success_url = reverse_lazy('index_view')
+    def get_object(self):
+        return Profile.objects.get(user=self.request.user)
+
+
     def get_success_url(self, **kwargs):
-        return reverse_lazy('profile_detail_view', args=[int(self.kwargs['pk'])])
+        return reverse('profile_detail_view', args=[self.request.user.pk])
 
     def form_valid(self, form):
         instance = form.save(commit=False)

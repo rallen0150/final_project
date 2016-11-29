@@ -40,7 +40,8 @@
   <div class="ui grid">
     <div class="eight wide column">
       {% if request.user == object.driver %}
-        <a href="{% url 'foodtruck_update_view' object.id %}"><i class="red edit icon"></i> Update Truck</a> <br>
+        <a href="{% url 'foodtruck_update_view' object.id %}"><i class="red edit icon"></i> Update Truck Information</a> <br>
+        <a href="{% url 'menu_create_view' object.id %}"> <i class="red food icon"></i> New Food Item</a> <br>
       {% endif %}
       Average Rating Of Truck: {{ object.show_avg_rating|floatformat:2 }}
       {% if request.user.profile.is_user %}

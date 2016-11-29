@@ -38,6 +38,7 @@
         <a class="list_stuff" href="{% url 'map_view' %}"><i class="map icon"></i> View Map on Full Screen</a>
         {% endif %}
     </div>
+    {% if request.user.is_authenticated %}
     <div class="eight wide column">
       Find Which Trucks Are Around You! <br>
       Address: <input type="text" name="" id="address">
@@ -61,8 +62,6 @@
               // map.setCenter(results[0].geometry.location);
 
               $.getJSON("/api/foodtrucks/", function(result) {
-
-
 
                   for (var i = 0; i < result.length; i++) {
                     // console.log(i);
@@ -148,14 +147,9 @@
               handleLocationError(false, infoWindow, map.getCenter());
             }
 
-
-
-
                 var latlng = $.getJSON("/api/foodtrucks/", function(result) {
 
                   // console.log(result)
-
-
                   for (var i = 0; i < result.length; i++) {
                     // console.log(i);
                     var obj = result[i];
@@ -206,6 +200,7 @@
 
     </div>
 </div>
+{% endif %}
 
 
 {% endblock %}

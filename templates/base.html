@@ -39,8 +39,6 @@
       </style>
   </head>
   <body>
-
-
     <div class="body">
       <div class="ui sidebar vertical left inverted menu">
         {% if not request.user.is_authenticated %}
@@ -56,13 +54,13 @@
           <ul><a id="options" href="/search/"> <i class="search icon"></i> Truck/Driver Search</a></ul>
           {% if not request.user.profile.is_driver %}
             {% if not request.user.profile.is_user %}
-              <ul><a id="options" href="{% url 'profile_update_view' user.id %}"> <i class="add user icon"></i> New Profile</a></ul>
+              <ul><a id="options" href="{% url 'profile_update_view' %}"> <i class="add user icon"></i> New Profile</a></ul>
             {% endif %}
           {% endif %}
           <ul><a id="options" href="{% url 'profile_detail_view' user.id %}"> <i class="users icon"></i> Profile</a></ul>
           {% if request.user.profile.is_driver %}
             <ul><a id="options" href="{% url 'foodtruck_create_view' %}"> <i class="truck icon"></i> New Food Truck</a></ul>
-            <ul><a id="options" href="{% url 'menu_create_view' %}"> <i class="food icon"></i> New Food Item</a></ul>
+
           {% endif %}
           <ul><a id="options" href="{% url 'logout' %}?next={% url 'index_view' %}"> <i class="power icon"></i> Logout</a></ul>
         {% endif %}<br><br><br>

@@ -22,7 +22,7 @@ class ContactForm(forms.Form):
 
 
 class MultipleEmailForm(forms.Form):
-    sender = forms.CharField()
+
     message = forms.CharField(widget=forms.Textarea)
 
     def send_email(self, id):
@@ -31,7 +31,7 @@ class MultipleEmailForm(forms.Form):
             if x.status == 'A':
                 recipient_list.append(x.email)
         print(recipient_list)
-        sender = self.cleaned_data["sender"]
+        sender = Foodtruck.objects.get(id=id).truck_name
         message = self.cleaned_data["message"]
         subject = "Now On Site at a New Location"
         body = """Thanks for favoriting my Food Truck! You guys are awesome!
