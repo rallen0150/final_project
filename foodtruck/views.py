@@ -125,10 +125,10 @@ class MenuDetailView(DetailView):
 class LocationUpdateView(UpdateView):
     model = Foodtruck
     fields = ('address', )
-    success_url = reverse_lazy('index_view')
+    # success_url = reverse_lazy('index_view')
 
-    # def get_success_url(self, **kwargs):
-    #     return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('foodtruck_email_view', args=[int(self.kwargs['pk'])])
 
 class CheckinUpdateView(UpdateView):
     model = Foodtruck
