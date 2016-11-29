@@ -26,7 +26,8 @@ class MultipleEmailForm(forms.Form):
     def send_email(self):
         # recipient_list = []
         # for x in Profile.objects.all():
-        #     recipient_list.append(x.email)
+        #     if x.status == 'A':
+        #         recipient_list.append(x.email)
         # print(recipient_list)
         sender = self.cleaned_data["sender"]
         message = self.cleaned_data["message"]
