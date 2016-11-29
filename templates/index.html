@@ -26,11 +26,15 @@
         {% if not request.user.is_authenticated %}
         <div class="ui middle aligned center aligned grid">
           <div class="column">
-            <h2 class="ui blue image header">Login To Your Account</h2>
-
-            <form class="ui large form" action="{% url 'login' %}" method="post">
-              {% csrf_token %}
-              <div class="ui stacked segment">
+            <div class="ui stacked segment">
+              <div class="ui attached message">
+                <div class="header">
+                  <h2 class="ui blue image header">Login To Your Account</h2>
+                </div>
+              </div>
+              <br>
+              <form class="ui form attached segment" action="{% url 'login' %}" method="post">
+                {% csrf_token %}
                 <div class="field">
                   <div class="ui left icon input">
                     <i class="user icon"></i>

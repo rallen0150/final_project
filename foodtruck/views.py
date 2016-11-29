@@ -17,6 +17,8 @@ from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 
+from django.contrib.auth.mixins import PermissionRequiredMixin
+
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from foodtruck.models import Category, Foodtruck, Menu, Profile, Comment, Reply, Truck_Rating, Profile_Comment, Profile_Reply
@@ -128,6 +130,7 @@ class MenuDetailView(DetailView):
         return context
 
 class LocationUpdateView(UpdateView):
+    template_name = "foodtruck/location_update.html"
     model = Foodtruck
     fields = ('address', )
     # success_url = reverse_lazy('index_view')
@@ -136,6 +139,7 @@ class LocationUpdateView(UpdateView):
         return reverse_lazy('foodtruck_email_view', args=[int(self.kwargs['pk'])])
 
 class CheckinUpdateView(UpdateView):
+    template_name = "foodtruck/checkin_update.html"
     model = Foodtruck
     fields = ('checked_in', )
     success_url = reverse_lazy('index_view')
@@ -147,9 +151,6 @@ class CheckinUpdateView(UpdateView):
     #     instance = form.save(commit=False)
     #     return super().form_valid(form)
 
-@login_required
-def account_redirect(request):
-    return redirect('profile_update_view', pk=request.user.id, name=request.user)
 
 class ProfileUpdateView(UpdateView):
 
@@ -259,7 +260,7 @@ class ProfileReplyUpdateView(UpdateView):
     model = Profile_Reply
     fields = ('reply', )
     success_url = reverse_lazy('index_view')
-    
+
 class ImageUpdateView(UpdateView):
     model = Profile
     fields = ('image', )

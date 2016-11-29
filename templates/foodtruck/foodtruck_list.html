@@ -9,6 +9,7 @@
     #truck_name {
       font-size: 24px;
     }
+    
   </style>
 {% endblock %}
 
@@ -21,7 +22,7 @@
       <div class="title">
         <i class="dropdown icon"></i>
         <b id="truck_name">{{ truck }}</b>
-        <i class="star icon"></i> Avg. Rating: {{ truck.show_avg_rating|floatformat:2 }}
+        <b id="rating_size"><i class="star icon"></i> Avg. Rating: {{ truck.show_avg_rating|floatformat:2 }}</b>
       </div>
       <div id="list">
         <p>

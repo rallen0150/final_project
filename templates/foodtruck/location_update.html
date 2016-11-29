@@ -1,0 +1,34 @@
+<div class="ui middle aligned center aligned grid">
+  {% extends 'base.html' %}
+
+  {% block css %}
+    <style media="screen">
+      .column {
+        max-width: 550px;
+      }
+    </style>
+  {% endblock %}
+
+  {% block content %}
+  <br><br>
+  {% if request.user == object.driver %}
+  <div class="ui middle aligned center aligned grid">
+    <div class="column">
+      <div class="ui piled form segment">
+        <div class="ui attached message">
+          <div class="header">
+            <h2>Please Update Your Truck's Location!</h2>
+          </div>
+        </div>
+        <form class="ui form attached fluid segment" action="" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <input type="submit" class="ui blue submit button" name="" value="New Location!">
+        </form>
+      </div>
+    </div>
+  </div>
+  {% else %}
+    <h1>CAN'T CHANGE LOCATIONS!!!</h1>
+  {% endif %}
+{% endblock %}

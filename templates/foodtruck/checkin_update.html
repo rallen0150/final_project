@@ -3,28 +3,31 @@
 {% block css %}
   <style media="screen">
     .column {
-      max-width: 500px;
+      max-width: 550px;
     }
   </style>
 {% endblock %}
 
 {% block content %}
-<br><br>
+  <br><br>
+  {% if request.user == object.driver %}
   <div class="ui middle aligned center aligned grid">
     <div class="column">
       <div class="ui piled form segment">
         <div class="ui attached message">
           <div class="header">
-            <h2>Welcome to Chowster</h2>
-            <p>Fill out the form to login as a user!</p>
+            <h2>Are You On Site!</h2>
           </div>
         </div>
-        <form class="ui form attached fluid segment" action="" method="post">
+        <form class="ui form attached fluid segment" action="" method="post" enctype="multipart/form-data">
           {% csrf_token %}
           {{ form.as_p }}
-          <input type="submit" class="ui fluid teal button" name="" value="New User!">
+          <input type="submit" class="ui blue submit button" name="" value="Checkin!">
         </form>
       </div>
     </div>
   </div>
+  {% else %}
+    <h1>CAN'T CHECKIN!!!</h1>
+  {% endif %}
 {% endblock %}
