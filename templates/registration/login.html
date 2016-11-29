@@ -1,15 +1,42 @@
 {% extends 'base.html' %}
 
+{% block css %}
+  <style media="screen">
+    .column {
+      max-width: 450px;
+    }
+  </style>
+{% endblock %}
+
 {% block content %}
 <br><br>
-  <h1>Login</h1>
-  <div class="panel panel-default">
-  <div class="panel-body">
-    <form class="" action="" method="post">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <input type="submit" name="" value="Login">
-    </form>
+  <div class="ui middle aligned center aligned grid">
+    <div class="column">
+      <h2 class="ui blue image header">Login To Your Account</h2>
+
+      <form class="ui large form" action="" method="post">
+        {% csrf_token %}
+        <div class="ui stacked segment">
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="user icon"></i>
+              <input type="text" name="username" value="" placeholder="Username">
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui left icon input">
+              <i class="lock icon"></i>
+              <input type="password" name="password" placeholder="Password">
+            </div>
+          </div>
+          <input type="submit" class="ui fluid large teal submit button" name="" value="Login">
+        </div>
+      </form>
+      <div class="ui message">
+        <b>New to Chowster?</b>
+        <a href="{% url 'user_create_view' %}">Sign Up</a>
+      </div>
+    </div>
   </div>
-  </div>
+
 {% endblock %}

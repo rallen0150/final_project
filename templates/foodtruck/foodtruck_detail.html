@@ -43,6 +43,7 @@
         <a href="{% url 'foodtruck_update_view' object.id %}"><i class="red edit icon"></i> Update Truck Information</a> <br>
         <a href="{% url 'menu_create_view' object.id %}"> <i class="red food icon"></i> New Food Item</a> <br>
       {% endif %}
+      <br>
       Average Rating Of Truck: {{ object.show_avg_rating|floatformat:2 }}
       {% if request.user.profile.is_user %}
       <form class="" action="{% url 'truck_rating_list_create_api_view' object.id %}" method="post">
@@ -87,14 +88,16 @@
       </div>
     </div>
     <div class="eight wide column">
-      <a href="{% url 'foodtruck_email_view' object.id %}">Email Users</a><br>
+      {% if request.user == object.driver %}
+        <a href="{% url 'foodtruck_email_view' object.id %}">Email Users</a><br>
+      {% endif %}
         <div class="ui minimal comments">
           <h3 class="ui dividing header">Comments</h3>
           {% for comment in object.get_comment %}
           <div class="comment">
             <a class="avatar">
               <img src="{{ MEDIA_URL}}{{ comment.user.profile.image_url }}">
-            </a>&nbsp;&nbsp; {{ comment.user }} <i id="time">{{ comment.created|timesince }}</i><style>#time{ padding-left: 1.8em;}</style>
+            </a>&nbsp;&nbsp; <a href="{% url 'profile_detail_view' comment.user.id %}">{{ comment.user }}</a> <i id="time">{{ comment.created|timesince }}</i><style>#time{ padding-left: 1.8em;}</style>
           </div>
           <div class="content">
             <b>&nbsp; &nbsp;{{ comment.comment }}</b>
@@ -112,10 +115,13 @@
                 <div class="contents">
                   <a class="avatar">
                     <img src="{{ MEDIA_URL}}{{ reply.user.profile.image_url }}">
-                  </a>&nbsp; &nbsp; {{ reply.user }} <i id="time">{{ reply.created|timesince }}</i><style>#time{ padding-left: 1.8em;}</style>
+                  </a>&nbsp; &nbsp; <a href="{% url 'profile_detail_view' reply.user.id %}">{{ reply.user }}</a> <i id="time">{{ reply.created|timesince }}</i><style>#time{ padding-left: 1.8em;}</style>
                 </div>
                 <div class="text">
                   <b>&nbsp; &nbsp;{{ reply }}</b>
+                  {% if request.user == reply.user %}
+                    <a href="{% url 'reply_update_view' reply.id %}"> <i class="edit icon"></i> Update Reply</a>
+                  {% endif %}
                 </div>
               </div>
               {% endfor %}

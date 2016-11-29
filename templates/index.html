@@ -24,13 +24,33 @@
   <div class="ui grid" >
       <div class="eight wide column">
         {% if not request.user.is_authenticated %}
-        <div class="ui hidden div"></div>
-        <div class="ui corner labeled input">
-          <form class="" action="{% url 'login' %}" method="post">
+        <div class="ui middle aligned center aligned grid">
+          <div class="column">
+            <h2 class="ui blue image header">Login To Your Account</h2>
+
+            <form class="ui large form" action="{% url 'login' %}" method="post">
               {% csrf_token %}
-              {{ login.as_p }}
-              <input class="ui positive button" type="submit" name="" value="Login!">
-          </form>
+              <div class="ui stacked segment">
+                <div class="field">
+                  <div class="ui left icon input">
+                    <i class="user icon"></i>
+                    <input type="text" name="username" value="" placeholder="Username">
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="ui left icon input">
+                    <i class="lock icon"></i>
+                    <input type="password" name="password" placeholder="Password">
+                  </div>
+                </div>
+                <input type="submit" class="ui fluid large teal submit button" name="" value="Login">
+              </div>
+            </form>
+            <div class="ui message">
+              <b>New to Chowster?</b>
+              <a href="{% url 'user_create_view' %}">Sign Up</a>
+            </div>
+          </div>
         </div>
         {% else %}
         <a class="list_stuff" href="{% url 'foodtruck_list_view' %}"><i class="list layout icon"></i> List Of Trucks</a>
@@ -41,8 +61,11 @@
     {% if request.user.is_authenticated %}
     <div class="eight wide column">
       Find Which Trucks Are Around You! <br>
-      Address: <input type="text" name="" id="address">
-      <input type="button" value="Find Lat/Lng" onclick="CodeAddress()">
+      <div class="ui left corner input">
+        <i class="home icon"></i>
+        <input type="text" name="" id="address" placeholder="Address">
+      </div>
+      <input type="button" class="ui blue submit button" value="Find Lat/Lng" onclick="CodeAddress()">
 
       <script type="text/javascript">
         function CodeAddress() {

@@ -10,11 +10,8 @@
   {% endfor %}
   <form class="" action="{% url 'foodtruck_email_view' trucks.id %}" method="post">
     {% csrf_token %}
-    <p>
-      {{ form.message|add_class:"materialize-textarea"|attr:"placeholder:Where is your new address?" }}
-    </p>
     <button type="submit" class="ui blue submit button">
-     Contact Me!
+     Send Current Address!
    </button>
   </form>
 {% endblock %}

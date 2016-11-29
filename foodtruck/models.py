@@ -108,6 +108,10 @@ class Profile(models.Model):
         return self.favorite.all()
 
     @property
+    def get_profile_comment(self):
+        return Profile_Comment.objects.filter(profile_comment=self)
+
+    @property
     def is_driver(self):
         return self.status == 'T'
 
@@ -156,3 +160,24 @@ class Truck_Rating(models.Model):
     rater = models.ForeignKey('auth.User')
     rating = models.IntegerField()
     truck_rated = models.ForeignKey(Foodtruck)
+
+class Profile_Comment(models.Model):
+    user = models.ForeignKey('auth.User')
+    comment = models.TextField(null=True, blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    profile_comment = models.ForeignKey('foodtruck.Profile')
+
+    def __str__(self):
+        return self.comment
+
+    def get_reply(self):
+        return Profile_Reply.objects.filter(comment=self)
+
+class Profile_Reply(models.Model):
+    comment = models.ForeignKey(Profile_Comment)
+    reply = models.TextField()
+    user = models.ForeignKey('auth.User')
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.reply

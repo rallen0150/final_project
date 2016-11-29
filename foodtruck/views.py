@@ -19,7 +19,7 @@ from django.shortcuts import redirect
 
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
-from foodtruck.models import Category, Foodtruck, Menu, Profile, Comment, Reply, Truck_Rating
+from foodtruck.models import Category, Foodtruck, Menu, Profile, Comment, Reply, Truck_Rating, Profile_Comment, Profile_Reply
 
 class IndexView(TemplateView):
     template_name = 'index.html'
@@ -203,6 +203,11 @@ class ReplyCreateView(CreateView):
     # def get_success_url(self, **kwargs):
     #     return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
 
+class ReplyUpdateView(UpdateView):
+    model = Reply
+    fields = ('reply', )
+    success_url = reverse_lazy('index_view')
+
     def form_valid(self, form):
         instance = form.save(commit=False)
         instance.user = self.request.user
@@ -215,6 +220,46 @@ class ProfileDetailView(DetailView):
     # def get_object(self):
     #     return Commenter.objects.get(user=self.request.user)
 
+class ProfileCommentCreateView(CreateView):
+    model = Profile_Comment
+    fields = ('comment', )
+    # success_url = reverse_lazy('index_view')
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('profile_detail_view', args=[int(self.kwargs['pk'])])
+
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.user = self.request.user
+        instance.profile_comment = Profile.objects.get(id=self.kwargs['pk'])
+        return super().form_valid(form)
+
+class ProfileCommentUpdateView(UpdateView):
+    model = Profile_Comment
+    fields = ('comment', )
+    # success_url = reverse_lazy('index_view')
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('profile_detail_view', args=[int(self.kwargs['pk'])])
+
+class ProfileReplyCreateView(CreateView):
+    model = Profile_Reply
+    fields = ('reply', )
+    success_url = reverse_lazy('index_view')
+
+    # def get_success_url(self, **kwargs):
+    #     return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
+
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.user = self.request.user
+        instance.comment = Profile_Comment.objects.get(id=self.kwargs['pk'])
+        return super().form_valid(form)
+
+class ProfileReplyUpdateView(UpdateView):
+    model = Profile_Reply
+    fields = ('reply', )
+    success_url = reverse_lazy('index_view')
+    
 class ImageUpdateView(UpdateView):
     model = Profile
     fields = ('image', )
