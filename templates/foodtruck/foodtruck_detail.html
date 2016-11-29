@@ -86,6 +86,7 @@
       </div>
     </div>
     <div class="eight wide column">
+      <a href="{% url 'foodtruck_email_view' object.id %}">Email Users</a><br>
         <div class="ui minimal comments">
           <h3 class="ui dividing header">Comments</h3>
           {% for comment in object.get_comment %}

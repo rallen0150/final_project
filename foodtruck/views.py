@@ -11,7 +11,7 @@ from foodtruck.permissions import IsUser, IsProfileUser
 from rest_framework.permissions import IsAuthenticated
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from foodtruck.forms import ContactForm
+from foodtruck.forms import ContactForm, MultipleEmailForm
 from django.core.mail import send_mail
 
 from django.http import HttpResponseRedirect
@@ -284,6 +284,23 @@ class SendMailView(FormView):
 
 class MapView(TemplateView):
     template_name = 'map.html'
+
+class FoodtruckEmailView(FormView):
+    template_name = 'email_users.html'
+    success_url = reverse_lazy("contact_me_view")
+    form_class = MultipleEmailForm
+
+    # def get_success_url(self, **kwargs):
+    #     return reverse_lazy('foodtruck_email_view', args=[int(self.kwargs['pk'])])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['trucks'] = Foodtruck.objects.get(id=self.kwargs['pk'])
+        return context
+
+    def form_valid(self, form):
+        form.send_email()
+        return super().form_valid(form)
 
 class MapTestView(TemplateView):
     template_name = 'map_test.html'

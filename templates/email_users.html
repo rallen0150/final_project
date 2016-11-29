@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<br><br>
+  {% for x in trucks.get_favs %}
+    {{ x }}: {{ x.email }} <br>
+  {% endfor %}
+  <form class="" action="{% url 'foodtruck_email_view' trucks.id %}" method="post">
+    {% csrf_token %}
+    <p>
+      {{ form.sender|attr:"placeholder:What truck do you drive?" }}
+    </p>
+    <p>
+      {{ form.message|add_class:"materialize-textarea"|attr:"placeholder:What would you like to say?" }}
+    </p>
+    <button type="submit" class="ui blue submit button">
+     Contact Me!
+   </button>
+  </form>
+{% endblock %}

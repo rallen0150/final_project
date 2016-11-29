@@ -48,6 +48,10 @@ class Foodtruck(models.Model):
         return self.truck_name
 
     @property
+    def get_favs(self):
+        return Profile.objects.filter(favorite=self)
+
+    @property
     def get_menu(self):
         return Menu.objects.filter(truck=self)
 
