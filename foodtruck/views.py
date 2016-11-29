@@ -287,11 +287,11 @@ class MapView(TemplateView):
 
 class FoodtruckEmailView(FormView):
     template_name = 'email_users.html'
-    success_url = reverse_lazy("contact_me_view")
+    # success_url = reverse_lazy("contact_me_view")
     form_class = MultipleEmailForm
 
-    # def get_success_url(self, **kwargs):
-    #     return reverse_lazy('foodtruck_email_view', args=[int(self.kwargs['pk'])])
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -299,7 +299,7 @@ class FoodtruckEmailView(FormView):
         return context
 
     def form_valid(self, form):
-        form.send_email()
+        form.send_email(self.kwargs['pk'])
         return super().form_valid(form)
 
 class MapTestView(TemplateView):

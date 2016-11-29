@@ -4,7 +4,9 @@
 {% block content %}
 <br><br>
   {% for x in trucks.get_favs %}
-    {{ x }}: {{ x.email }} <br>
+    {% if x.is_user %}
+      {{ x }}: {{ x.email }} <br>
+    {% endif %}
   {% endfor %}
   <form class="" action="{% url 'foodtruck_email_view' trucks.id %}" method="post">
     {% csrf_token %}
