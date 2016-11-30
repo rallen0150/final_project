@@ -9,64 +9,87 @@
     #truck_name {
       font-size: 24px;
     }
-
+    .header {
+      text-align: center;
+    }
+    .label {
+      text-align: center;
+    }
+    .hei {
+      padding-top: 87px;
+    }
+    .message {
+      text-align: center;
+    }
   </style>
 {% endblock %}
 
 {% block content %}
 <br><br>
 <div class="ui grid">
+  <div class="hei">
   <div class="eight wide column">
     <div class="ui attached message">
-      <div class="header">
-        <h3>List Of Trucks (8 per page)</h3>
-      </div>
-    </div>
-    <div class="ui accordion">
-      {% for truck in object_list|dictsort:"truck_name" %}
-      <div class="title">
-        <i class="dropdown icon"></i>
-        <b id="truck_name">{{ truck }}</b>
-        <b id="rating_size"><i class="star icon"></i> Avg. Rating: {{ truck.show_avg_rating|floatformat:2 }}</b>
-      </div>
-      <div id="list">
-        <p>
-          <a href="{% url 'foodtruck_detail_view' truck.id %}">{{ truck }}</a><br>
-          <b>Address: {{ truck.address }}</b>
-          {% if request.user == truck.driver %}
-            <a href="{% url 'location_update_view' truck.id %}"> Move Location</a>
-          {% endif %} <br>
-          Type: {{ truck.category.food_type }}<br>
+      <div class="column">
+        <div class="header">
+          <h3>List Of Trucks (8 per page)</h3> <hr>
+        </div>
 
-          {% if request.user == truck.driver %}
-            {% if not truck.checked_in %}
-              <a href="{% url 'checkin_update_view' truck.id %}">Check In</a>
-            {% else %}
-              <a href="{% url 'checkin_update_view' truck.id %}">Check Out</a>
+        <div class="message">
+          <div class="ui accordion">
+            {% for truck in object_list|dictsort:"truck_name" %}
+            <div class="title">
+              <i class="dropdown icon"></i>
+              <b id="truck_name">{{ truck }}</b>
+              <b id="rating_size"><i class="star icon"></i> Avg. Rating: {{ truck.show_avg_rating|floatformat:2 }}</b>
+            </div>
+            <div id="list">
+              <p>
+                <a href="{% url 'foodtruck_detail_view' truck.id %}">{{ truck }}</a><br>
+                <b>Address: {{ truck.address }}</b>
+                {% if request.user == truck.driver %}
+                  <a href="{% url 'location_update_view' truck.id %}"> Move Location</a>
+                {% endif %} <br>
+                Type: {{ truck.category.food_type }}<br>
+
+                {% if request.user == truck.driver %}
+                  {% if not truck.checked_in %}
+                    <a href="{% url 'checkin_update_view' truck.id %}">Check In</a>
+                  {% else %}
+                    <a href="{% url 'checkin_update_view' truck.id %}">Check Out</a>
+                  {% endif %}
+                {% endif %}
+
+              </p>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="message">
+          <br><br>
+          <ul class="pagination">
+            {% if page_obj.has_previous %}
+              <a href="?page={{ page_obj.previous_page_number }}">Previous</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             {% endif %}
-          {% endif %}
-
-        </p>
+            {% if page_obj.has_next %}
+              <a id="next" href="?page={{ page_obj.next_page_number }}">Next</a>
+            {% endif %}
+          </ul>
+        </div>
       </div>
-      {% endfor %}
     </div>
-    <br><br>
-    <ul class="pagination">
-      {% if page_obj.has_previous %}
-        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      {% endif %}
-      {% if page_obj.has_next %}
-        <a id="next" href="?page={{ page_obj.next_page_number }}">Next</a>
-      {% endif %}
-    </ul>
   </div>
+</div>
   <div class="eight wide column">
-    <b>Find Which Trucks Are Around You!</b> <br>
-    <div class="ui left corner input">
-      <i class="big home icon"></i>
-      <input type="text" name="" id="address" placeholder="Address">
-      <input type="button" class="ui blue submit button" value="Find Lat/Lng" onclick="CodeAddress()">
-    </div>
+    <div class="label">
+      <b>Find Which Trucks Are Around You!</b><br>
+      <div class="ui left corner input">
+        <i class="big home icon"></i>
+        <input type="text" name="" id="address" placeholder="Address">
+        <input type="button" class="ui blue submit button" value="Find Lat/Lng" onclick="CodeAddress()">
+      </div>
+
+
 
 
     <script type="text/javascript">
@@ -222,6 +245,7 @@
         </script>
       <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJ2GhgOOCaoypV0JCC4NnxS-M0enWpN64&callback=initMap">
       </script>
+    </div>
   </div>
 </div>
 
