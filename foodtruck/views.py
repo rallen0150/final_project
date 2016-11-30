@@ -190,7 +190,11 @@ class CommentCreateView(CreateView):
 class CommentUpdateView(UpdateView):
     model = Comment
     fields = ('comment', )
-    success_url = reverse_lazy('index_view')
+    # success_url = reverse_lazy('index_view')
+
+    def get_success_url(self, *args, **kwargs):
+        x = Comment.objects.get(id=self.kwargs['pk']).truck_comment.id
+        return reverse('foodtruck_detail_view', args=[x])
 
 class FoodtruckListAPIView(ListAPIView):
     queryset = Foodtruck.objects.all()
@@ -204,7 +208,11 @@ class FoodtruckDetailUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
 class ReplyCreateView(CreateView):
     model = Reply
     fields = ('reply', )
-    success_url = reverse_lazy('index_view')
+    # success_url = reverse_lazy('index_view')
+
+    def get_success_url(self, *args, **kwargs):
+        x = Comment.objects.get(id=self.kwargs['pk']).truck_comment.id
+        return reverse('foodtruck_detail_view', args=[x])
 
     def form_valid(self, form):
         instance = form.save(commit=False)
@@ -218,7 +226,11 @@ class ReplyCreateView(CreateView):
 class ReplyUpdateView(UpdateView):
     model = Reply
     fields = ('reply', )
-    success_url = reverse_lazy('index_view')
+    # success_url = reverse_lazy('index_view')
+
+    def get_success_url(self, *args, **kwargs):
+        x = Reply.objects.get(id=self.kwargs['pk']).comment.truck_comment.id
+        return reverse('foodtruck_detail_view', args=[x])
 
     def form_valid(self, form):
         instance = form.save(commit=False)
@@ -249,15 +261,23 @@ class ProfileCommentCreateView(CreateView):
 class ProfileCommentUpdateView(UpdateView):
     model = Profile_Comment
     fields = ('comment', )
-    success_url = reverse_lazy('index_view')
-    
+    # success_url = reverse_lazy('index_view')
+
+    def get_success_url(self, *args, **kwargs):
+        x = Profile_Comment.objects.get(id=self.kwargs['pk']).profile_comment.id
+        return reverse('profile_detail_view', args=[x])
+
     # def get_success_url(self, **kwargs):
     #     return reverse_lazy('profile_detail_view', args=[int(self.kwargs['pk'])])
 
 class ProfileReplyCreateView(CreateView):
     model = Profile_Reply
     fields = ('reply', )
-    success_url = reverse_lazy('index_view')
+    # success_url = reverse_lazy('index_view')
+
+    def get_success_url(self, *args, **kwargs):
+        x = Profile_Comment.objects.get(id=self.kwargs['pk']).profile_comment.id
+        return reverse('profile_detail_view', args=[x])
 
     # def get_success_url(self, **kwargs):
     #     return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
@@ -271,7 +291,11 @@ class ProfileReplyCreateView(CreateView):
 class ProfileReplyUpdateView(UpdateView):
     model = Profile_Reply
     fields = ('reply', )
-    success_url = reverse_lazy('index_view')
+    # success_url = reverse_lazy('index_view')
+
+    def get_success_url(self, *args, **kwargs):
+        x = Profile_Reply.objects.get(id=self.kwargs['pk']).comment.profile_comment.id
+        return reverse('profile_detail_view', args=[x])
 
 class ImageUpdateView(UpdateView):
     template_name = "foodtruck/image_update.html"
