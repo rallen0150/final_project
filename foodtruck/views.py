@@ -267,6 +267,7 @@ class ProfileReplyUpdateView(UpdateView):
     success_url = reverse_lazy('index_view')
 
 class ImageUpdateView(UpdateView):
+    template_name = "foodtruck/image_update.html"
     model = Profile
     fields = ('image', )
     # success_url = reverse_lazy('index_view')
