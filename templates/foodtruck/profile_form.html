@@ -1,10 +1,44 @@
 {% extends 'base.html' %}
 
+{% block css %}
+  <style media="screen">
+    .column {
+      max-width: 550px;
+    }
+    .negative {
+      max-width: 550px;
+    }
+  </style>
+{% endblock %}
+
 {% block content %}
 <br><br>
-  <form class="" action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" class="ui blue submit button" name="" value="Submit">
-  </form>
+{% if not request.user.profile.is_driver and not request.user.profile.is_user %}
+  <div class="ui middle aligned center aligned grid">
+    <div class="column">
+      <div class="ui raised form segment">
+        <div class="ui attached message">
+          <div class="header">
+            <h2>Create New Profile!</h2>
+          </div>
+        </div>
+        <form class="ui form attached fluid segment" action="" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <input type="submit" class="ui blue submit button" name="" value="Submit">
+        </form>
+      </div>
+    </div>
+  </div>
+{% else %}
+  <br>
+  <div class="ui middle aligned center aligned grid">
+    <div class="ui negative message">
+      <div class="header">
+        <h1>Already Registered!</h1> <hr>
+      </div>
+      <p>You have already stated if you are a user or driver! You cannot change this status, if you wish to then please contact me through the "Contact Me" in the menu!</p>
+    </div>
+  </div>
+{% endif %}
 {% endblock %}

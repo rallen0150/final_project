@@ -1,17 +1,32 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
 
+{% block css %}
+  <style media="screen">
+    .column {
+      max-width: 550px;
+    }
+  </style>
+{% endblock %}
+
 {% block content %}
-<br><br>
-  {% for x in trucks.get_favs %}
-    {% if x.is_user %}
-      {{ x }}: {{ x.email }} <br>
-    {% endif %}
-  {% endfor %}
-  <form class="" action="{% url 'foodtruck_email_view' trucks.id %}" method="post">
-    {% csrf_token %}
-    <button type="submit" class="ui blue submit button">
-     Send Current Address!
-   </button>
-  </form>
+<br><br><br><br>
+  <div class="ui middle aligned center aligned grid">
+    <div class="column">
+      <div class="ui stacked form segment">
+        <div class="ui blue attached message">
+          <div class="header">
+            <h2>Do You Want to Tell Your Customers Who Favorited This Truck About This Location?</h2>
+          </div>
+        </div>
+        <br>
+        <form class="" action="{% url 'foodtruck_email_view' trucks.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="ui green submit button">
+           Send Current Address!
+         </button>
+        </form>
+      </div>
+    </div>
+  </div>
 {% endblock %}

@@ -10,15 +10,15 @@
 
 {% block content %}
 <br><br>
-<div class="ui middle aligned center aligned grid">
-  <div class="column">
-    <div class="ui piled form segment">
-      <form class="ui form attached fluid segment" action="" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" class="ui blue submit button" name="" value="New Driver!">
-      </form>
+  <div class="ui middle aligned center aligned grid">
+    <div class="column">
+      <div class="ui raised form segment">
+        <form class="ui form attached fluid segment" action="" method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <input type="submit" class="ui blue submit button" name="" value="Reply!">
+        </form>
+      </div>
     </div>
   </div>
-</div>
 {% endblock %}
