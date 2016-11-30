@@ -92,7 +92,10 @@ class FoodtruckDetailView(DetailView):
 class FoodtruckUpdateView(UpdateView):
     model = Foodtruck
     fields = ('truck_name', 'picture')
-    success_url = reverse_lazy('index_view')
+    # success_url = reverse_lazy('index_view')
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
 
 class FoodtruckListView(ListView):
     model = Foodtruck
