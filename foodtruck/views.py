@@ -294,6 +294,7 @@ class FavoriteUpdateView(UpdateView):
         return HttpResponseRedirect(reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])]))
 
 class EmailUpdateView(UpdateView):
+    template_name = "foodtruck/email_update.html"
     model = Profile
     fields = ('email', )
     # success_url = reverse_lazy('index_view')
