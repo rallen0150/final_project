@@ -206,6 +206,12 @@ class ReplyCreateView(CreateView):
     fields = ('reply', )
     success_url = reverse_lazy('index_view')
 
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.user = self.request.user
+        instance.comment = Comment.objects.get(id=self.kwargs['pk'])
+        return super().form_valid(form)
+
     # def get_success_url(self, **kwargs):
     #     return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
 
