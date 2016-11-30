@@ -2,6 +2,7 @@
 
 {% block content %}
 <br><br>
+{% if request.user == object.user %}
 <div class="ui middle aligned center aligned grid">
   <div class="column">
     <div class="ui stacked form segment">
@@ -13,4 +14,5 @@
     </div>
   </div>
 </div>
+{% endif %}
 {% endblock %}

@@ -249,9 +249,10 @@ class ProfileCommentCreateView(CreateView):
 class ProfileCommentUpdateView(UpdateView):
     model = Profile_Comment
     fields = ('comment', )
-    # success_url = reverse_lazy('index_view')
-    def get_success_url(self, **kwargs):
-        return reverse_lazy('profile_detail_view', args=[int(self.kwargs['pk'])])
+    success_url = reverse_lazy('index_view')
+    
+    # def get_success_url(self, **kwargs):
+    #     return reverse_lazy('profile_detail_view', args=[int(self.kwargs['pk'])])
 
 class ProfileReplyCreateView(CreateView):
     model = Profile_Reply
