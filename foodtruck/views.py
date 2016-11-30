@@ -61,7 +61,10 @@ class CategoryCreateView(CreateView):
 class FoodtruckCreateView(CreateView):
     model = Foodtruck
     fields = ('truck_name', 'picture', 'category', 'address', 'checked_in')
-    success_url = reverse_lazy('menu_create_view')
+    success_url = reverse_lazy('index_view')
+
+    # def get_success_url(self, **kwargs):
+    #     return reverse_lazy('menu_create_view', args=[int(self.kwargs['pk'])])
 
     def form_valid(self, form):
         instance = form.save(commit=False)
@@ -101,7 +104,7 @@ class MenuCreateView(CreateView):
     # success_url = reverse_lazy('menu_create_view')
 
     def get_success_url(self, **kwargs):
-        return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
+        return reverse_lazy('menu_create_view', args=[int(self.kwargs['pk'])])
 
     def form_valid(self, form):
         instance = form.save(commit=False)
