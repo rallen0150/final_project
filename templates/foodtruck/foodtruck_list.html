@@ -9,7 +9,7 @@
     #truck_name {
       font-size: 24px;
     }
-    
+
   </style>
 {% endblock %}
 
@@ -17,6 +17,7 @@
 <br><br>
 <div class="ui grid">
   <div class="eight wide column">
+
     <div class="ui accordion">
       {% for truck in object_list|dictsort:"truck_name" %}
       <div class="title">
@@ -51,14 +52,18 @@
         <a href="?page={{ page_obj.previous_page_number }}">Previous</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       {% endif %}
       {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a id="next" href="?page={{ page_obj.next_page_number }}">Next</a>
       {% endif %}
     </ul>
   </div>
   <div class="eight wide column">
-    Find Which Trucks Are Around You! <br>
-    Address: <input type="text" name="" id="address">
-    <input type="button" value="Find Lat/Lng" onclick="CodeAddress()">
+    <b>Find Which Trucks Are Around You!</b> <br>
+    <div class="ui left corner input">
+      <i class="big home icon"></i>
+      <input type="text" name="" id="address" placeholder="Address">
+      <input type="button" class="ui blue submit button" value="Find Lat/Lng" onclick="CodeAddress()">
+    </div>
+
 
     <script type="text/javascript">
       function CodeAddress() {
@@ -136,6 +141,26 @@
             zoom: 14,
             center: {lat: 34.8574, lng: -82.390189},
            });
+
+           function processResults(results, status, pagination) {
+            if (status !== google.maps.places.PlacesServiceStatus.OK) {
+              return;
+            } else {
+              createMarkers(results);
+
+              if (pagination.hasNextPage) {
+                var moreButton = document.getElementById('next');
+
+                moreButton.disabled = false;
+
+                moreButton.addEventListener('click', function() {
+                  moreButton.disabled = true;
+                  pagination.nextPage();
+                });
+              }
+            }
+          }
+
 
            var geocoder = new google.maps.Geocoder();
            // var map = new google.maps.Map(document.getElementById('map'), {

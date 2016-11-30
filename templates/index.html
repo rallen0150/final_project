@@ -64,12 +64,13 @@
     </div>
     {% if request.user.is_authenticated %}
     <div class="eight wide column">
-      Find Which Trucks Are Around You! <br>
+      <b>Find Which Trucks Are Around You!</b> <br>
       <div class="ui left corner input">
-        <i class="home icon"></i>
+        <i class="big home icon"></i>
         <input type="text" name="" id="address" placeholder="Address">
+        <input type="button" class="ui blue submit button" value="Find Lat/Lng" onclick="CodeAddress()">
       </div>
-      <input type="button" class="ui blue submit button" value="Find Lat/Lng" onclick="CodeAddress()">
+
 
       <script type="text/javascript">
         function CodeAddress() {

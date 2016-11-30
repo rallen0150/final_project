@@ -112,11 +112,13 @@ class MenuCreateView(CreateView):
         return super().form_valid(form)
 
 class FoodUpdateView(UpdateView):
+    template_name = 'foodtruck/food_update.html'
     model = Menu
     fields = ('food', )
     success_url = reverse_lazy('index_view')
 
 class PriceUpdateView(UpdateView):
+    template_name = 'foodtruck/price_update.html'
     model = Menu
     fields = ('price', )
     success_url = reverse_lazy('index_view')

@@ -22,7 +22,7 @@
         <br>
         <form class="" action="{% url 'foodtruck_email_view' trucks.id %}" method="post">
           {% csrf_token %}
-          <button type="submit" class="ui green submit button">
+          <button type="submit" class="ui blue submit button">
            Send Current Address!
          </button>
         </form>

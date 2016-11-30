@@ -9,9 +9,7 @@
     text-decoration: underline;
     font-size: 32px;
   }
-  .menu_items{
-    font-family: cursive;
-  }
+
   #food_size {
     font-size: 22px;
     text-decoration: underline;
@@ -24,7 +22,6 @@
   }
   #menu_title {
     font-size: 28px;
-    font-family: cursive;
     text-decoration: underline;
   }
 
@@ -40,8 +37,9 @@
   <div class="ui grid">
     <div class="eight wide column">
       {% if request.user == object.driver %}
-        <a href="{% url 'foodtruck_update_view' object.id %}"><i class="red edit icon"></i> Update Truck Information</a> <br>
-        <a href="{% url 'menu_create_view' object.id %}"> <i class="red food icon"></i> New Food Item</a> <br>
+        <a href="{% url 'foodtruck_email_view' object.id %}"><i class="blue mail icon"></i> Email Users</a><br>
+        <a href="{% url 'foodtruck_update_view' object.id %}"><i class="blue edit icon"></i> Update Truck Information</a> <br>
+        <a href="{% url 'menu_create_view' object.id %}"> <i class="blue food icon"></i> New Food Item</a> <br>
       {% endif %}
       <br>
       Average Rating Of Truck: {{ object.show_avg_rating|floatformat:2 }}
@@ -88,9 +86,6 @@
       </div>
     </div>
     <div class="eight wide column">
-      {% if request.user == object.driver %}
-        <a href="{% url 'foodtruck_email_view' object.id %}">Email Users</a><br>
-      {% endif %}
         <div class="ui minimal comments">
           <h3 class="ui dividing header">Comments</h3>
           {% for comment in object.get_comment %}
@@ -133,7 +128,7 @@
             {% csrf_token %}
             <div class="field">
               <textarea name="comment" rows="5" cols="30"></textarea>
-               <button type="submit"><i class="comment icon"></i> Comment!</button>
+               <button type="submit" class="ui blue submit button"><i class="comment icon"></i> Comment!</button>
             </div>
           </form>
         </div>

@@ -9,14 +9,25 @@
       height: 100%;
       width: 100%;
     }
+    #font {
+      font-size: 20px;
+    }
   </style>
 {% endblock %}
 
 {% block content %}
 <br><br>
-  Find Which Trucks Are Around You! <br>
-  Address: <input type="text" name="" id="address">
-  <input type="button" value="Find Lat/Lng" onclick="CodeAddress()">
+<div class="ui middle aligned center aligned grid">
+  <p>
+    <b id="font">Find Which Trucks Are Around You!</b>
+  </p>
+  <div class="ui left corner input">
+    <i class="big home icon"></i>
+    <input type="text" name="" id="address" placeholder="Address">
+    <input type="button" class="ui blue submit button" value="Find Lat/Lng" onclick="CodeAddress()">
+  </div>
+</div>
+<br>
 <script type="text/javascript">
   function CodeAddress() {
     var geocoder = new google.maps.Geocoder();
