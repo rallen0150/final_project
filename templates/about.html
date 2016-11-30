@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block css %}
+  <style media="screen">
+    .column {
+      width: 550px;
+      height: 350px;
+    }
+  </style>
+{% endblock  %}
+
+{% block content %}
+<br><br>
+<div class="ui grid">
+  <div class="eight wide column">
+    <div class="ui stacked form segment">
+      <div class="ui attached message">
+        <div class="header">
+          <h2>About the Creater of Chowster</h2>
+        </div>
+      </div>
+      <div class="ui message">
+        <h4>Thank you for visiting my site Chowster.co! This started out as a project for The Iron Yard, but
+            this has turned out to be "my baby". Now about me. My name is Robbie Allen and I created this site for people to see
+            which food truck is in your area based off your location.  I am from Greenville, South Carolina so the site is centered
+            around downtown Greenville. I went to USC-Columbia for Computer Science and Greenville Technical College for Electrical Engineering before going to The Iron Yard.
+            I was apart of the Back-End Engineer classes of The Iron Yard. I have had very basic HTML before The Iron Yard, but
+            not as much as I learned here. I previously built a page many years ago, but unfortunatly it is no longer on the internet.
+            That class is what made me want to develop webpages for a living. I searched coding schools and I landed on the Iron Yard since there was a campus listed in Greenville.
+            Being a Back-End Engineer, I deal with data that stores information across the web page. I am going to continue working on this page, but the
+            goal is to make this page a mobile app for easier access.</h4>
+      </div>
+      <div class="ui message">
+        <a href="https://github.com/rallen0150/"> <i class="github icon"></i> Github</a> &nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{% url 'contact_me_view' %}"><i class="mail icon"></i> Contact Me</a> &nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="{% url 'foodtruck_list_api_view' %}"><i class="truck icon"></i> API of Trucks</a> &nbsp;&nbsp;
+        <a href="{% url 'profile_list_api_view' %}"><i class="user icon"></i> Profile API</a>
+      </div>
+    </div>
+  </div>
+  <div class="eight wide column">
+    <img src="https://s3.amazonaws.com/truck-img/20161011_TIY-Students_17273.jpg">
+  </div>
+</div>
+{% endblock %}

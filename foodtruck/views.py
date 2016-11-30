@@ -370,3 +370,6 @@ class FoodtruckEmailView(FormView):
 
 class MapTestView(TemplateView):
     template_name = 'map_test.html'
+
+class AboutMeView(TemplateView):
+    template_name = "about.html"

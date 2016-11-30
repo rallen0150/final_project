@@ -60,13 +60,12 @@
           <ul><a id="options" href="{% url 'profile_detail_view' user.id %}"> <i class="users icon"></i> Profile</a></ul>
           {% if request.user.profile.is_driver %}
             <ul><a id="options" href="{% url 'foodtruck_create_view' %}"> <i class="truck icon"></i> New Food Truck</a></ul>
-
           {% endif %}
           <ul><a id="options" href="{% url 'logout' %}?next={% url 'index_view' %}"> <i class="power icon"></i> Logout</a></ul>
         {% endif %}<br><br><br>
+        <ul><a id="options" href="{% url 'about_me' %}">About Me</a></ul>
         <ul><a id="options" href="https://github.com/rallen0150/final_project"> <i class="github icon"></i> Github</a></ul>
-        <ul><a id="options" href="{% url 'foodtruck_list_api_view' %}"><i class="truck icon"></i> API of Trucks</a></ul>
-        <ul><a id="options" href="{% url 'profile_list_api_view' %}"><i class="user icon"></i> Profile API</a></ul>
+
       </div>
       <div class="pusher">
         <div class="ui basic icon fixed menu">

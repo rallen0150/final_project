@@ -15,7 +15,7 @@ from foodtruck.views import IndexView, UserCreateView, CategoryCreateView, \
                             TruckRatingDetailUpdateDestroyAPIView, EmailUpdateView, ContactMeView, \
                             SendMailView, MenuDetailView, FoodtruckListView, MapView, FoodtruckEmailView, \
                             ProfileCommentCreateView, ProfileReplyCreateView, ProfileCommentUpdateView, \
-                            ProfileReplyUpdateView, ReplyUpdateView
+                            ProfileReplyUpdateView, ReplyUpdateView, AboutMeView
 
 from rest_framework.authtoken.views import obtain_auth_token
 
@@ -62,4 +62,5 @@ urlpatterns = [
     url(r'^full_map/$', MapView.as_view(), name='map_view'),
     url(r'^foodtruck/(?P<pk>\d+)/email/$', FoodtruckEmailView.as_view(), name='foodtruck_email_view'),
     url(r'^map/test/$', MapTestView.as_view()),
+    url(r'^about_me/$', AboutMeView.as_view(), name='about_me'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
