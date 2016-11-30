@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block css %}
+  <style media="screen">
+    .column {
+      max-width: 550px;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+    <br><br><br>
+    {% if request.user == object.driver %}
+      <div class="ui middle aligned center aligned grid">
+        <div class="column">
+          <div class="ui stacked form segment">
+            <div class="ui attached message">
+              <div class="header">
+                <h2>Please Fill Out Your Truck's Information!</h2>
+              </div>
+            </div>
+            <form class="ui form attached fluid segment" action="" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              {{ form.as_p }}
+              <input type="submit" class="ui blue submit button" name="" value="Update Truck!">
+            </form>
+          </div>
+        </div>
+      </div>
+    {% else %}
+    <br><br>
+      <div class="ui middle aligned center aligned grid">
+        <div class="ui negative message">
+          <div class="header">
+            <h1>Not Supposed To Be Here!!!</h1> <hr>
+          </div>
+          <p>You are NOT assigned as this truck's driver, so you cannot add any foodtrucks.</p>
+        </div>
+      </div>
+    {% endif %}
+
+{% endblock %}

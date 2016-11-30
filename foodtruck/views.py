@@ -90,6 +90,7 @@ class FoodtruckDetailView(DetailView):
         return context
 
 class FoodtruckUpdateView(UpdateView):
+    template_name = 'foodtruck/foodtruck_update.html'
     model = Foodtruck
     fields = ('truck_name', 'picture')
     # success_url = reverse_lazy('index_view')
@@ -161,7 +162,7 @@ class CheckinUpdateView(UpdateView):
 
 
 class ProfileUpdateView(UpdateView):
-
+    template_name = 'foodtruck/profile_update.html'
     fields = ('image', 'status')
     # success_url = reverse_lazy('index_view')
     def get_object(self):

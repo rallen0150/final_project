@@ -53,8 +53,8 @@
           <ul id="options" >{{ request.user.profile.email }}</ul>
           <hr id="options">
           <ul><a id="options" href="{% url 'index_view' %}"> <i class="home icon"></i> Home</a></ul>
+          <ul><a id="options" href="{% url 'foodtruck_list_view' %}"><i class="list layout icon"></i> List Of Trucks</a></ul>
           <ul><a id="options" href="{% url 'map_view' %}"> <i class="map icon"></i> View Map</a></ul>
-          <ul><a id='options' href="{% url 'contact_me_view' %}"> <i class="mail square icon"></i> Contact Me</a></ul>
           <ul><a id="options" href="/search/"> <i class="search icon"></i> Truck/Driver Search</a></ul>
           {% if not request.user.profile.is_driver %}
             {% if not request.user.profile.is_user %}
@@ -68,7 +68,8 @@
           <ul><a id="options" href="{% url 'logout' %}?next={% url 'index_view' %}"> <i class="power icon"></i> Logout</a></ul>
         {% endif %}<br><br><br>
         <ul><a id="options" href="{% url 'about_me' %}">About Me</a></ul>
-        <ul><a id="options" href="https://github.com/rallen0150/final_project"> <i class="github icon"></i> Github</a></ul>
+        <ul><a id='options' href="{% url 'contact_me_view' %}"> <i class="mail square icon"></i> Contact Me</a></ul>
+        <ul><a id="options" href="https://github.com/rallen0150/final_project"> <i class="github icon"></i> Github of Chowster</a></ul>
 
       </div>
       <div class="pusher">
@@ -77,9 +78,7 @@
             <i class="content icon"></i>
             Menu
           </a>
-
         </div>
-
       </div>
       {% block content %}
       {% endblock %}

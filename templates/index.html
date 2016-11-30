@@ -12,7 +12,7 @@
       font-size: 48px;
     }
     .list_stuff {
-      font-size: 32px;
+      font-size: 30px;
     }
   </style>
 {% endblock %}
@@ -58,9 +58,10 @@
           </div>
         </div>
         {% else %}
-        <a class="list_stuff" href="{% url 'foodtruck_list_view' %}"><i class="list layout icon"></i> List Of Trucks</a>
+        <br><br><br><br>
+        <button type="button" class="ui blue huge button" name="button"><a id="options" class="list_stuff" href="{% url 'foodtruck_list_view' %}"><i class="list layout icon"></i> List Of Trucks</a></button>
         <br><br><br><br><br><br>
-        <a class="list_stuff" href="{% url 'map_view' %}"><i class="map icon"></i> View Map on Full Screen</a>
+        <button type="button" class="ui blue huge button" name="button"><a id="options" class="list_stuff" href="{% url 'map_view' %}"><i class="map icon"></i> View Map on Full Screen</a></button>
         {% endif %}
     </div>
     {% if request.user.is_authenticated %}

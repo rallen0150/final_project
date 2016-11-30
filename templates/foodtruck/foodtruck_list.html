@@ -17,7 +17,11 @@
 <br><br>
 <div class="ui grid">
   <div class="eight wide column">
-
+    <div class="ui attached message">
+      <div class="header">
+        <h3>List Of Trucks (8 per page)</h3>
+      </div>
+    </div>
     <div class="ui accordion">
       {% for truck in object_list|dictsort:"truck_name" %}
       <div class="title">

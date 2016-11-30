@@ -1,5 +1,14 @@
 {% extends 'base.html' %}
 
+{% block css %}
+  <style media="screen">
+    .ui.message {
+      max-width: 300px;
+      text-align: center;
+    }
+  </style>
+{% endblock %}
+
 {% block content %}
   {% if object.user == request.user %}
     <h1>Welcome {{ request.user }}</h1>
@@ -15,13 +24,19 @@
         <a href="{% url 'email_update_view' user.id %}"> <i class="black mail outline icon"></i> Update Email</a><br>
         <a href="{% url 'profile_list_api_view' %}">View your API</a>
       {% endif %}
+      <div class="ui attached message">
+        <div class="header">
+          <h3>Favorites</h3><hr>
+        </div>
+        {% for commenter in object.contents %}
 
-      <h3>Favorites</h3>
-      {% for commenter in object.contents %}
-      <div class="">
-        <a href="{% url 'foodtruck_detail_view' commenter.id %}">{{ commenter }}</a>
+        <div class="message">
+          <a href="{% url 'foodtruck_detail_view' commenter.id %}">{{ commenter }}</a>
+        </div>
+        {% endfor %}
       </div>
-      {% endfor %}
+
+
     </div>
     <div class="eight wide column">
       <div class="ui minimal comments">
