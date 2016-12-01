@@ -75,8 +75,9 @@ class Foodtruck(models.Model):
     @property
     def find_lat_lng(self):
         geocode_result = gmaps.geocode(self.address)
-        print (geocode_result)
-        return(geocode_result[0]['geometry']['location'])
+        if geocode_result:
+            return(geocode_result[0]['geometry']['location'])
+        return {}
 
     @property
     def get_user(self):
