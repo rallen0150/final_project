@@ -9,6 +9,9 @@
     .centered {
       padding-left: 75px;
     }
+    #replybutton {
+      color: blue;
+    }
   </style>
 {% endblock %}
 
@@ -56,11 +59,26 @@
         <div class="content">
           <b>&nbsp; &nbsp;{{ comment.comment }}</b>
           {% if request.user == comment.user %}
-            <a href="{% url 'profile_comment_update_view' comment.id %}"> <i class="edit icon"></i> Update Comment</a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'profile_comment_update_view' comment.id %}"> <i class="edit icon"></i> Update Comment</a>
           {% endif %}
         </div>
         <div class="actions">
-          &nbsp; &nbsp;<a href="{% url 'profile_reply_create_view' comment.id %}"> <i class="reply icon"></i> Reply</a>
+          <div class="reply">
+            <div class="ui accordion">
+              <div class="title">
+                <b id="replybutton"><i class="reply icon"></i>Reply</b>
+              </div>
+              <div id="list">
+                <p>
+                  <form class="" action="{% url 'profile_reply_create_view' comment.id %}" method="post">
+                    {% csrf_token %}
+                    <textarea name="reply" rows="4" cols="35"></textarea>
+                    <button type="submit" class="tiny ui blue submit button"><i class="reply icon"></i> Reply!</button>
+                  </form>
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
         <blockquote>
@@ -75,7 +93,23 @@
               <div class="text">
                 <b>&nbsp; &nbsp;{{ reply }}</b>
                 {% if request.user == reply.user %}
-                  <a href="{% url 'profile_reply_update_view' reply.id %}"> <i class="edit icon"></i> Update Reply</a>
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <div class="reply">
+                    <div class="ui accordion">
+                      <div class="title">
+                        <b id="replybutton"><i class="reply icon"></i>Update Reply</b>
+                      </div>
+                      <div id="list">
+                        <p>
+                          <form class="" action="{% url 'profile_reply_update_view' reply.id %}" method="post">
+                            {% csrf_token %}
+                            <textarea name="reply" rows="4" cols="35"></textarea>
+                            <button type="submit" class="tiny ui blue submit button"><i class="update icon"></i> Update!</button>
+                          </form>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 {% endif %}
               </div>
             </div>
@@ -96,4 +130,16 @@
     </div>
   </div>
 
+{% endblock %}
+
+{% block js %}
+  <script src="https://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      $('.ui.accordion').accordion({
+        active: false,
+        collapsible: true
+      });
+    })
+  </script>
 {% endblock %}

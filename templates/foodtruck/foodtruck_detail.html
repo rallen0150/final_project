@@ -9,7 +9,6 @@
     text-decoration: underline;
     font-size: 32px;
   }
-
   #food_size {
     font-size: 22px;
     text-decoration: underline;
@@ -24,7 +23,9 @@
     font-size: 28px;
     text-decoration: underline;
   }
-
+  #replybutton {
+    color: blue;
+  }
   </style>
 {% endblock %}
 
@@ -101,7 +102,22 @@
             {% endif %}
           </div>
           <div class="actions">
-            &nbsp; &nbsp;<a href="{% url 'reply_create_view' comment.id %}"> <i class="reply icon"></i> Reply</a>
+            <div class="reply">
+              <div class="ui accordion">
+                <div class="title">
+                  <b id="replybutton"><i class="reply icon"></i>Reply</b>
+                </div>
+                <div id="list">
+                  <p>
+                    <form class="" action="{% url 'reply_create_view' comment.id %}" method="post">
+                      {% csrf_token %}
+                      <textarea name="reply" rows="4" cols="35"></textarea>
+                      <input type="submit" name="" value="Reply!">
+                    </form>
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
           <blockquote>
             <div class="comments">
@@ -115,7 +131,22 @@
                 <div class="text">
                   <b>&nbsp; &nbsp;{{ reply }}</b>
                   {% if request.user == reply.user %}
-                    <a href="{% url 'reply_update_view' reply.id %}"> <i class="edit icon"></i> Update Reply</a>
+                  <div class="reply">
+                    <div class="ui accordion">
+                      <div class="title">
+                        <b id="replybutton"><i class="reply icon"></i>Update Reply</b>
+                      </div>
+                      <div id="list">
+                        <p>
+                          <form class="" action="{% url 'reply_update_view' reply.id %}" method="post">
+                            {% csrf_token %}
+                            <textarea name="reply" rows="4" cols="35"></textarea>
+                            <button type="submit" class="tiny ui blue submit button"><i class="edit icon"></i> Update!</button>
+                          </form>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                   {% endif %}
                 </div>
               </div>
@@ -137,8 +168,16 @@
 {% endblock %}
 
 {% block js %}
+  <script src="https://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
   <script type="text/javascript" src="{% static 'rating.js' %}"></script>
   <script type="text/javascript">
+    $(function() {
+      $('.ui.accordion').accordion({
+        active: false,
+        collapsible: true
+      });
+    })
+
     function getCookie(name) {
        var cookieValue = null;
        if (document.cookie && document.cookie !== '') {
