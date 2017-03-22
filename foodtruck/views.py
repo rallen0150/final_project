@@ -151,10 +151,10 @@ class CheckinUpdateView(UpdateView):
     template_name = "foodtruck/checkin_update.html"
     model = Foodtruck
     fields = ('checked_in', )
-    success_url = reverse_lazy('index_view')
+    # success_url = reverse_lazy('index_view')
 
-    # def get_success_url(self, **kwargs):
-    #     return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('success_change_location_view', args=[int(self.kwargs['pk'])])
 
     # def form_valid(self, form):
     #     instance = form.save(commit=False)
@@ -392,7 +392,7 @@ class FoodtruckEmailView(FormView):
     form_class = MultipleEmailForm
 
     def get_success_url(self, **kwargs):
-        return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
+        return reverse_lazy('success_change_location_view', args=[int(self.kwargs['pk'])])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -408,3 +408,12 @@ class MapTestView(TemplateView):
 
 class AboutMeView(TemplateView):
     template_name = "about.html"
+
+class SuccessChangeLocationView(TemplateView):
+    template_name = 'foodtruck/success_location.html'
+    model = Foodtruck
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['truck'] = Foodtruck.objects.get(id=self.kwargs['pk'])
+        return context

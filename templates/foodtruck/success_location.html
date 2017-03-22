@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block css %}
+  <style media="screen">
+    .column {
+      max-width: 550px;
+    }
+    #truck {
+      font-size: 24px;
+    }
+    #success {
+      font-size: 24px;
+      text-decoration: underline;
+    }
+    #address {
+      font-size: 24px;
+      text-decoration: underline;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+<br><br>
+<div class="ui middle aligned center aligned grid">
+  <div class="column">
+    <div class="ui stacked form segment">
+      <div class="ui blue attached message">
+        <div class="header">
+          <h2>{{ truck }}</h2>
+        </div>
+      </div>
+      <br>
+      <p><strong id='truck'>{{ truck }} has</strong>  <strong id='success'>SUCCESSFULLY</strong> <strong id='truck'> changed locations!!!</p>
+      <p>The new location is </strong>{% if not truck.checked_in %}<strong id='truck'>NOT CURRENTLY ON LOCATION</strong>
+         {% else %}<strong id='truck'>CURRENTLY ON LOCATION</strong>{% endif %} <strong id='address'>at {{ truck.address }}</strong></p>
+         <br><br>
+       Redirecting to detail page in 5 seconds! <div class="ui active centered inline loader"></div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+  <script type="text/javascript">
+    setTimeout(function() {
+      window.location.href = "{% url 'foodtruck_detail_view' truck.id %}";
+    }, 5000);
+  </script>
+{% endblock %}
