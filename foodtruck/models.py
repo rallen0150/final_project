@@ -143,8 +143,8 @@ class Comment(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     truck_comment = models.ForeignKey('foodtruck.Foodtruck')
 
-    # def __str__(self):
-    #     return self.comment
+    def __str__(self):
+        return self.comment
 
     def get_reply(self):
         return Reply.objects.filter(comment=self)
