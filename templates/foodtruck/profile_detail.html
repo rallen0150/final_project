@@ -11,6 +11,10 @@
     }
     #replybutton {
       color: blue;
+      font-size: 13px;
+    }
+    #comment {
+      font-size: 18px;
     }
   </style>
 {% endblock %}
@@ -57,9 +61,22 @@
           </a>&nbsp;&nbsp; <a href="{% url 'profile_detail_view' comment.user.id %}">{{ comment.user }}</a> <i id="time">{{ comment.created|timesince }}</i><style>#time{ padding-left: 1.8em;}</style>
         </div>
         <div class="content">
-          <b>&nbsp; &nbsp;{{ comment.comment }}</b>
+          <b id="comment">&nbsp; &nbsp;{{ comment }}</b>
           {% if request.user == comment.user %}
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'profile_comment_update_view' comment.id %}"> <i class="edit icon"></i> Update Comment</a>
+            <div class="ui accordion">
+              <div class="title">
+                <b id="replybutton"><i class="edit icon"></i>Update Comment</b>
+              </div>
+              <div id="list">
+                <p>
+                  <form class="" action="{% url 'profile_comment_update_view' comment.id %}" method="post">
+                    {% csrf_token %}
+                    <textarea name="comment" rows="4" cols="35"></textarea>
+                    <button type="submit" class="tiny ui blue submit button"><i class="edit icon"></i> Update!</button>
+                  </form>
+                </p>
+              </div>
+            </div>
           {% endif %}
         </div>
         <div class="actions">
@@ -91,7 +108,7 @@
                 </a>&nbsp; &nbsp; <a href="{% url 'profile_detail_view' reply.user.id %}">{{ reply.user }}</a> <i id="time">{{ reply.created|timesince }}</i><style>#time{ padding-left: 1.8em;}</style>
               </div>
               <div class="text">
-                <b>&nbsp; &nbsp;{{ reply }}</b>
+                <b id="comment">&nbsp; &nbsp;{{ reply }}</b>
                 {% if request.user == reply.user %}
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   <div class="reply">
