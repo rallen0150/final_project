@@ -112,7 +112,7 @@
                     <form class="" action="{% url 'reply_create_view' comment.id %}" method="post">
                       {% csrf_token %}
                       <textarea name="reply" rows="4" cols="35"></textarea>
-                      <input type="submit" name="" value="Reply!">
+                      <button type="submit" class="tiny ui blue submit button"><i class="reply icon"></i> Reply!</button>
                     </form>
                   </p>
                 </div>
