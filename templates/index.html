@@ -14,6 +14,7 @@
     .list_stuff {
       font-size: 30px;
     }
+
   </style>
 {% endblock %}
 
@@ -22,10 +23,10 @@
 
   <h1 class="titlename">Chowster</h1>
 
-  <div class="ui grid" >
-      <div class="eight wide column">
+  <div class="ui grid">
+      <div class="eight wide centered aligned column">
         {% if not request.user.is_authenticated %}
-        <div class="ui middle aligned center aligned grid">
+        <div class="ui column center aligned page grid">
           <div class="column">
             <div class="ui stacked segment">
               <div class="ui attached message">
@@ -49,8 +50,8 @@
                   </div>
                 </div>
                 <input type="submit" class="ui fluid large teal submit button" name="" value="Login">
-              </div>
-            </form>
+              </form>
+            </div>
             <div class="ui message">
               <b>New to Chowster?</b>
               <a href="{% url 'user_create_view' %}">Sign Up</a>
