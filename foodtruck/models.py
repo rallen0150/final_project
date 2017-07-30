@@ -43,6 +43,8 @@ class Foodtruck(models.Model):
     checked_in = models.BooleanField(default=False)
     # truck_comment = models.ForeignKey('foodtruck.Comment', null=True, blank=True)
     address = models.CharField(max_length=255, blank=True, null=True)
+    start_time = models.TimeField(null=True, blank=True)
+    end_time = models.TimeField(null=True, blank=True)
 
     def __str__(self):
         return self.truck_name

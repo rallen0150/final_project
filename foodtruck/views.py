@@ -60,7 +60,7 @@ class CategoryCreateView(CreateView):
 
 class FoodtruckCreateView(CreateView):
     model = Foodtruck
-    fields = ('truck_name', 'picture', 'category', 'address', 'checked_in')
+    fields = ('truck_name', 'picture', 'category', 'address', 'checked_in', 'start_time', 'end_time')
     success_url = reverse_lazy('index_view')
 
     # def get_success_url(self, **kwargs):
@@ -107,6 +107,12 @@ class MenuCreateView(CreateView):
     fields = ('food', 'price')
     # success_url = reverse_lazy('menu_create_view')
 
+    ### Work on the menu_form redirect to truck and not index!!!!
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['menu'] = Menu.objects.filter(truck=self.kwargs['pk'])
+    #     return context
+
     def get_success_url(self, **kwargs):
         return reverse_lazy('menu_create_view', args=[int(self.kwargs['pk'])])
 
@@ -119,16 +125,17 @@ class FoodUpdateView(UpdateView):
     template_name = 'foodtruck/food_update.html'
     model = Menu
     fields = ('food', )
-    success_url = reverse_lazy('index_view')
+    # success_url = reverse_lazy('index_view')
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
 
 class PriceUpdateView(UpdateView):
     template_name = 'foodtruck/price_update.html'
     model = Menu
     fields = ('price', )
-    success_url = reverse_lazy('index_view')
-
-    # def get_success_url(self, **kwargs):
-    #     return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
+    # success_url = reverse_lazy('index_view')
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('foodtruck_detail_view', args=[int(self.kwargs['pk'])])
 
 class MenuDetailView(DetailView):
     model = Menu
