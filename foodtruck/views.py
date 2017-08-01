@@ -61,9 +61,10 @@ class CategoryCreateView(CreateView):
 class FoodtruckCreateView(CreateView):
     model = Foodtruck
     fields = ('truck_name', 'picture', 'category', 'address', 'checked_in', 'start_time', 'end_time')
-    def get_success_url(self, *args, **kwargs):
-        x = Foodtruck.objects.get(id=self.kwargs['pk'])
-        return reverse('foodtruck_detail_view', args=[x])
+    success_url = reverse_lazy('foodtruck_list_view')
+    # def get_success_url(self, *args, **kwargs):
+    #     x = Foodtruck.objects.get(id=self.kwargs['pk'])
+    #     return reverse('foodtruck_detail_view', args=[x])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
