@@ -21,7 +21,25 @@
             </div>
             <form class="ui form attached fluid segment" action="" method="post" enctype="multipart/form-data">
               {% csrf_token %}
-              {{ form.as_p }}
+              <p><label for="id_truck_name">Truck name:</label>
+              <input id="id_truck_name" maxlength="255" name="truck_name" type="text" required=""></p>
+              <p><label for="id_picture">Picture:</label>
+              <input id="id_picture" name="picture" type="file"></p>
+              <p><label for="id_category">Category:</label>
+                <select id="id_category" name="category" required="">
+                  <option value="" selected="selected">---------</option>
+                  {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category }}</option>
+                  {% endfor %}
+                </select></p>
+              <p><label for="id_address">Address:</label>
+              <input id="id_address" maxlength="255" name="address" type="text"></p>
+              <p><label for="id_checked_in">Checked in:</label>
+              <input id="id_checked_in" name="checked_in" type="checkbox"></p>
+              <p><label for="id_start_time">Start time:</label>
+              <input type="text" name="start_time" id="id_start_time" data-time-format="H:i"></p>
+              <p><label for="id_end_time">End time:</label>
+              <input type="text" name="end_time" id="id_end_time" data-time-format="H:i"></p>
               <input type="submit" class="ui blue submit button" name="" value="New Driver!">
             </form>
           </div>
@@ -39,4 +57,29 @@
       </div>
     {% endif %}
 
+{% endblock %}
+
+{% block js %}
+  <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+
+  <script type="text/javascript">
+    $('#id_start_time').timepicker({
+        timeFormat: 'h:mm p',
+        interval: 15,
+        defaultTime: '11',
+        startTime: '00:00',
+        dynamic: false,
+        dropdown: true,
+        scrollbar: true
+    });
+    $('#id_end_time').timepicker({
+        timeFormat: 'h:mm p',
+        interval: 15,
+        defaultTime: '11',
+        startTime: '00:00',
+        dynamic: false,
+        dropdown: true,
+        scrollbar: true
+    });
+  </script>
 {% endblock %}
