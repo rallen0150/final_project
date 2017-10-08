@@ -16,7 +16,7 @@
       <div class="ui stacked form segment">
         <div class="ui blue attached message">
           <div class="header">
-            <h2>Do You Want to Tell Your Customers Who Favorited This Truck About This Location?</h2>
+            <h2>Do You Want to Tell Your Customers About This Location?</h2>
           </div>
         </div>
         <br>
@@ -25,6 +25,13 @@
           <button type="submit" class="ui blue submit button">
            Send Current Address!
          </button>
+        </form>
+      <br><br>
+        <form class="" action="{% url 'success_change_location_view' trucks.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="ui red submit button">
+              Don't Send
+          </button>
         </form>
       </div>
     </div>
