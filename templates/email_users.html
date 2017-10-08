@@ -26,13 +26,12 @@
            Send Current Address!
          </button>
         </form>
-      <br><br>
-        <form class="" action="{% url 'success_change_location_view' trucks.id %}" method="post">
-          {% csrf_token %}
+        <br><br>
+        <a href="{% url 'success_change_location_view' trucks.id %}">
           <button type="submit" class="ui red submit button">
               Don't Send
           </button>
-        </form>
+        </a>
       </div>
     </div>
   </div>
