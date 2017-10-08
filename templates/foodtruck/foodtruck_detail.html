@@ -9,6 +9,10 @@
     text-decoration: underline;
     font-size: 32px;
   }
+  .timeslot {
+    text-align: center;
+    font-size: 16px;
+  }
   #food_size {
     font-size: 22px;
     text-decoration: underline;
@@ -38,6 +42,12 @@
   <div class="truckname">
     <b id="title">{{ object }}</b>
   </div>
+  {% if object.start_time %}
+  <br>
+  <div class="timeslot">
+    <i>Out from <b>{{ object.start_time }}</b> - <b>{{ object.end_time }}</b></i>
+  </div>
+  {% endif %}
   <br> <br>
   <div class="ui grid">
     <div class="eight wide column">

@@ -150,7 +150,7 @@ class MenuDetailView(DetailView):
 class LocationUpdateView(UpdateView):
     template_name = "foodtruck/location_update.html"
     model = Foodtruck
-    fields = ('address', )
+    fields = ('address', 'start_time', 'end_time')
     # success_url = reverse_lazy('index_view')
 
     def get_success_url(self, **kwargs):

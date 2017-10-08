@@ -25,5 +25,4 @@
  - Once a user is logged in, they can give their location to have the map display their location in the middle to show if any trucks are around in the area.
 
  #ToDo
-  - Set up a time field for drivers so that the trucks will appear or disappear on the map based on the time.
   - Work on texting the users of the location, like the email.
