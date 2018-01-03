@@ -16,6 +16,7 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
 
 gmaps = googlemaps.Client(key='AIzaSyCJ2GhgOOCaoypV0JCC4NnxS-M0enWpN64')
 
+
 class Menu(models.Model):
     food = models.CharField(max_length=255)
     price = models.FloatField()
